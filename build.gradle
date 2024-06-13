@@ -45,3 +45,11 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register('copySecret', Copy) {
+    from './mannazo-springboot-secret'
+    include "application.properties"  // 복사할 파일
+    into 'src/main/resources'  // 복사 위치
+}
+
+processResources.dependsOn('copySecret')

@@ -1,0 +1,3 @@
+[submodule "mannazo-springboot-secret"]
+	path = mannazo-springboot-secret
+	url = https://github.com/mannazo/mannazo-springboot-secret.git
