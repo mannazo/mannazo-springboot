@@ -1,4 +1,4 @@
-package com.mannazo.mannazo.Swagger;
+package com.mannazo.mannazo.swagger;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
