@@ -13,8 +13,8 @@ import java.util.UUID;
 public class TravelPlan {
 
     @Id
-    @Column(name = "travel_id", columnDefinition = "BINARY(16)")
-    private UUID travelId;
+    @Column(name = "trip_id", columnDefinition = "BINARY(16)")
+    private UUID tripId;
 
     @Column(name = "user_id", columnDefinition = "CHAR(36)", nullable = false)
     private String userId;

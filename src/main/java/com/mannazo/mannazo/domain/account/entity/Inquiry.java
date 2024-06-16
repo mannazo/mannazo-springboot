@@ -14,7 +14,7 @@ public class Inquiry {
     @Column(name = "inquiry_id", columnDefinition = "CHAR(36)", nullable = false)
     private UUID inquiryId; // 문의 고유 식별자
 
-    @Column(name = "user_id", columnDefinition = "CHAR(36)", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private UUID userId; // 사용자 식별자 (외래 키)
 
     @Column(name = "title", length = 255, nullable = false)

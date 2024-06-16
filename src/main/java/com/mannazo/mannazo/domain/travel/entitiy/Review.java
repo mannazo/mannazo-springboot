@@ -34,17 +34,4 @@ public class Review {
 
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp; // 리뷰 타임스탬프
-
-    // 연관 관계 매핑
-    @ManyToOne
-    @JoinColumn(name = "trip_id", referencedColumnName = "trip_id", insertable = false, updatable = false)
-    private TravelPlan travelPlan;
-
-    @ManyToOne
-    @JoinColumn(name = "reviewer_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    private User reviewer;
-
-    @ManyToOne
-    @JoinColumn(name = "reviewee_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    private User reviewee;
 }
