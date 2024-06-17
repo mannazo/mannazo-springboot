@@ -1,22 +1,24 @@
 package com.mannazo.mannazo.domain.account.service;
 
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
-import com.mannazo.mannazo.domain.account.entity.User;
+import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    /**
-     * 유저 아이디(UUID) 를 요청하면 유저의 전체 정보를 반환하는 서비스
-     *
-     * @param userid
-     */
-    // 유저 정보 조회
-    Optional<User> getUserInfoByUserid(UUID userid);
-    // 유저 정보 수정
-    void updateUserInfo(UserRequestDTO user);
-    // 회원 탈퇴
-    void withdraw(UserRequestDTO user);
-    //
+    // 사용자 등록
+    UserResponseDTO registerUser(UserRequestDTO userRequestDTO);
+
+    // 사용자 상세 정보 수정
+    UserResponseDTO modifyUserDetails(UserRequestDTO userRequestDTO);
+
+    // 사용자 제거
+    void removeUser(UUID id);
+
+    // 사용자 정보 검색
+    UserResponseDTO retrieveUser(UUID id);
+
+    // 모든 사용자 목록 조회
+    List<UserResponseDTO> listAllUsers();
 }

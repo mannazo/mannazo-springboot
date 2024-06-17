@@ -2,7 +2,8 @@ package com.mannazo.mannazo.domain.account.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import com.mannazo.mannazo.domain.account.entity.User;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -14,22 +15,42 @@ public class UserRequestDTO {
     private String password;
     private String name;
     private String nickname;
-    private Integer Nationality;
+    private Integer nationality;
     private String language;
-    private String profile_image;
+    private String profilePhoto;
     private String introduction;
     private String city;
-    private Enum authority;
-    private Enum gender;
-    private Enum mbti;
+    private String authority;
+    private String gender;
+    private String mbti;
     private String interests;
-    private Timestamp last_login_at;
+    private Date birthday;
+    private Timestamp lastLoginTime;
 
-    // 내부 클래스 정의
+    public User toEntity() {
+        return User.builder()
+                .userId(userId)
+                .email(email)
+                .password(password)
+                .name(name)
+                .nickname(nickname)
+                .nationality(nationality)
+                .language(language)
+                .profilePhoto(profilePhoto)
+                .introduction(introduction)
+                .city(city)
+                .authority(User.Authority.valueOf(authority))
+                .gender(User.Gender.valueOf(gender))
+                .mbti(User.Mbti.valueOf(mbti))
+                .interests(interests)
+                .birthday(birthday)
+                .lastLoginTime(lastLoginTime)
+                .build();
+    }
+
     @Getter
     @Setter
     public static class UserIdOnly {
-        // 외부 클래스의 필드를 그대로 사용 가능
         private UUID userId;
     }
 }

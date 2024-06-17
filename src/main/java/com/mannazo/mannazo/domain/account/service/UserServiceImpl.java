@@ -1,33 +1,49 @@
 package com.mannazo.mannazo.domain.account.service;
 
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
+import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.entity.User;
 import com.mannazo.mannazo.domain.account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor @Slf4j
+@RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService{
-
     private final UserRepository userRepository;
 
     @Override
-    public Optional<User> getUserInfoByUserid(UUID userid) {
-        return null;
+    public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
+        User user = userRepository.save(userRequestDTO.toEntity());
+        return UserResponseDTO.fromEntity(user);
     }
 
     @Override
-    public void updateUserInfo(UserRequestDTO user) {
-
+    public UserResponseDTO modifyUserDetails(UserRequestDTO userRequestDTO) {
+        User user = userRepository.save(userRequestDTO.toEntity());
+        return UserResponseDTO.fromEntity(user);
     }
 
     @Override
-    public void withdraw(UserRequestDTO user) {
+    public void removeUser(UUID id) {
+        userRepository.deleteById(id);
+    }
 
+    @Override
+    public UserResponseDTO retrieveUser(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+        return UserResponseDTO.fromEntity(user);
+    }
+
+    @Override
+    public List<UserResponseDTO> listAllUsers() {
+        return userRepository.findAll().stream().map(UserResponseDTO::fromEntity).collect(Collectors.toList());
     }
 }

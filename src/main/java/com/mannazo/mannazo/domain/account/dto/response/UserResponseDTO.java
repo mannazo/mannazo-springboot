@@ -1,29 +1,44 @@
 package com.mannazo.mannazo.domain.account.dto.response;
 
+import com.mannazo.mannazo.domain.account.entity.User;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
-/**
- * password 제외
- * authority 제외
- */
+@Builder
 @Getter
-@Setter
 public class UserResponseDTO {
     private UUID userId;
     private String email;
     private String name;
     private String nickname;
-    private Integer Nationality;
+    private Integer nationality;
     private String language;
-    private String profile_image;
+    private String profileImage;
     private String introduction;
     private String city;
-    private Enum gender;
-    private Enum mbti;
+    private String gender;
+    private String mbti;
     private String interests;
-    private Timestamp last_login_at;
+    private Timestamp lastLoginAt;
+
+    public static UserResponseDTO fromEntity(User user) {
+        return UserResponseDTO.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .nickname(user.getNickname())
+                .nationality(user.getNationality())
+                .language(user.getLanguage())
+                .profileImage(user.getProfilePhoto())
+                .introduction(user.getIntroduction())
+                .city(user.getCity())
+                .gender(user.getGender().name())
+                .mbti(user.getMbti().name())
+                .interests(user.getInterests())
+                .lastLoginAt(user.getLastLoginTime())
+                .build();
+    }
 }
