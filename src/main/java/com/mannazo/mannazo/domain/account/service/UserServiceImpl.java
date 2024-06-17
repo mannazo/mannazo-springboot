@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor @Slf4j
 public class UserServiceImpl implements UserService{
@@ -14,22 +17,12 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public void login(String userid, String password) {
-        User userEntity = userRepository.findByUserIdAndPassword(userid, password);
+    public Optional<User> getUserInfoByUserid(UUID userid) {
+        return null;
     }
 
     @Override
-    public void logout() {
-
-    }
-
-    @Override
-    public void updateUserInformation(UserRequestDTO user) {
-
-    }
-
-    @Override
-    public void register(UserRequestDTO user) {
+    public void updateUserInfo(UserRequestDTO user) {
 
     }
 
