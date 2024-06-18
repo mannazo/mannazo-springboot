@@ -1,6 +1,6 @@
 package com.mannazo.mannazo.domain.account.dto.response;
 
-import com.mannazo.mannazo.domain.account.entity.User;
+import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class UserResponseDTO {
     private String email;
     private String name;
     private String nickname;
-    private Integer nationality;
+    private String nationality;
     private String language;
     private String profileImage;
     private String introduction;
@@ -24,7 +24,7 @@ public class UserResponseDTO {
     private String interests;
     private Timestamp lastLoginAt;
 
-    public static UserResponseDTO fromEntity(User user) {
+    public static UserResponseDTO fromEntity(UserEntity user) {
         return UserResponseDTO.builder()
                 .userId(user.getUserId())
                 .email(user.getEmail())
@@ -35,10 +35,26 @@ public class UserResponseDTO {
                 .profileImage(user.getProfilePhoto())
                 .introduction(user.getIntroduction())
                 .city(user.getCity())
-                .gender(user.getGender().name())
-                .mbti(user.getMbti().name())
+                .gender(user.getGender())
+                .mbti(user.getMbti())
                 .interests(user.getInterests())
                 .lastLoginAt(user.getLastLoginTime())
                 .build();
+    }
+
+    // Inner class for registration DTO
+    @Builder
+    @Getter
+    public static class RegisterDTO {
+        private String email;
+        private String password;
+        private String name;
+        private String nickname;
+        private Integer nationality;
+        private String language;
+        private String city;
+        private String gender;
+        private String mbti;
+        private String interests;
     }
 }

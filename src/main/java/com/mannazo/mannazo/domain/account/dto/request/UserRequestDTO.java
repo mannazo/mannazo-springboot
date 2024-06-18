@@ -1,21 +1,23 @@
 package com.mannazo.mannazo.domain.account.dto.request;
 
+import com.mannazo.mannazo.domain.account.entity.UserEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import com.mannazo.mannazo.domain.account.entity.User;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 public class UserRequestDTO {
     private UUID userId;
     private String email;
     private String password;
     private String name;
     private String nickname;
-    private Integer nationality;
+    private String nationality;
     private String language;
     private String profilePhoto;
     private String introduction;
@@ -27,9 +29,10 @@ public class UserRequestDTO {
     private Date birthday;
     private Timestamp lastLoginTime;
 
-    public User toEntity() {
-        return User.builder()
-                .userId(userId)
+
+    public UserEntity toEntity() {
+        return UserEntity.builder()
+                .userId(UUID.randomUUID())
                 .email(email)
                 .password(password)
                 .name(name)
@@ -39,9 +42,9 @@ public class UserRequestDTO {
                 .profilePhoto(profilePhoto)
                 .introduction(introduction)
                 .city(city)
-                .authority(User.Authority.valueOf(authority))
-                .gender(User.Gender.valueOf(gender))
-                .mbti(User.Mbti.valueOf(mbti))
+                .authority(authority)
+                .gender(gender)
+                .mbti(mbti)
                 .interests(interests)
                 .birthday(birthday)
                 .lastLoginTime(lastLoginTime)
