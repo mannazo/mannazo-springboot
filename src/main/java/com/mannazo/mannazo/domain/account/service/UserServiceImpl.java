@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService{
+
     private final UserRepository userRepository;
 
     @Override
@@ -32,8 +33,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void removeUser(UUID id) {
+    public UserResponseDTO.Delete removeUser(UUID id) {
         userRepository.deleteById(id);
+        return UserResponseDTO.Delete.builder()
+                .userId(id)
+                .messages("해당 유저가 삭제되었습니다.")
+                .build();
     }
 
     @Override
@@ -45,5 +50,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserResponseDTO> listAllUsers() {
         return userRepository.findAll().stream().map(UserResponseDTO::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponseDTO loginUser(UserRequestDTO.Login userRequestDTO) {
+        UserEntity user = userRepository.findByEmailAndPassword(userRequestDTO.getEmail(), userRequestDTO.getPasssword());
+        return UserResponseDTO.fromEntity(user);
     }
 }

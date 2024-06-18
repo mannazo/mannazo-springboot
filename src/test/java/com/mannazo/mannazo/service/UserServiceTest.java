@@ -2,7 +2,6 @@ package com.mannazo.mannazo.service;
 
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
 import com.mannazo.mannazo.domain.account.service.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +32,13 @@ public class UserServiceTest {
                 .build();
 
         userService.registerUser(user);
+    }
+
+    @Test
+    public void 유저_로그인_테스트() {
+        UserRequestDTO.Login user = new UserRequestDTO.Login();
+        user.setEmail("test@test.com");
+        user.setPasssword("qkrwjdgus");
+        log.info(userService.loginUser(user).toString());
     }
 }

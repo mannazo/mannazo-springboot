@@ -3,12 +3,14 @@ package com.mannazo.mannazo.domain.account.dto.response;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
 @Builder
 @Getter
+@ToString
 public class UserResponseDTO {
     private UUID userId;
     private String email;
@@ -56,5 +58,12 @@ public class UserResponseDTO {
         private String gender;
         private String mbti;
         private String interests;
+    }
+
+    @Builder
+    @Getter
+    public static class Delete {
+        private UUID userId;
+        private String messages;
     }
 }

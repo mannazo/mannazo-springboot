@@ -14,11 +14,14 @@ public interface UserService {
     UserResponseDTO modifyUserDetails(UserRequestDTO userRequestDTO);
 
     // 사용자 제거
-    void removeUser(UUID id);
+    UserResponseDTO.Delete removeUser(UUID id);
 
     // 사용자 정보 검색
     UserResponseDTO retrieveUser(UUID id);
 
     // 모든 사용자 목록 조회
     List<UserResponseDTO> listAllUsers();
+
+    //로그인
+    UserResponseDTO loginUser(UserRequestDTO.Login userRequestDTO);
 }
