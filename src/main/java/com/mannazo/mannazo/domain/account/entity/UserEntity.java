@@ -51,11 +51,9 @@ public class UserEntity {
     @Column(name = "authority")
     private String authority; // 사용자 권한 (기본 값 User)
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private String gender; // 성별 (기본 값 선택안함)
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "mbti")
     private String mbti; // Mbti (기본 값 선택안함)
 

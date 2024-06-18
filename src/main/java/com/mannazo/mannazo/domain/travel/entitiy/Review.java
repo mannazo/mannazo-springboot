@@ -1,6 +1,6 @@
 package com.mannazo.mannazo.domain.travel.entitiy;
 
-import com.mannazo.mannazo.domain.account.entity.User;
+import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

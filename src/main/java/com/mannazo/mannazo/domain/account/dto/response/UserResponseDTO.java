@@ -50,7 +50,7 @@ public class UserResponseDTO {
         private String password;
         private String name;
         private String nickname;
-        private Integer nationality;
+        private String nationality;
         private String language;
         private String city;
         private String gender;

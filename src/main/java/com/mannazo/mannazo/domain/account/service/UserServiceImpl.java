@@ -2,7 +2,7 @@ package com.mannazo.mannazo.domain.account.service;
 
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
-import com.mannazo.mannazo.domain.account.entity.User;
+import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import com.mannazo.mannazo.domain.account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
-        User user = userRepository.save(userRequestDTO.toEntity());
+        UserEntity user = userRepository.save(userRequestDTO.toEntity());
         return UserResponseDTO.fromEntity(user);
     }
 
     @Override
     public UserResponseDTO modifyUserDetails(UserRequestDTO userRequestDTO) {
-        User user = userRepository.save(userRequestDTO.toEntity());
+        UserEntity user = userRepository.save(userRequestDTO.toEntity());
         return UserResponseDTO.fromEntity(user);
     }
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDTO retrieveUser(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
         return UserResponseDTO.fromEntity(user);
     }
 

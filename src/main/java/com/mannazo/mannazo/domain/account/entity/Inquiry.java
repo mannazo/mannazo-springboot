@@ -33,7 +33,7 @@ public class Inquiry {
     // 연관 관계 매핑
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    private User user;
+    private UserEntity user;
 
     public enum InquiryStatus {
         RECEIVED,
