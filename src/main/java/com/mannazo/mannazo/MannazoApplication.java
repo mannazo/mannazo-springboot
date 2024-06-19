@@ -1,10 +1,16 @@
 package com.mannazo.mannazo;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MannazoApplication {
+@OpenAPIDefinition(servers = {
+		@Server(url = "https://mannazo.diligentp.com", description = "Mannazo Server"),
+		@Server(url = "http://localhost:8080", description = "Local Server")
+})
+class MannazoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MannazoApplication.class, args);
