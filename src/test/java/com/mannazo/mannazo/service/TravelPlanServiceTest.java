@@ -5,6 +5,7 @@ import com.mannazo.mannazo.domain.travel.dto.response.TravelPlanResponseDTO;
 import com.mannazo.mannazo.domain.travel.entitiy.TravelPlanEntity;
 import com.mannazo.mannazo.domain.travel.repository.TravelPlanRepository;
 import com.mannazo.mannazo.domain.travel.service.TravelPlanService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,23 +59,21 @@ public class TravelPlanServiceTest {
     @Test
     public void 여행계획_수정테스트() {
         //Given
-        UUID tripId = UUID.fromString("6f201bc7-aaeb-46b9-b0a3-f6ed8affba51");
+        UUID tripId = UUID.fromString("ea312454-edaf-4d9d-923e-287ed1199bb7");
 
-        TravelPlanEntity orginalTravelPlanEntity = travelPlanRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Travel plan not found"));
+        TravelPlanRequestDTO dto = TravelPlanRequestDTO.builder()
+                .tripId(tripId)
+                .userId(UUID.randomUUID())
+                .destination("목포")
+                .startDate(LocalDate.of(2024, 7, 19))
+                .endDate(LocalDate.of(2024, 7, 27))
+                .createAt(new Timestamp(System.currentTimeMillis()))
+                .interests("고궁")
+                .build();
+
 
         //수정내용
-        String updatedDestination = "부산";
-        LocalDate updatedStartDate = LocalDate.of(2024, 10, 21);
-        LocalDate updatedEndDate = LocalDate.of(2024, 10, 29);
-        String updatedInterests = "정적인, 맛집";
-
-        orginalTravelPlanEntity.setDestination(updatedDestination);
-        orginalTravelPlanEntity.setStartDate(updatedStartDate);
-        orginalTravelPlanEntity.setEndDate(updatedEndDate);
-        orginalTravelPlanEntity.setCreateAt(new Timestamp(System.currentTimeMillis()));
-        orginalTravelPlanEntity.setInterests(updatedInterests);
-
-        TravelPlanEntity updatedTravelPlanEntity = travelPlanRepository.save(orginalTravelPlanEntity);
+        TravelPlanEntity updatedTravelPlanEntity = travelPlanRepository.save(dto.toEntity());
 
         //Then
         log.info("수정완료" +updatedTravelPlanEntity.toString());
