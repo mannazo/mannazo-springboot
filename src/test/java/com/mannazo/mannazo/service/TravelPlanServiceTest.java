@@ -79,5 +79,12 @@ public class TravelPlanServiceTest {
         //Then
         log.info("수정완료" +updatedTravelPlanEntity.toString());
     }
+
+    @Test
+    public void 여행계획_삭제테스트() {
+        //Given
+        UUID tripId = UUID.fromString("6f201bc7-aaeb-46b9-b0a3-f6ed8affba51");
+        travelPlanService.deleteTravelPlan(tripId);
+    }
 }
 

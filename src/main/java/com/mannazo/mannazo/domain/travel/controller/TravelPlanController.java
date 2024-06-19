@@ -41,8 +41,8 @@ public class TravelPlanController {
     }
 
     //게시물 삭제
-    @PostMapping("/travel/{id}")
-    public TravelPlanResponseDTO deleteTravel(@PathVariable UUID id) {
-        return null;
+    @DeleteMapping("/travel/{id}")
+    public ResponseEntity<TravelPlanResponseDTO.Delete> deleteTravel(@PathVariable UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(travelPlanService.deleteTravelPlan(id));
     }
 }

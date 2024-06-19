@@ -35,4 +35,14 @@ public class TravelPlanServiceImpl implements TravelPlanService{
         TravelPlanEntity updatedTravelPlan = travelPlanRepository.save(travelPlanRequestDTO.toEntity());
         return TravelPlanResponseDTO.fromEntity(updatedTravelPlan);
     }
+
+    @Override
+    public TravelPlanResponseDTO.Delete deleteTravelPlan(UUID tripId) {
+        travelPlanRepository.deleteById(tripId);
+        return TravelPlanResponseDTO.Delete.builder()
+                .tripId(tripId)
+                .messages("해당 게시물이 삭제되었습니다.")
+                .build();
+    }
+
 }

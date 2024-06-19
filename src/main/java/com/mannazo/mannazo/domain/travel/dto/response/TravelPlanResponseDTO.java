@@ -34,4 +34,11 @@ public class TravelPlanResponseDTO {
                 .interests(travelInfo.getInterests())
                 .build();
     }
+
+    @Builder
+    @Getter
+    public static class Delete {
+        private UUID tripId;
+        private String messages;
+    }
 }
