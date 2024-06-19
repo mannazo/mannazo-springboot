@@ -41,12 +41,13 @@ public class TravelPlanServiceTest {
                 .createAt(createAt)
                 .interests(interests)
                 .build();
-        travelPlanService.registertravelPlan(travelInfo);
+        travelPlanService.registerTravelPlan(travelInfo);
     }
 
     @Test
     public void 여행계획_조회테스트() {
-
+        UUID tripId = UUID.fromString("6f201bc7-aaeb-46b9-b0a3-f6ed8affba51");
+        log.info(travelPlanService.getTravelPlan(tripId).toString());
     }
 }
 

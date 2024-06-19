@@ -19,10 +19,10 @@ import java.util.UUID;
 public class TravelPlanEntity {
 
     @Id
-    @Column(name = "trip_id", columnDefinition = "BINARY(16)")
+    @Column(name = "trip_id", nullable = false, unique = true)
     private UUID tripId;
 
-    @Column(name = "user_id", columnDefinition = "CHAR(36)", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private UUID userId;
 
     @Column(name = "destination", nullable = false, length = 255)

@@ -10,7 +10,7 @@ public interface TravelPlanService {
     TravelPlanResponseDTO getTravelPlan(UUID travelPlanId);
 
     //게시물 등록
-    TravelPlanResponseDTO registertravelPlan(TravelPlanRequestDTO travelPlanRequestDTO);
+    TravelPlanResponseDTO registerTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO);
 
 
 }

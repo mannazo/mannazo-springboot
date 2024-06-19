@@ -34,4 +34,10 @@ public class TravelPlanRequestDTO {
                 .interests(interests)
                 .build();
     }
+
+    @Getter
+    @Setter
+    public static class TripIdOnly {
+        private String tripId;
+    }
 }

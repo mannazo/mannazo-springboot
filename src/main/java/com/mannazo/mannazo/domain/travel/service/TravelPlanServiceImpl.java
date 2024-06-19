@@ -19,13 +19,13 @@ public class TravelPlanServiceImpl implements TravelPlanService{
     private final TravelPlanRepository travelPlanRepository;
 
     @Override
-    public TravelPlanResponseDTO getTravelPlan(UUID travelPlanId) {
-        TravelPlanEntity travelInfo = travelPlanRepository.findById(travelPlanId).orElseThrow(() -> new NoSuchElementException("Travel plan not found"));
+    public TravelPlanResponseDTO getTravelPlan(UUID tripId) {
+        TravelPlanEntity travelInfo = travelPlanRepository.findById(tripId).orElseThrow(() -> new NoSuchElementException("Travel plan not found"));
         return TravelPlanResponseDTO.fromEntity(travelInfo);
     }
 
     @Override
-    public TravelPlanResponseDTO registertravelPlan(TravelPlanRequestDTO travelPlanRequestDTO) {
+    public TravelPlanResponseDTO registerTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO) {
         TravelPlanEntity travelPlan = travelPlanRepository.save(travelPlanRequestDTO.toEntity());
         return TravelPlanResponseDTO.fromEntity(travelPlan);
     }

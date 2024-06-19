@@ -29,7 +29,7 @@ public class TravelPlanController {
     //게시물 생성
     @PostMapping("/travel")
     public ResponseEntity<TravelPlanResponseDTO> createTravel(@RequestBody TravelPlanRequestDTO travelPlanRequestDTO) {
-        TravelPlanResponseDTO response = travelPlanService.registertravelPlan(travelPlanRequestDTO);
+        TravelPlanResponseDTO response = travelPlanService.registerTravelPlan(travelPlanRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
