@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "TravelPlan")
 @AllArgsConstructor @NoArgsConstructor
-public class TravelPlan {
+public class TravelPlanEntity {
 
     @Id
     @Column(name = "trip_id", columnDefinition = "BINARY(16)")

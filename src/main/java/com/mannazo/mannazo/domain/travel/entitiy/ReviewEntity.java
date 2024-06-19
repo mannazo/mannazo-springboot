@@ -1,16 +1,13 @@
 package com.mannazo.mannazo.domain.travel.entitiy;
 
-import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "review")
-public class Review {
+public class ReviewEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
