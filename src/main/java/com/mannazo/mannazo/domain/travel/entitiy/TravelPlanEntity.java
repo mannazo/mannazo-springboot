@@ -1,10 +1,7 @@
 package com.mannazo.mannazo.domain.travel.entitiy;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -13,12 +10,14 @@ import java.util.UUID;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 @Table(name = "TravelPlan")
 public class TravelPlanEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "trip_id", nullable = false, unique = true)
     private UUID tripId;
 

@@ -35,8 +35,9 @@ public class TravelPlanController {
 
     //게시물 수정
     @PutMapping("/travel")
-    public TravelPlanResponseDTO updateTravel(@RequestBody TravelPlanRequestDTO TravelPlanRequestDTO) {
-        return null;
+    public ResponseEntity<TravelPlanResponseDTO> updateTravel(@RequestBody TravelPlanRequestDTO travelPlanRequestDTO) {
+        TravelPlanResponseDTO response = travelPlanService.updateTravelPlan(travelPlanRequestDTO);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
     //게시물 삭제

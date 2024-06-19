@@ -29,4 +29,10 @@ public class TravelPlanServiceImpl implements TravelPlanService{
         TravelPlanEntity travelPlan = travelPlanRepository.save(travelPlanRequestDTO.toEntity());
         return TravelPlanResponseDTO.fromEntity(travelPlan);
     }
+
+    @Override
+    public TravelPlanResponseDTO updateTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO) {
+        TravelPlanEntity updatedTravelPlan = travelPlanRepository.save(travelPlanRequestDTO.toEntity());
+        return TravelPlanResponseDTO.fromEntity(updatedTravelPlan);
+    }
 }

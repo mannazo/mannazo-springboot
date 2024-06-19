@@ -12,5 +12,7 @@ public interface TravelPlanService {
     //게시물 등록
     TravelPlanResponseDTO registerTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO);
 
+    //게시물 수정
+    TravelPlanResponseDTO updateTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO);
 
 }

@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @ToString
+@Setter
 public class TravelPlanResponseDTO {
     private UUID tripId;
     private UUID userId;
