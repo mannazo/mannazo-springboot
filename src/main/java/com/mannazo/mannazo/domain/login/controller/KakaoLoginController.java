@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/login/kakao")
 public class KakaoLoginController {
 
     private final KakaoService kakaoService;
@@ -27,9 +25,9 @@ public class KakaoLoginController {
     }
 
     // Provider 별 로그인 URL 전송
-    @GetMapping("/login/{provider}")
-    public ResponseEntity<String> auth(@PathVariable String provider) {
+    @GetMapping("/auth")
+    public ResponseEntity<String> auth() {
         // 외부 로그인 인가코드 받는 URL 전송
-        return ResponseEntity.status(HttpStatus.OK).body(kakaoService.ResponsePrividerURL("kakao"));
+        return ResponseEntity.status(HttpStatus.OK).body(kakaoService.ResponsePrividerURL());
     }
 }

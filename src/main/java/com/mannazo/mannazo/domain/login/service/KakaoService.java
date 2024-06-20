@@ -51,26 +51,8 @@ public class KakaoService {
         return kakaoTokenResponseDto.getAccessToken();
     }
 
-    public String ResponsePrividerURL(String provider){
-        String URL;
-        String KakaoURL = "https://kauth.kakao.com/oauth/authorize?client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URI + "&response_type=code";
-        String NaverURL = "";
-        String GoogleURL = "";
-
-        switch(provider) {
-            case "google":
-                URL = GoogleURL;
-                break;
-            case "kakao":
-                URL = KakaoURL;
-                break;
-            case "naver":
-                URL = NaverURL;
-                break;
-            default:
-                return "Unknown provider";
-        }
-        return URL;
+    public String ResponsePrividerURL(){
+        return "https://kauth.kakao.com/oauth/authorize?client_id=" + CLIENT_ID + "&redirect_uri=" + REDIRECT_URI + "&response_type=code";
     }
 
     public KakaoUserInfoResponseDto getUserInfo(String accessToken) {
