@@ -80,7 +80,7 @@ public class KakaoService {
                 .uri(uriBuilder -> uriBuilder
                         .scheme("https")
                         .path("/v2/user/me")
-                        .build(true))
+                        .build())
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) // access token 인가
                 .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
                 .retrieve()
