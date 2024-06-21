@@ -24,9 +24,6 @@ public class UserEntity {
     @Column(name = "email", nullable = false, unique = true)
     private String email; // 사용자 이메일
 
-    @Column(name = "password", nullable = false)
-    private String password; // 사용자 비밀번호
-
     @Column(name = "name", nullable = false)
     private String name; // 사용자 이름
 
@@ -62,6 +59,9 @@ public class UserEntity {
 
     @Column(name = "birthday")
     private Date birthday;
+
+    @Column(name = "social_login_id")
+    private String socialLoginId;
 
     @Column(name = "last_login_time")
     private Timestamp lastLoginTime; // 마지막 로그인 시간

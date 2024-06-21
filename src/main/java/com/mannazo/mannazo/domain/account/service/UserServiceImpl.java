@@ -52,9 +52,4 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAll().stream().map(UserResponseDTO::fromEntity).collect(Collectors.toList());
     }
 
-    @Override
-    public UserResponseDTO loginUser(UserRequestDTO.Login userRequestDTO) {
-        UserEntity user = userRepository.findByEmailAndPassword(userRequestDTO.getEmail(), userRequestDTO.getPasssword());
-        return UserResponseDTO.fromEntity(user);
-    }
 }

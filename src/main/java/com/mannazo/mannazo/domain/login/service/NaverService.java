@@ -1,8 +1,13 @@
 package com.mannazo.mannazo.domain.login.service;
 
+import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
+import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
+import com.mannazo.mannazo.domain.account.entity.UserEntity;
+import com.mannazo.mannazo.domain.account.repository.UserRepository;
 import com.mannazo.mannazo.domain.login.dto.NaverTokenResponseDto;
 import com.mannazo.mannazo.domain.login.dto.NaverUserInfoResponseDto;
 import io.netty.handler.codec.http.HttpHeaderValues;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -14,10 +19,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class NaverService {
+
+    private final UserRepository userRepository;
+
     @Value("${naver.client.id}")
     private String clientId;
 
@@ -55,6 +67,13 @@ public class NaverService {
         return URL;
     }
 
+    public UserEntity saveUserFromNaverInfo(NaverUserInfoResponseDto naverUserInfo) {
+        UserRequestDTO userRequestDto = convertToUserRequestDto(naverUserInfo);
+        UserEntity userEntity = userRequestDto.toEntity();
+
+        return userRepository.save(userEntity);
+    }
+
     public NaverUserInfoResponseDto getUserInfo(String accessToken) {
         NaverUserInfoResponseDto userInfo = WebClient.create(UserInfoUri)
                 .get()
@@ -65,6 +84,31 @@ public class NaverService {
                 .block();
 
         log.info("[ Naver Service ] Auth ID ---> {} ", userInfo.toString());
+
+
         return userInfo;
+    }
+
+    public UUID isSocialLoginId(String socialLoginId) {
+        // 디비에 소셜로그인 아이디 있는지 확인
+        Optional<UserEntity> user = userRepository.findBySocialLoginId(socialLoginId);
+        if (user.isEmpty()) {
+            // log.info("User not found with Naver ID: ");
+            return null;
+        }
+        return user.get().getUserId();
+    }
+
+    private UserRequestDTO convertToUserRequestDto(NaverUserInfoResponseDto naverUserInfoResponseDto) {
+        NaverUserInfoResponseDto.getResponse naverUserInfo = naverUserInfoResponseDto.getResponse();
+        return UserRequestDTO.builder()
+                .userId(UUID.randomUUID())  // 새로운 UUID 생성
+                .email(naverUserInfo.getEmail())
+                .gender(naverUserInfo.getGender())
+                .name(naverUserInfo.getName())
+                .nickname(naverUserInfo.getNickname())  // 만약 닉네임을 제공한다면
+                .profilePhoto(naverUserInfo.getProfileImage())  // 만약 프로필 이미지를 제공한다면
+                .lastLoginTime(new Timestamp(System.currentTimeMillis()))
+                .build();
     }
 }

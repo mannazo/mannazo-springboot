@@ -1,11 +1,15 @@
 package com.mannazo.mannazo.service;
 
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
+import com.mannazo.mannazo.domain.account.entity.UserEntity;
+import com.mannazo.mannazo.domain.account.repository.UserRepository;
 import com.mannazo.mannazo.domain.account.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -13,6 +17,8 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void 유저_서비스_테스트(){
@@ -40,5 +46,15 @@ public class UserServiceTest {
         user.setEmail("test@test.com");
         user.setPasssword("qkrwjdgus");
         log.info(userService.loginUser(user).toString());
+    }
+
+    @Test
+    public void 유저_소셜() {
+        Optional<UserEntity> user = userRepository.findBySocialLoginId("12321");
+        if (user.isEmpty()) {
+            log.info("User not found with Naver ID: ");
+        } else {
+           log.info("있음");
+        }
     }
 }
