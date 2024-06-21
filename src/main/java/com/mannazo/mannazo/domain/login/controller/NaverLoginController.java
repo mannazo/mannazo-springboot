@@ -1,6 +1,7 @@
 package com.mannazo.mannazo.domain.login.controller;
 
 import com.mannazo.mannazo.domain.login.dto.NaverTokenResponseDto;
+import com.mannazo.mannazo.domain.login.dto.NaverUserInfoResponseDto;
 import com.mannazo.mannazo.domain.login.service.NaverService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,11 @@ public class NaverLoginController{
         log.info("Code: {}", code);
         log.info("State: {}", state);
         return naverService.getAccessTokenFromNaver(code, state);
+    }
+
+    @GetMapping("/getUserInfo")
+    public NaverUserInfoResponseDto getUserInfo(@RequestParam("accessToken") String accessToken) {
+        return naverService.getUserInfo(accessToken);
     }
 
 

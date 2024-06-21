@@ -1,15 +1,16 @@
 package com.mannazo.mannazo.domain.login.service;
 
 import com.mannazo.mannazo.domain.login.dto.NaverTokenResponseDto;
+import com.mannazo.mannazo.domain.login.dto.NaverUserInfoResponseDto;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
+
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -47,11 +48,23 @@ public class NaverService {
     }
 
 
-
     public String getNaverUrl(){
         // 상태 토큰으로 사용할 랜덤 문자열 생성
         String state = new BigInteger(130, new SecureRandom()).toString(32);
         String URL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+clientId+"&state="+state+"&redirect_uri="+redirectUri;
         return URL;
+    }
+
+    public NaverUserInfoResponseDto getUserInfo(String accessToken) {
+        NaverUserInfoResponseDto userInfo = WebClient.create(UserInfoUri)
+                .get()
+                .header(HttpHeaders.AUTHORIZATION,"Bearer " + accessToken)
+                .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
+                .retrieve()
+                .bodyToMono(NaverUserInfoResponseDto.class)
+                .block();
+
+        log.info("[ Naver Service ] Auth ID ---> {} ", userInfo.toString());
+        return userInfo;
     }
 }
