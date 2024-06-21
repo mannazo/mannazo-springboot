@@ -15,30 +15,21 @@ public class NaverLoginController{
 
     private final NaverService naverService;
 
-
-//    @GetMapping("/callback")
-//    public String callback(@RequestParam("code") String code, @RequestParam("state") String state) {
-//        log.info(code);
-//        log.info(state);
-//        return naverService.getAccessTokenFromNaver(code, state);
-//    }
     @GetMapping("/callback")
-    public NaverTokenResponseDto callback(@RequestParam("code") String code, @RequestParam("state") String state) {
-        log.info("Code: {}", code);
-        log.info("State: {}", state);
-        return naverService.getAccessTokenFromNaver(code, state);
+    public NaverUserInfoResponseDto getUserInfo(@RequestParam("code") String code, @RequestParam("state") String state) {
+        NaverTokenResponseDto accessToken = naverService.getAccessTokenFromNaver(code, state);
+        return naverService.getUserInfo(accessToken.getAccessToken());
     }
 
-    @GetMapping("/getUserInfo")
-    public NaverUserInfoResponseDto getUserInfo(@RequestParam("accessToken") String accessToken) {
-        return naverService.getUserInfo(accessToken);
-    }
+//    @GetMapping("/getUserInfo")
+//    public NaverUserInfoResponseDto getUserInfo(@RequestParam("accessToken") String accessToken) {
+//        return naverService.getUserInfo(accessToken);
+//    }
 
 
     @GetMapping("/auth")
     public String auth(){
         return naverService.getNaverUrl();
     }
-
 }
 
