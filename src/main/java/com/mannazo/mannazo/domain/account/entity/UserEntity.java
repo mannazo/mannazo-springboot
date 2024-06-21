@@ -18,7 +18,7 @@ import java.util.UUID;
 public class UserEntity {
     @Id
     @GeneratedValue
-    @Column(name = "user_id", nullable = false, updatable = false)
+    @Column(name = "user_id", nullable = false, unique = true)
     private UUID userId; // 사용자 고유 식별자
 
     @Column(name = "email", nullable = false, unique = true)

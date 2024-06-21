@@ -1,32 +1,39 @@
 package com.mannazo.mannazo.domain.travel.entitiy;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TravelPlan")
+@Getter
 @AllArgsConstructor @NoArgsConstructor
-public class TravelPlan {
+@Builder
+@Table(name = "TravelPlan")
+public class TravelPlanEntity {
 
     @Id
-    @Column(name = "trip_id", columnDefinition = "BINARY(16)")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "trip_id", nullable = false, unique = true)
     private UUID tripId;
 
-    @Column(name = "user_id", columnDefinition = "CHAR(36)", nullable = false)
-    private String userId;
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 
     @Column(name = "destination", nullable = false, length = 255)
     private String destination;
 
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private Date endDate;
+    private LocalDate endDate;
+
+    @Column(name = "create_at", nullable = false)
+    private Timestamp createAt;
 
     @Column(name = "interests", columnDefinition = "TEXT")
     private String interests;
