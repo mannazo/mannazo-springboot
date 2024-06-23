@@ -33,7 +33,6 @@ public class UserRequestDTO {
         return UserEntity.builder()
                 .userId(UUID.randomUUID())
                 .email(email)
-                .password(password)
                 .name(name)
                 .nickname(nickname)
                 .nationality(nationality)
@@ -56,18 +55,4 @@ public class UserRequestDTO {
         private UUID userId;
     }
 
-    @Getter
-    @Setter
-    @ToString
-    public static class Login {
-        private String email;
-        private String passsword;
-
-        public UserEntity toEntity(){
-            return UserEntity.builder()
-                    .email(email)
-                    .password(passsword)
-                    .build();
-        }
-    }
 }

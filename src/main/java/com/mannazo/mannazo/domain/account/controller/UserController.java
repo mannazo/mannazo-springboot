@@ -44,11 +44,4 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.removeUser(id));
     }
 
-    //로그인
-    @PostMapping("/user/login")
-    public ResponseEntity<UserResponseDTO> login(@RequestBody UserRequestDTO.Login user) {
-        UserResponseDTO response = userService.loginUser(user);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
 }

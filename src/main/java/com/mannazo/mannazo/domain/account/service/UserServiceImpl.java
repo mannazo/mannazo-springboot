@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -53,8 +54,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserResponseDTO loginUser(UserRequestDTO.Login userRequestDTO) {
-        UserEntity user = userRepository.findByEmailAndPassword(userRequestDTO.getEmail(), userRequestDTO.getPasssword());
-        return UserResponseDTO.fromEntity(user);
+    public UUID getUserIdBySocialLoginId(String socialLoginId) {
+        Optional<UserEntity> user = userRepository.findBySocialLoginId(socialLoginId);
+        return user.map(UserEntity::getUserId).orElse(null);
     }
 }

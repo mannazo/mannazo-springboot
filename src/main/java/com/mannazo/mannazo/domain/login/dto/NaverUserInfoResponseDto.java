@@ -2,7 +2,7 @@ package com.mannazo.mannazo.domain.login.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
+import lombok.Getter;
 
 
 @Data
@@ -18,7 +18,7 @@ public class NaverUserInfoResponseDto {
     @JsonProperty("response")
     private getResponse response;
 
-
+    @Getter
     public static class getResponse {
         @JsonProperty("id")
         private String id;

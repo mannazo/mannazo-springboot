@@ -22,6 +22,5 @@ public interface UserService {
     // 모든 사용자 목록 조회
     List<UserResponseDTO> listAllUsers();
 
-    //로그인
-    UserResponseDTO loginUser(UserRequestDTO.Login userRequestDTO);
+    UUID getUserIdBySocialLoginId(String socialLoginId);
 }
