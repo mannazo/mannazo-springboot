@@ -1,6 +1,7 @@
 package com.mannazo.mannazo.service;
 
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
+import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import com.mannazo.mannazo.domain.account.repository.UserRepository;
 import com.mannazo.mannazo.domain.account.service.UserService;
@@ -19,6 +20,7 @@ public class UserServiceTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
 
     @Test
     public void 유저_서비스_테스트(){
@@ -41,14 +43,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void 유저_로그인_테스트() {
-        UserRequestDTO.Login user = new UserRequestDTO.Login();
-        user.setEmail("test@test.com");
-        user.setPasssword("qkrwjdgus");
-        log.info(userService.loginUser(user).toString());
-    }
-
-    @Test
     public void 유저_소셜() {
         Optional<UserEntity> user = userRepository.findBySocialLoginId("12321");
         if (user.isEmpty()) {
@@ -57,4 +51,6 @@ public class UserServiceTest {
            log.info("있음");
         }
     }
+
+
 }

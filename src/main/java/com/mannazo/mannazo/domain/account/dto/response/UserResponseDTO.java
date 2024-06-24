@@ -24,7 +24,9 @@ public class UserResponseDTO {
     private String gender;
     private String mbti;
     private String interests;
+    private String authority;
     private Timestamp lastLoginAt;
+
 
     public static UserResponseDTO fromEntity(UserEntity user) {
         return UserResponseDTO.builder()
