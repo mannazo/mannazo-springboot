@@ -99,25 +99,11 @@ public class NaverService {
     private UserEntity createUserFromNaverInfo(NaverUserInfoResponseDto naverUserInfo) {
         NaverUserInfoResponseDto.getResponse naverResponse = naverUserInfo.getResponse();
 
-        // Naver에서 제공하는 birthyear와 birthday 정보를 가져옵니다.
-        String birthyear = naverResponse.getBirthyear(); // "yyyy" 형식의 연도 문자열
-        String birthday = naverResponse.getBirthday(); // "MM-dd" 형식의 월과 일 문자열
-
-        // "yyyy-MM-dd" 형식의 문자열을 LocalDate로 파싱합니다.
-        LocalDate birthdate = LocalDate.parse(birthyear + "-" + birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        // LocalDate를 java.sql.Date로 변환합니다.
-        Date sqlBirthdate = Date.valueOf(birthdate);
-
-        log.info("정보=>>>>>>>>"+naverResponse.getBirthday());
-        log.info("정보=>>>>>>>>"+naverResponse.getBirthyear());
         return UserEntity.builder()
                 .userId(UUID.randomUUID())
-                .email(naverResponse.getEmail())
                 .name(naverResponse.getName())
                 .nickname(naverResponse.getNickname())
                 .gender(naverResponse.getGender())
-                .birthday(sqlBirthdate)
                 .profilePhoto(naverResponse.getProfileImage())
                 .socialLoginId(naverResponse.getId())
                 .lastLoginTime(new Timestamp(System.currentTimeMillis()))

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -21,13 +22,13 @@ public class UserEntity {
     @Column(name = "user_id", nullable = false, unique = true)
     private UUID userId; // 사용자 고유 식별자
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email; // 사용자 이메일
-
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name; // 사용자 이름
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "email", unique = true)
+    private String email; // 사용자 이메일
+
+    @Column(name = "nickname")
     private String nickname; //  닉네임
 
     @Column(name = "nationality")
@@ -58,7 +59,7 @@ public class UserEntity {
     private String interests; // 흥미 (선택 사항) 고정할거면 ENUM으로 변경해서 넣을 관심사 선정해야함
 
     @Column(name = "birthday")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "social_login_id")
     private String socialLoginId;

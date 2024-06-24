@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -25,7 +26,7 @@ public class UserRequestDTO {
     private String gender;
     private String mbti;
     private String interests;
-    private Date birthday;
+    private LocalDate birthday;
     private Timestamp lastLoginTime;
 
 
