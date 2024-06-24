@@ -27,7 +27,6 @@ public class UserController {
     // 사용자 생성
     @PostMapping("/user")
     public UserResponseDTO createUser(@RequestBody UserRequestDTO user) {
-
         return null;
     }
 
@@ -43,5 +42,4 @@ public class UserController {
     public ResponseEntity<UserResponseDTO.Delete> deleteUser(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.removeUser(id));
     }
-
 }
