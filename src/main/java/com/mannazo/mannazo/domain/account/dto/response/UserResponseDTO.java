@@ -3,6 +3,7 @@ package com.mannazo.mannazo.domain.account.dto.response;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Timestamp;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
+@Setter
 @ToString
 public class UserResponseDTO {
     private UUID userId;
@@ -26,10 +28,11 @@ public class UserResponseDTO {
     private String interests;
     private String authority;
     private Timestamp lastLoginAt;
+    private boolean firstTimeUser;
 
 
     public static UserResponseDTO fromEntity(UserEntity user) {
-        return UserResponseDTO.builder()
+        UserResponseDTO response = UserResponseDTO.builder()
                 .userId(user.getUserId())
                 .email(user.getEmail())
                 .name(user.getName())
@@ -44,6 +47,10 @@ public class UserResponseDTO {
                 .interests(user.getInterests())
                 .lastLoginAt(user.getLastLoginTime())
                 .build();
+
+        response.setFirstTimeUser(response.getName() == null || response.getName().trim().isEmpty());
+
+        return response;
     }
 
     // Inner class for registration DTO

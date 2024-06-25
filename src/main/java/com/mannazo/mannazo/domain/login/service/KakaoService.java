@@ -112,6 +112,8 @@ public class KakaoService implements SocialLoginService{
                 .lastLoginTime(new Timestamp(System.currentTimeMillis()))
                 .build();
 
-        return UserResponseDTO.fromEntity(userRepository.save(newUser));
+        UserResponseDTO userDTO = UserResponseDTO.fromEntity(userRepository.save(newUser));
+
+        return userDTO;
     }
 }
