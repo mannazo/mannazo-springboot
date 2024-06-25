@@ -1,0 +1,73 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY_URL = "${params.harbor_url}"
+        HARBOR_CREDENTAIL = "${params.harbor_credential}"
+        GIT_USER_EMAIL = "${params.git_user_email}"
+        GIT_CREDENTIAL = "${params.github_credential}"
+    }
+
+    tools {
+        // Jenkins에서 사용할 Gradle 버전 
+        gradle 'Gradle_8.8'
+    }
+
+    stages {
+        stage('Build gradle') {
+            steps {
+                // Gradle 래퍼에 실행 권한 부여
+                sh 'chmod +x ./gradlew'
+                                
+                // Gradle 빌드 실행
+                sh './gradlew bootJar --no-daemon'
+    
+                // JAR 파일 복사
+                sh 'cp build/libs/*.jar .'
+            }
+        }
+
+        stage('Build Image for mannazu-back-springtomcat') {
+            steps {
+                script {
+                    docker.withRegistry("http://${DOCKER_REGISTRY_URL}", "${HARBOR_CREDENTAIL}") {
+                        def customImage = docker.build("mannazo/back-springtomcat:${env.BUILD_NUMBER}", "-f .0CICD/Dockerfile .")
+                        customImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Update Manifests for mannazo-deploy') {
+            steps {
+                script { 
+                    // Git repository information for manifests
+                    def manifestsRepoUrl = 'https://github.com/mannazo/mannazo-deploy.git'
+                    def manifestsRepoBranch = 'main'
+                    
+                    // Checkout manifests repository
+                    git credentialsId: "${HARBOR_CREDENTAIL}", url: manifestsRepoUrl, branch: manifestsRepoBranch
+                    sh """
+                        git pull origin main
+                        sed -i 's|harbor.dorong9.com/mannazo/back-springtomcat:.*|harbor.dorong9.com/mannazo/back-springtomcat:${env.BUILD_NUMBER}|' was/mannazu-was.yaml
+                        git add was/mannazu-was.yaml
+                        git config user.name 'DOLONG9'
+                        git config user.email "${GIT_USER_EMAIL}"
+                        git commit -m 'was/mannazu-was.yaml ${currentBuild.number} image versioning'
+                    """
+                    withCredentials([gitUsernamePassword(credentialsId: "${GIT_CREDENTIAL}")]) {
+                       sh "git remote set-url origin https://github.com/mannazo/mannazo-deploy.git" 
+                       sh "git push origin main"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up workspace...'
+            deleteDir()
+        }
+    }
+}
