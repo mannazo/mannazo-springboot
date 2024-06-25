@@ -46,6 +46,7 @@ public class UserResponseDTO {
                 .mbti(user.getMbti())
                 .interests(user.getInterests())
                 .lastLoginAt(user.getLastLoginTime())
+                .firstTimeUser(user.getName() == null || user.getName().trim().isEmpty())
                 .build();
 
         response.setFirstTimeUser(response.getName() == null || response.getName().trim().isEmpty());
