@@ -4,6 +4,7 @@ import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -20,6 +22,7 @@ public class UserController {
     // 사용자 조회
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id) {
+        log.info("[LOG] 사용자 정보 조회 요청" + id);
         UserResponseDTO response = userService.retrieveUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -35,6 +35,6 @@ public class TravelPlanEntity {
     @Column(name = "create_at", nullable = false)
     private Timestamp createAt;
 
-    @Column(name = "interests", columnDefinition = "TEXT")
-    private String interests;
+    @Column(name = "travel_style", columnDefinition = "TEXT")
+    private String travelStyle;
 }

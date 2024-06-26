@@ -22,7 +22,8 @@ public class TravelPlanResponseDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private Timestamp createAt;
-    private String interests;
+    private String travelStyle;
+
 
     public static TravelPlanResponseDTO fromEntity(TravelPlanEntity travelInfo) {
         return TravelPlanResponseDTO.builder()
@@ -31,7 +32,7 @@ public class TravelPlanResponseDTO {
                 .startDate(travelInfo.getStartDate())
                 .endDate(travelInfo.getEndDate())
                 .createAt(travelInfo.getCreateAt())
-                .interests(travelInfo.getInterests())
+                .travelStyle(travelInfo.getTravelStyle())
                 .build();
     }
 
