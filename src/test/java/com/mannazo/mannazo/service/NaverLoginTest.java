@@ -53,7 +53,7 @@ public class NaverLoginTest {
 
     @Test
     public void testGetNaverUrl() {
-        String naverUrl = naverService.getNaverUrl();
+        String naverUrl = naverService.getRedirectUrl();
         log.info(naverUrl);
     }
 }

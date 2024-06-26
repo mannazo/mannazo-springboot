@@ -15,12 +15,21 @@ public interface SocialLoginService<DTO> {
     String getRedirectUrl();
 
     /**
-     * 인증 코드를 통해서 엑세스(사용자)토큰을 발급하는 메서드입니다.
+     * 인증 코드를 통해서 엑세스(사용자)토큰을 발급하는 메서드입니다.(Kakao)
      *
      * @param AuthCode 인증 코드
      * @return 발급된 사용자 토큰
      */
     String getAccessToken(String AuthCode);
+
+    /**
+     * 인증 코드를 통해서 엑세스(사용자)토큰을 발급하는 메서드입니다.(Naver)
+     *
+     * @param code 인증 코드
+     * @param state 보안을 위한 무작위 임의값
+     * @return 발급된 사용자 토큰
+     */
+    String getAccessToken(String code, String state);
 
     /**
      * 액세스 토큰을 사용하여 사용자 정보를 검색합니다.

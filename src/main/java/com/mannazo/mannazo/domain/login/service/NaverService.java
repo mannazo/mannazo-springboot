@@ -29,7 +29,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class NaverService {
+public class NaverService implements SocialLoginService{
 
     private final UserRepository userRepository;
 
@@ -45,15 +45,20 @@ public class NaverService {
     private final String tokenUri = "https://nid.naver.com/oauth2.0/token";
     private final String UserInfoUri =    "https://openapi.naver.com/v1/nid/me";
 
-    public String getNaverUrl(){
+    public String getRedirectUrl(){
         // 상태 토큰으로 사용할 랜덤 문자열 생성
         String state = new BigInteger(130, new SecureRandom()).toString(32);
         String URL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+clientId+"&state="+state+"&redirect_uri="+redirectUri;
         return URL;
     }
 
-    public NaverTokenResponseDto getAccessTokenFromNaver(String code, String state) {
-        return WebClient.create("https://nid.naver.com").post()
+    @Override
+    public String getAccessToken(String AuthCode) {
+        throw new UnsupportedOperationException("This method is not supported for NaverService. Use getAccessTokenFromNaver(String authCode, String state) instead.");
+    }
+
+    public String getAccessToken(String code, String state) {
+        NaverTokenResponseDto response = WebClient.create("https://nid.naver.com").post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/oauth2.0/token")
                         .queryParam("grant_type", "authorization_code")
@@ -66,6 +71,12 @@ public class NaverService {
                 .retrieve()
                 .bodyToMono(NaverTokenResponseDto.class)
                 .block();  // 블록킹 호출
+
+        if (response != null) {
+            return response.getAccessToken();
+        } else {
+            throw new RuntimeException("Failed to retrieve access token from Naver");
+        }
     }
 
     public NaverUserInfoResponseDto getUserInfo(String accessToken) {
