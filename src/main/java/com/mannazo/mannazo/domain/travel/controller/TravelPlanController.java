@@ -1,5 +1,6 @@
 package com.mannazo.mannazo.domain.travel.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
+@Tag(name = "여행 게시글 관련 API")
 public class TravelPlanController {
 
     private final TravelPlanService travelPlanService;
