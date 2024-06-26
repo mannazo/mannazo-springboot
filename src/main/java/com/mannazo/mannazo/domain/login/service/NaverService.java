@@ -106,9 +106,6 @@ public class NaverService {
         // "yyyy-MM-dd" 형식의 문자열을 LocalDate로 파싱합니다.
         LocalDate birthdate = LocalDate.parse(birthyear + "-" + birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        // LocalDate를 java.sql.Date로 변환합니다.
-        Date sqlBirthdate = Date.valueOf(birthdate);
-
         log.info("정보=>>>>>>>>"+naverResponse.getBirthday());
         log.info("정보=>>>>>>>>"+naverResponse.getBirthyear());
         return UserEntity.builder()
@@ -117,7 +114,7 @@ public class NaverService {
                 .name(naverResponse.getName())
                 .nickname(naverResponse.getNickname())
                 .gender(naverResponse.getGender())
-                .birthday(sqlBirthdate)
+                .birthday(birthdate)
                 .profilePhoto(naverResponse.getProfileImage())
                 .socialLoginId(naverResponse.getId())
                 .lastLoginTime(new Timestamp(System.currentTimeMillis()))

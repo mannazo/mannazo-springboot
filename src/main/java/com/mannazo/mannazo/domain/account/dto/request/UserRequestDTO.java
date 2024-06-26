@@ -29,10 +29,9 @@ public class UserRequestDTO {
     private LocalDate birthday;
     private Timestamp lastLoginTime;
 
-
     public UserEntity toEntity() {
         return UserEntity.builder()
-                .userId(UUID.randomUUID())
+                .userId(userId)
                 .email(email)
                 .name(name)
                 .nickname(nickname)
@@ -41,7 +40,7 @@ public class UserRequestDTO {
                 .profilePhoto(profilePhoto)
                 .introduction(introduction)
                 .city(city)
-                .authority("User")
+                .authority(authority)
                 .gender(gender)
                 .mbti(mbti)
                 .interests(interests)
