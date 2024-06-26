@@ -22,6 +22,7 @@ import java.security.SecureRandom;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,29 +43,25 @@ public class NaverService implements SocialLoginService{
     @Value("${naver.redirect.uri}")
     private String redirectUri;
 
-    private final String tokenUri = "https://nid.naver.com/oauth2.0/token";
     private final String UserInfoUri =    "https://openapi.naver.com/v1/nid/me";
+
+    private String state = new BigInteger(130, new SecureRandom()).toString(32);
 
     public String getRedirectUrl(){
         // 상태 토큰으로 사용할 랜덤 문자열 생성
-        String state = new BigInteger(130, new SecureRandom()).toString(32);
         String URL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+clientId+"&state="+state+"&redirect_uri="+redirectUri;
         return URL;
     }
 
     @Override
     public String getAccessToken(String AuthCode) {
-        throw new UnsupportedOperationException("This method is not supported for NaverService. Use getAccessTokenFromNaver(String authCode, String state) instead.");
-    }
-
-    public String getAccessToken(String code, String state) {
         NaverTokenResponseDto response = WebClient.create("https://nid.naver.com").post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/oauth2.0/token")
                         .queryParam("grant_type", "authorization_code")
                         .queryParam("client_id", clientId)
                         .queryParam("client_secret", clientSecret)
-                        .queryParam("code", code)
+                        .queryParam("code", AuthCode)
                         .queryParam("state", state)
                         .queryParam("redirect_uri", redirectUri)
                         .build())
@@ -88,7 +85,7 @@ public class NaverService implements SocialLoginService{
                 .bodyToMono(NaverUserInfoResponseDto.class)
                 .block();
 
-        log.info("[ Naver Service ] Auth ID ---> {} ", userInfo.toString());
+        log.info("[ Naver Service ] response ---> {} ", userInfo.getResponse().toString());
 
 
         return userInfo;
@@ -114,6 +111,9 @@ public class NaverService implements SocialLoginService{
             // "yyyy-MM-dd" 형식의 문자열을 LocalDate로 파싱합니다.
             LocalDate birthdate = LocalDate.parse(birthyear + "-" + birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+            // 나이 계산 (현재 날짜 기준)
+            int age = calculateAge(birthdate);
+
             userEntity = UserEntity.builder()
                     .userId(UUID.randomUUID())
                     .email(naverResponse.getEmail())
@@ -130,6 +130,12 @@ public class NaverService implements SocialLoginService{
         }
 
         return UserResponseDTO.fromEntity(userEntity);
+    }
+
+    //현재 기준 나이계산하는 메서드
+    private int calculateAge(LocalDate birthdate) {
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(birthdate, currentDate).getYears();
     }
 
 }

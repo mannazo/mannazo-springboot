@@ -20,20 +20,19 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login/naver")
+@RequestMapping("/naver")
 public class NaverLoginController{
 
     private final NaverService naverService;
     private final UserService userService;
 
     @GetMapping("/callback")
-    public ResponseEntity<UserResponseDTO> handleCallback(@RequestParam("code") String code, @RequestParam("state") String state) {
+    public ResponseEntity<UserResponseDTO> handleCallback(@RequestParam("code") String AuthCode, @RequestParam("state") String state) {
         // 네이버로부터 AccessToken을 받아옴
-        String accessToken = naverService.getAccessToken(code, state);
+        String accessToken = naverService.getAccessToken(AuthCode);
 
         // AccessToken을 사용하여 네이버 사용자 정보를 가져옴
         NaverUserInfoResponseDto naverUserInfo = naverService.getUserInfo(accessToken);
-
         // 네이버 사용자의 소셜 로그인 ID로 이미 등록된 사용자인지 확인
         UUID userId = userService.getUserIdBySocialLoginId(naverUserInfo.getResponse().getId());
 

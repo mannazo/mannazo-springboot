@@ -67,11 +67,6 @@ public class KakaoService implements SocialLoginService{
     }
 
     @Override
-    public String getAccessToken(String code, String state) {
-        throw new UnsupportedOperationException("This method is not supported for KakaoService. Use getAccessToken(String authCode) instead.");
-    }
-
-    @Override
     public KakaoUserInfoResponseDto getUserInfo(String accessToken) {
 
         KakaoUserInfoResponseDto userInfo = WebClient.create(KAUTH_USER_URL_HOST)
