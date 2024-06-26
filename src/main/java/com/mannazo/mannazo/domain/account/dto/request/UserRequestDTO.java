@@ -3,7 +3,7 @@ package com.mannazo.mannazo.domain.account.dto.request;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import lombok.*;
 
-import java.sql.Date;
+import org.springframework.beans.factory.annotation.Value;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -11,12 +11,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@ToString
 public class UserRequestDTO {
     private UUID userId;
     private String email;
     private String password;
     private String name;
     private String nickname;
+    private int age;
     private String nationality;
     private String language;
     private String profilePhoto;
@@ -29,18 +31,20 @@ public class UserRequestDTO {
     private LocalDate birthday;
     private Timestamp lastLoginTime;
 
+    private String aws_s3_profile_url = "https://mannazo-images-bucket.s3.ap-northeast-2.amazonaws.com/";
+
     public UserEntity toEntity() {
         return UserEntity.builder()
                 .userId(userId)
                 .email(email)
                 .name(name)
                 .nickname(nickname)
+                .age(age)
                 .nationality(nationality)
                 .language(language)
-                .profilePhoto(profilePhoto)
+                .profilePhoto(aws_s3_profile_url + profilePhoto)
                 .introduction(introduction)
                 .city(city)
-                .authority(authority)
                 .gender(gender)
                 .mbti(mbti)
                 .interests(interests)

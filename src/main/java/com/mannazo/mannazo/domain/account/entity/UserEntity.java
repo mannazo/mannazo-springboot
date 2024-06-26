@@ -1,14 +1,15 @@
 package com.mannazo.mannazo.domain.account.entity;
 
+import com.mannazo.mannazo.global.util.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +32,9 @@ public class UserEntity {
     @Column(name = "nickname")
     private String nickname; //  닉네임
 
+    @Column(name = "age")
+    private int age; // 사용자 나이
+
     @Column(name = "nationality")
     private String nationality; // 사용자 국적 (선택 사항)
 
@@ -46,17 +50,14 @@ public class UserEntity {
     @Column(name = "city")
     private String city; // 사용자 거주지 (선택 사항)
 
-    @Column(name = "authority")
-    private String authority; // 사용자 권한 (기본 값 User)
-
     @Column(name = "gender")
     private String gender; // 성별 (기본 값 선택안함)
 
     @Column(name = "mbti")
     private String mbti; // Mbti (기본 값 선택안함)
 
-    @Column(name = "interests", columnDefinition = "TEXT")
-    private String interests; // 흥미 (선택 사항) 고정할거면 ENUM으로 변경해서 넣을 관심사 선정해야함
+    @Column(name = "interests")
+    private String interests; // 흥미 (선택 사항)
 
     @Column(name = "birthday")
     private LocalDate birthday;

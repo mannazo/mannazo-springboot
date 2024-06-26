@@ -22,20 +22,15 @@ public class UserController {
     // 사용자 조회
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id) {
-        log.info("[LOG] 사용자 정보 조회 요청" + id);
+        log.info("[LOG] 사용자 정보 조회 요청 : 유저 아이디 " + id + "\n");
         UserResponseDTO response = userService.retrieveUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    // 사용자 생성
-    @PostMapping("/user")
-    public UserResponseDTO createUser(@RequestBody UserRequestDTO user) {
-        return null;
     }
 
     // 사용자 수정
     @PutMapping("/user")
     public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO user) {
+        log.info("[Log] 사용자 정보 수정 요청" + user.toString());
         UserResponseDTO updateUser = userService.modifyUserDetails(user);
         return ResponseEntity.status(HttpStatus.OK).body(updateUser);
     }
