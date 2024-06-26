@@ -31,8 +31,6 @@ public class UserRequestDTO {
     private LocalDate birthday;
     private Timestamp lastLoginTime;
 
-    private String aws_s3_profile_url = "https://mannazo-images-bucket.s3.ap-northeast-2.amazonaws.com/";
-
     public UserEntity toEntity() {
         return UserEntity.builder()
                 .userId(userId)
@@ -42,7 +40,7 @@ public class UserRequestDTO {
                 .age(age)
                 .nationality(nationality)
                 .language(language)
-                .profilePhoto(aws_s3_profile_url + profilePhoto)
+                .profilePhoto("https://mannazo-images-bucket.s3.ap-northeast-2.amazonaws.com/" + profilePhoto)
                 .introduction(introduction)
                 .city(city)
                 .gender(gender)
