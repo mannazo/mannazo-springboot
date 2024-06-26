@@ -44,7 +44,7 @@ public class NaverLoginController{
         }
 
         // 등록되지 않은 사용자인 경우, 사용자 정보를 저장하고 저장된 사용자 정보를 반환
-        UserEntity newUser = naverService.saveUserIfNotExists(naverUserInfo);
+        UserResponseDTO newUser = naverService.saveUserIfNotExists(naverUserInfo);
         UserResponseDTO newUserResponse = userService.retrieveUser(newUser.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(newUserResponse);
     }
