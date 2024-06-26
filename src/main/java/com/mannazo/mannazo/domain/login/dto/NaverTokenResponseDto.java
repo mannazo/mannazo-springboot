@@ -2,8 +2,11 @@ package com.mannazo.mannazo.domain.login.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class NaverTokenResponseDto {
     @JsonProperty("access_token")
     private String accessToken;

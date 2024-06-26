@@ -26,7 +26,6 @@ import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @Slf4j
-@AutoConfigureWebTestClient
 public class NaverLoginTest {
 
     @Value("${naver.client.code.test}")
