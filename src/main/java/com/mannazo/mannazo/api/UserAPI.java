@@ -3,6 +3,8 @@ package com.mannazo.mannazo.api;
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +22,10 @@ public interface UserAPI {
 
     @Operation(summary = "사용자 정보 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "사용자 정보를 성공적으로 검색했습니다."), // 구현중
+            @ApiResponse(responseCode = "200", description = "사용자 정보를 성공적으로 검색했습니다.", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = UserResponseDTO.class)
+            )),
             @ApiResponse(responseCode = "401", description = "사용자 정보를 보는 것이 허용되지 않습니다."),  // 구현중
             @ApiResponse(responseCode = "403", description = "찾으려고 하는 사용자 정보에 접근하는 것은 금지되어 있습니다."), // 구현중
             @ApiResponse(responseCode = "404", description = "찾으려고 하는 사용자 정보는 존재하지 않습니다.") // 구현중
