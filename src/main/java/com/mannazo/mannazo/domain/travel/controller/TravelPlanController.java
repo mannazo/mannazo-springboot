@@ -1,6 +1,8 @@
 package com.mannazo.mannazo.domain.travel.controller;
 
+import com.mannazo.mannazo.api.TravelAPI;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
@@ -15,14 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
-@Tag(name = "여행 게시글 관련 API")
-public class TravelPlanController {
+public class TravelPlanController implements TravelAPI {
 
     private final TravelPlanService travelPlanService;
     //게시물 조회
@@ -75,9 +77,39 @@ public class TravelPlanController {
     }
 
     // 필터링 : language
-    @GetMapping("/findUserByLanguage/{language}")
+    @GetMapping("/findByLanguage/{language}")
     public ResponseEntity<List<TravelPlanResponseDTO>> findUserByLanguage(@PathVariable String language) {
         List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByLanguage(language);
+        return ResponseEntity.ok(travelPlans);
+    }
+
+    @GetMapping("/findByGender/{gender}")
+    public ResponseEntity<List<TravelPlanResponseDTO>> findUserByGender(@PathVariable String gender) {
+        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByGender(gender);
+        return ResponseEntity.ok(travelPlans);
+    }
+
+    @GetMapping("/findByInterests/{interests}")
+    public ResponseEntity<List<TravelPlanResponseDTO>> findUserByInterests(@PathVariable String interests) {
+        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByInterests(interests);
+        return ResponseEntity.ok(travelPlans);
+    }
+
+    @GetMapping("/findByTravelStyle/{travelStyle}")
+    public ResponseEntity<List<TravelPlanResponseDTO>> findByTravelStyle(@PathVariable String travelStyle) {
+        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByTravelStyle(travelStyle);
+        return ResponseEntity.ok(travelPlans);
+    }
+
+    @GetMapping("/findByDestination/{destination}")
+    public ResponseEntity<List<TravelPlanResponseDTO>> findByDestination(@PathVariable String destination) {
+        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByDestination(destination);
+        return ResponseEntity.ok(travelPlans);
+    }
+
+    @GetMapping("/findByDate/{date}")
+    public ResponseEntity<List<TravelPlanResponseDTO>> findByDate(@PathVariable LocalDate date) {
+        List<TravelPlanResponseDTO> travelPlans =travelPlanService.findByDateBetween(date);
         return ResponseEntity.ok(travelPlans);
     }
 }

@@ -24,7 +24,6 @@ public class UserRequestDTO {
     private String profilePhoto;
     private String introduction;
     private String city;
-    private String authority;
     private String gender;
     private String mbti;
     private String interests;

@@ -1,6 +1,7 @@
 package com.mannazo.mannazo.domain.account.dto.response;
 
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
+import com.mannazo.mannazo.global.util.StringListConverter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Setter
 @ToString
 public class UserResponseDTO {
+
     private UUID userId;
     private String email;
     private String name;

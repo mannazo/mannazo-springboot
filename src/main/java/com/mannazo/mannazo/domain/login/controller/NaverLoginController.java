@@ -1,5 +1,6 @@
 package com.mannazo.mannazo.domain.login.controller;
 
+import com.mannazo.mannazo.api.LoginAPI;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import com.mannazo.mannazo.domain.account.service.UserService;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/naver")
-public class NaverLoginController{
+public class NaverLoginController implements LoginAPI {
 
     private final NaverService naverService;
     private final UserService userService;
