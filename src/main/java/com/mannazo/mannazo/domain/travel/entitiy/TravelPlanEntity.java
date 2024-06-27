@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -36,5 +37,10 @@ public class TravelPlanEntity {
 
     @Column(name = "travel_style", columnDefinition = "TEXT")
     private String travelStyle;
+
+    @PrePersist
+    protected void onCreate() {
+        createAt = Timestamp.valueOf(LocalDateTime.now());
+    }
 
 }

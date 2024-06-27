@@ -46,7 +46,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 .startDate(travelPlanRequestDTO.getStartDate())
                 .endDate(travelPlanRequestDTO.getEndDate())
                 .travelStyle(travelPlanRequestDTO.getTravelStyle())
-                .createAt(new Timestamp(System.currentTimeMillis()))
                 .build();
 
         // 엔티티를 데이터베이스에 저장
