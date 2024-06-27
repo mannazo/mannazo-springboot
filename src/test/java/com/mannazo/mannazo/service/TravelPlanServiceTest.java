@@ -141,8 +141,8 @@ public class TravelPlanServiceTest {
 
             // 나이 계산을 위해 현재 날짜와 비교하여 생일 설정
             LocalDate birthday = LocalDate.of(1980 + random.nextInt(30), random.nextInt(12) + 1, random.nextInt(28) + 1);
-            LocalDate today = LocalDate.now();
-            int age = Period.between(birthday, today).getYears();
+//            LocalDate today = LocalDate.now();
+//            int age = Period.between(birthday, today).getYears();
 
             String profilePhoto = "photoLink" + i;
             String introduction = "Introduction " + i;
@@ -160,7 +160,7 @@ public class TravelPlanServiceTest {
                     .mbti(mbti)
                     .interests(selectedInterests)
                     .birthday(birthday)
-                    .age(age)
+//                    .age(age)
                     .build();
 
             UserResponseDTO savedUser = userService.registerUser(user);

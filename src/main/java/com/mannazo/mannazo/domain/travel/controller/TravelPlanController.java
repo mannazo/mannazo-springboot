@@ -34,12 +34,6 @@ public class TravelPlanController implements TravelAPI {
     private final TravelPlanService travelPlanService;
     private final UserService userService;
 
-    //게시물 조회
-//    @GetMapping("/travel/{id}")
-//    public ResponseEntity<TravelPlanResponseDTO> gettravelInfo(@PathVariable UUID id) {
-//        TravelPlanResponseDTO response = travelPlanService.getTravelPlan(id);
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
 
     @GetMapping("/travel/{id}")
     public ResponseEntity<Map<String, Object>> getTravelInfo(@PathVariable UUID id) {

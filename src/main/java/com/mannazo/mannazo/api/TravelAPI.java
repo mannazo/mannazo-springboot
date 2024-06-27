@@ -25,7 +25,6 @@ public interface TravelAPI {
             @ApiResponse(responseCode = "404", description = "해당 ID를 가진 여행 게시물이 존재하지 않음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-//    ResponseEntity<TravelPlanResponseDTO> gettravelInfo(@PathVariable UUID id);
     ResponseEntity<Map<String, Object>> getTravelInfo(@PathVariable UUID id);
     @Operation(summary = "게시물 생성", description = "새로운 여행 게시물을 생성합니다.")
     @ApiResponses(value = {
