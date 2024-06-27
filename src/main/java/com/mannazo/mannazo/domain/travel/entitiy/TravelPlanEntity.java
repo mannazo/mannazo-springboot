@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -37,4 +36,5 @@ public class TravelPlanEntity {
 
     @Column(name = "travel_style", columnDefinition = "TEXT")
     private String travelStyle;
+
 }
