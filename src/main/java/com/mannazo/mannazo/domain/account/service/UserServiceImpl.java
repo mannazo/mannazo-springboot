@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDTO retrieveUser(UUID id) {
+        log.info("[LOG] 사용자 정보 조회 요청 : 유저 아이디 {} \n", id);
         UserEntity user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
         return UserResponseDTO.fromEntity(user);
     }

@@ -27,7 +27,6 @@ public class UserController implements UserAPI {
     @Override
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id) {
-        log.info("[LOG] 사용자 정보 조회 요청 : 유저 아이디 {} \n", id);
         UserResponseDTO response = userService.retrieveUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

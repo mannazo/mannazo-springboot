@@ -40,12 +40,6 @@ public class UserResponseDTO {
     public static UserResponseDTO fromEntity(UserEntity user) {
         String interests = user.getInterests();
 
-        // 대괄호 제거
-//        String trimmedInterests = interests.substring(1, interests.length() - 1);
-
-        // 문자열을 쉼표로 분리하여 리스트로 변환
-//        List<String> interestList = Arrays.asList(trimmedInterests.split(", "));
-
         List<String> interestList = (interests == null || interests.trim().isEmpty())
                 ? Collections.emptyList()
                 : Arrays.asList(interests.substring(1, interests.length() - 1).split(", "));
