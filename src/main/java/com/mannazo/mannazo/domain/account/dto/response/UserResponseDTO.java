@@ -8,6 +8,8 @@ import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -27,7 +29,7 @@ public class UserResponseDTO {
     private String city;
     private String gender;
     private String mbti;
-    private String interests;
+    private List<String> interests;
     private LocalDate birthday;
     private Timestamp lastLoginAt;
     private boolean firstTimeUser;
@@ -47,7 +49,7 @@ public class UserResponseDTO {
                 .city(user.getCity())
                 .gender(user.getGender())
                 .mbti(user.getMbti())
-                .interests(user.getInterests())
+                .interests(Arrays.asList(user.getInterests().split(",")))
                 .birthday(user.getBirthday())
                 .lastLoginAt(user.getLastLoginTime())
                 .firstTimeUser(user.getName() == null || user.getName().trim().isEmpty())

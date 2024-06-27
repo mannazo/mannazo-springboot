@@ -1,6 +1,6 @@
 package com.mannazo.mannazo.domain.account.entity;
 
-import com.mannazo.mannazo.global.util.StringListConverter;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
