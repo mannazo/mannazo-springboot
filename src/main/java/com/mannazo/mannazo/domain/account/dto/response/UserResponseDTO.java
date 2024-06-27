@@ -1,7 +1,6 @@
 package com.mannazo.mannazo.domain.account.dto.response;
 
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
-import com.mannazo.mannazo.global.util.StringListConverter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +37,14 @@ public class UserResponseDTO {
 
 
     public static UserResponseDTO fromEntity(UserEntity user) {
+        String interests = user.getInterests();
+
+        // 대괄호 제거
+        String trimmedInterests = interests.substring(1, interests.length() - 1);
+
+        // 문자열을 쉼표로 분리하여 리스트로 변환
+        List<String> interestList = Arrays.asList(trimmedInterests.split(", "));
+
         UserResponseDTO response = UserResponseDTO.builder()
                 .userId(user.getUserId())
                 .age(user.getAge())
@@ -51,7 +58,7 @@ public class UserResponseDTO {
                 .city(user.getCity())
                 .gender(user.getGender())
                 .mbti(user.getMbti())
-                .interests(Arrays.asList(user.getInterests().split(",")))
+                .interests(interestList)
                 .birthday(user.getBirthday())
                 .lastLoginAt(user.getLastLoginTime())
                 .firstTimeUser(user.getName() == null || user.getName().trim().isEmpty())
