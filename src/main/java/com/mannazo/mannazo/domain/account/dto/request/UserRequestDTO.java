@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,7 +27,7 @@ public class UserRequestDTO {
     private String city;
     private String gender;
     private String mbti;
-    private String interests;
+    private List<String> interests;
     private LocalDate birthday;
     private Timestamp lastLoginTime;
 
@@ -44,7 +45,7 @@ public class UserRequestDTO {
                 .city(city)
                 .gender(gender)
                 .mbti(mbti)
-                .interests(interests)
+                .interests(String.valueOf(interests))
                 .birthday(birthday)
                 .lastLoginTime(new Timestamp(System.currentTimeMillis()))
                 .build();
