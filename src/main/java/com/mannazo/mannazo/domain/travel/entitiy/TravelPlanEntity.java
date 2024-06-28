@@ -40,7 +40,7 @@ public class TravelPlanEntity {
 
     @PrePersist
     protected void onCreate() {
-        createAt = Timestamp.valueOf(LocalDateTime.now());
+        this.createAt = Timestamp.valueOf(LocalDateTime.now());
+        System.out.println("onCreate called, createAt: " + this.createAt);
     }
-
 }

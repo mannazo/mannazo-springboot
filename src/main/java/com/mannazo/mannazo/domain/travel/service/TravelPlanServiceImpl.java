@@ -40,13 +40,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
     public TravelPlanResponseDTO registerTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO) {
 
         // TravelPlanRequestDTO에서 TravelPlanEntity로 변환
-        TravelPlanEntity travelPlan = TravelPlanEntity.builder()
-                .userId(travelPlanRequestDTO.getUserId())
-                .destination(travelPlanRequestDTO.getDestination())
-                .startDate(travelPlanRequestDTO.getStartDate())
-                .endDate(travelPlanRequestDTO.getEndDate())
-                .travelStyle(travelPlanRequestDTO.getTravelStyle())
-                .build();
+        TravelPlanEntity travelPlan = travelPlanRequestDTO.toEntity();
 
         // 엔티티를 데이터베이스에 저장
         travelPlan = travelPlanRepository.save(travelPlan);

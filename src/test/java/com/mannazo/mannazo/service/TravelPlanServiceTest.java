@@ -160,7 +160,6 @@ public class TravelPlanServiceTest {
                     .mbti(mbti)
                     .interests(selectedInterests)
                     .birthday(birthday)
-//                    .age(age)
                     .build();
 
             UserResponseDTO savedUser = userService.registerUser(user);
