@@ -27,7 +27,6 @@ public class UserServiceTest {
     public void 유저_서비스_테스트(){
         UserRequestDTO user = UserRequestDTO.builder()
                 .email("test@test.com")
-                .password("qkrwjdgus")
                 .name("박정현")
                 .nickname("nick")
                 .nationality("Republic of Korea")

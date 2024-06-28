@@ -108,18 +108,6 @@ public class TravelPlanController implements TravelAPI {
         return ResponseEntity.ok(travelPlans);
     }
 
-    @GetMapping("/findByTravelStyle/{travelStyle}")
-    public ResponseEntity<List<TravelPlanResponseDTO>> findByTravelStyle(@PathVariable String travelStyle) {
-        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByTravelStyle(travelStyle);
-        return ResponseEntity.ok(travelPlans);
-    }
-
-    @GetMapping("/findByDestination/{destination}")
-    public ResponseEntity<List<TravelPlanResponseDTO>> findByDestination(@PathVariable String destination) {
-        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByDestination(destination);
-        return ResponseEntity.ok(travelPlans);
-    }
-
     @GetMapping("/findByDate/{date}")
     public ResponseEntity<List<TravelPlanResponseDTO>> findByDate(@PathVariable LocalDate date) {
         List<TravelPlanResponseDTO> travelPlans =travelPlanService.findByDateBetween(date);

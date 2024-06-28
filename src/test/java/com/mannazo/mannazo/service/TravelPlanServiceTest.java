@@ -8,6 +8,7 @@ import com.mannazo.mannazo.domain.travel.dto.response.TravelPlanResponseDTO;
 import com.mannazo.mannazo.domain.travel.entitiy.TravelPlanEntity;
 import com.mannazo.mannazo.domain.travel.repository.TravelPlanRepository;
 import com.mannazo.mannazo.domain.travel.service.TravelPlanService;
+import com.mannazo.mannazo.global.util.EnumUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,21 +46,21 @@ public class TravelPlanServiceTest {
         // Given
         UUID tripId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
-        String destination = "서울";
+        String travelCountry = "Republic of Korea";
+        String travelCity = "서울";
 
         LocalDate startDate = LocalDate.of(2024, 7, 19);
         LocalDate endDate = startDate.plusDays(7); // 일주일 후Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-        Timestamp createAt = new Timestamp(System.currentTimeMillis());
-        String travelStyles = "음식, 문화";
+        String travelPurpose  = "음식, 문화";
 
         TravelPlanRequestDTO travelInfo = TravelPlanRequestDTO.builder()
                 .tripId(tripId)
                 .userId(userId)
-                .destination(destination)
+                .travelCountry(travelCountry)
+                .travelCity(travelCity)
                 .startDate(startDate)
                 .endDate(endDate)
-                .createAt(createAt)
-                .travelStyle(travelStyles)
+                .travelPurpose (travelPurpose)
                 .build();
         travelPlanService.registerTravelPlan(travelInfo);
     }
@@ -78,11 +79,9 @@ public class TravelPlanServiceTest {
         TravelPlanRequestDTO dto = TravelPlanRequestDTO.builder()
                 .tripId(tripId)
                 .userId(UUID.randomUUID())
-                .destination("목포")
                 .startDate(LocalDate.of(2024, 7, 19))
                 .endDate(LocalDate.of(2024, 7, 27))
-                .createAt(new Timestamp(System.currentTimeMillis()))
-                .travelStyle("고궁")
+                .travelPurpose("고궁")
                 .build();
 
 
@@ -141,8 +140,6 @@ public class TravelPlanServiceTest {
 
             // 나이 계산을 위해 현재 날짜와 비교하여 생일 설정
             LocalDate birthday = LocalDate.of(1980 + random.nextInt(30), random.nextInt(12) + 1, random.nextInt(28) + 1);
-//            LocalDate today = LocalDate.now();
-//            int age = Period.between(birthday, today).getYears();
 
             String profilePhoto = "photoLink" + i;
             String introduction = "Introduction " + i;
@@ -167,24 +164,26 @@ public class TravelPlanServiceTest {
         }
 
         // 여행 계획 생성 및 저장
-        String[] destinations = {"Seoul", "Busan", "Jeju", "Incheon", "Gangwon", "Daegu", "Gwangju", "Daejeon", "Ulsan", "Gyeongju"};
-        String[] travelStyles = {"Sightseeing", "Food", "Culture", "History", "Nature", "Adventure", "Relaxation", "Shopping", "Nightlife", "Sports"};
+        String[] travelPurposes = {"Sightseeing", "Food", "Culture", "History", "Nature", "Adventure", "Relaxation", "Shopping", "Nightlife", "Sports"};
 
         for (int i = 0; i < 20; i++) {
             UUID userId = userIds.get(random.nextInt(userIds.size()));
-            String destination = destinations[random.nextInt(destinations.length)];
+            String travelCountry = nationalities[random.nextInt(nationalities.length)];
+            String travelCity = cities[random.nextInt(cities.length)];
             LocalDate startDate = LocalDate.of(2024, random.nextInt(12) + 1, random.nextInt(28) + 1);
             LocalDate endDate = startDate.plusDays(random.nextInt(14) + 1);
-            Timestamp createAt = new Timestamp(System.currentTimeMillis());
-            String travelStyle = travelStyles[random.nextInt(travelStyles.length)];
+
+            EnumUtils.PreferredGender preferredGender = random.nextBoolean() ? EnumUtils.PreferredGender.상관없음 : (random.nextBoolean() ? EnumUtils.PreferredGender.남자 : EnumUtils.PreferredGender.여자);
 
             TravelPlanRequestDTO travelPlan = TravelPlanRequestDTO.builder()
                     .userId(userId)
-                    .destination(destination)
+                    .travelCountry(travelCountry)
+                    .travelCity(travelCity)
                     .startDate(startDate)
                     .endDate(endDate)
-                    .createAt(createAt)
-                    .travelStyle(travelStyle)
+                    .preferredGender(preferredGender)
+                    .travelStatus(EnumUtils.TravelStatus.등록)
+                    .travelPurpose(travelPurposes[random.nextInt(travelPurposes.length)])
                     .build();
 
             travelPlanService.registerTravelPlan(travelPlan);
@@ -264,23 +263,6 @@ public class TravelPlanServiceTest {
         }
     }
 
-    //필터링 테스트: travelStyle
-    @Test
-    public void testFindByTravelStyle() {
-        //Given
-        String travelStyle = "Culture";
-
-        //When
-        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByTravelStyle(travelStyle);
-
-        //Then
-        assertThat(travelPlans).isNotEmpty();
-        log.info("조회======>");
-        for (TravelPlanResponseDTO travelPlan : travelPlans) {
-            log.info("UserId: {}", travelPlan.getUserId());
-        }
-    }
-
     //필터링 테스트: userId
     @Test
     public void testFindByUserId() {
@@ -295,23 +277,6 @@ public class TravelPlanServiceTest {
         log.info("조회======>");
         for (TravelPlanResponseDTO travelPlan : travelPlans) {
             log.info("UserId: {}", travelPlan);
-        }
-    }
-
-    //필터링 테스트: destination
-    @Test
-    public void testFindByDestination() {
-        //Given
-        String destination = "Jeju";
-
-        //When
-        List<TravelPlanResponseDTO> travelPlans = travelPlanService.findByDestination(destination);
-
-        //Then
-        assertThat(travelPlans).isNotEmpty();
-        log.info("조회======>");
-        for (TravelPlanResponseDTO travelPlan : travelPlans) {
-            log.info("UserId: {}", travelPlan.getUserId());
         }
     }
 

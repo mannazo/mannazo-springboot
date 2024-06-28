@@ -2,9 +2,8 @@ package com.mannazo.mannazo.domain.travel.dto.request;
 
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import com.mannazo.mannazo.domain.travel.entitiy.TravelPlanEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.mannazo.mannazo.global.util.EnumUtils;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -17,21 +16,26 @@ import java.util.UUID;
 public class TravelPlanRequestDTO {
     private UUID tripId;
     private UUID userId;
-    private String destination;
+    private String travelCountry;
+    private String travelCity;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Timestamp createAt;
-    private String travelStyle;
+    private EnumUtils.PreferredGender preferredGender;
+    private EnumUtils.TravelStatus travelStatus;
+    private String travelPurpose;
+
 
     public TravelPlanEntity toEntity() {
         return TravelPlanEntity.builder()
                 .tripId(tripId)
                 .userId(userId)
-                .destination(destination)
+                .travelCountry(travelCountry)
+                .travelCity(travelCity)
                 .startDate(startDate)
                 .endDate(endDate)
-                .createAt(createAt)
-                .travelStyle(travelStyle)
+                .preferredGender(preferredGender)
+                .travelStatus(travelStatus)
+                .travelPurpose(travelPurpose)
                 .build();
     }
 

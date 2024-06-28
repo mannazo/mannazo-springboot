@@ -30,7 +30,7 @@ public class UserController implements UserAPI {
         UserResponseDTO response = userService.retrieveUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
+    // todo user정보 수정시 빈값들어오면 거부되도록
     @Override
     @PutMapping("/user")
     public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO user) {

@@ -17,7 +17,6 @@ import java.util.UUID;
 public class UserRequestDTO {
     private UUID userId;
     private String email;
-    private String password;
     private String name;
     private String nickname;
     private int age;

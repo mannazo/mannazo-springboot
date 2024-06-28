@@ -97,8 +97,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 TravelPlanResponseDTO.builder()
                         .tripId(travel.getTripId())
                         .userId(travel.getUserId())
-                        .destination(travel.getDestination())
-                        .startDate(travel.getStartDate())
+                        .travelCountry(travel.getTravelCountry())
+                        .travelCity(travel.getTravelCity())
                         .endDate(travel.getEndDate())
                         .createAt(travel.getCreateAt())
                         .build());
@@ -161,32 +161,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 .collect(Collectors.toList());
 
         List<TravelPlanEntity> travelPlans = travelPlanRepository.findByUserIds(userIds);
-        if (travelPlans.isEmpty()) {
-            log.info("해당하는 여행계획이 없습니다.");
-            return Collections.emptyList();
-        }
-        return travelPlans.stream()
-                .map(TravelPlanResponseDTO::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<TravelPlanResponseDTO> findByTravelStyle(String travelStyle) {
-
-        List<TravelPlanEntity> travelPlans = travelPlanRepository.findByTravelStyle(travelStyle);
-        if (travelPlans.isEmpty()) {
-            log.info("해당하는 여행계획이 없습니다.");
-            return Collections.emptyList();
-        }
-        return travelPlans.stream()
-                .map(TravelPlanResponseDTO::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<TravelPlanResponseDTO> findByDestination(String destination) {
-
-        List<TravelPlanEntity> travelPlans = travelPlanRepository.findByDestination(destination);
         if (travelPlans.isEmpty()) {
             log.info("해당하는 여행계획이 없습니다.");
             return Collections.emptyList();

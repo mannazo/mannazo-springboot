@@ -17,10 +17,6 @@ public interface TravelPlanRepository extends JpaRepository<TravelPlanEntity, UU
     @Query("SELECT tp FROM TravelPlanEntity tp WHERE tp.userId IN :userIds")
     List<TravelPlanEntity> findByUserIds(@Param("userIds") List<UUID> userIds);
 
-    List<TravelPlanEntity> findByTravelStyle(String travelStyle);
-
-    List<TravelPlanEntity> findByDestination(String destination);
-
     @Query("SELECT tp FROM TravelPlanEntity tp WHERE :date BETWEEN tp.startDate AND tp.endDate")
     List<TravelPlanEntity> findByDateBetween(@Param("date") LocalDate date);
 }

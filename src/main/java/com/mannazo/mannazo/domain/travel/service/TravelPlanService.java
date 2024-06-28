@@ -68,11 +68,6 @@ public interface TravelPlanService {
     List<TravelPlanResponseDTO> findByGender(String gender);
     //필터링 : 성향
     List<TravelPlanResponseDTO> findByInterests(String interests);
-    //필터링 : 여행스타일
-    List<TravelPlanResponseDTO> findByTravelStyle(String travelStyle);
-    //필터링 : 목적지
-    List<TravelPlanResponseDTO> findByDestination(String destination);
-
     //필터링 : 지정 날짜가 시작일자 - 끝일자 사이일 경우
     List<TravelPlanResponseDTO> findByDateBetween(LocalDate date);
 }

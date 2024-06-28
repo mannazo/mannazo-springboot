@@ -1,5 +1,7 @@
 package com.mannazo.mannazo.domain.travel.entitiy;
 
+import com.mannazo.mannazo.domain.travel.dto.request.TravelPlanRequestDTO;
+import com.mannazo.mannazo.global.util.EnumUtils;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,8 +25,14 @@ public class TravelPlanEntity {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    @Column(name = "destination", nullable = false, length = 255)
-    private String destination;
+    @Column(name = "travel_country", nullable = false, length = 255)
+    private String travelCountry;
+
+    @Column(name = "travel_city", nullable = false, length = 255)
+    private String travelCity;
+
+    @Column(name = "address_detail", nullable = true, length = 255)
+    private String addressDetail;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -32,11 +40,19 @@ public class TravelPlanEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Column(name = "preferred_gender", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EnumUtils.PreferredGender preferredGender;
+
+    @Column(name = "travel_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EnumUtils.TravelStatus travelStatus;
+
     @Column(name = "create_at", nullable = false)
     private Timestamp createAt;
 
-    @Column(name = "travel_style", columnDefinition = "TEXT")
-    private String travelStyle;
+    @Column(name = "travel_purpose", columnDefinition = "TEXT")
+    private String travelPurpose;
 
     @PrePersist
     protected void onCreate() {
