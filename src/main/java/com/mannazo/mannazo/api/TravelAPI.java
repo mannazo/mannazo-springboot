@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Tag(name = "여행 게시글 관련 API", description = "여행 게시글 CRUD를 위한 API")
@@ -24,8 +25,7 @@ public interface TravelAPI {
             @ApiResponse(responseCode = "404", description = "해당 ID를 가진 여행 게시물이 존재하지 않음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    ResponseEntity<TravelPlanResponseDTO> gettravelInfo(@PathVariable UUID id);
-
+    ResponseEntity<Map<String, Object>> getTravelInfo(@PathVariable UUID id);
     @Operation(summary = "게시물 생성", description = "새로운 여행 게시물을 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공적으로 생성됨"),

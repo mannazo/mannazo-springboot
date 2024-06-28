@@ -9,6 +9,7 @@ import lombok.ToString;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,11 +40,9 @@ public class UserResponseDTO {
     public static UserResponseDTO fromEntity(UserEntity user) {
         String interests = user.getInterests();
 
-        // 대괄호 제거
-        String trimmedInterests = interests.substring(1, interests.length() - 1);
-
-        // 문자열을 쉼표로 분리하여 리스트로 변환
-        List<String> interestList = Arrays.asList(trimmedInterests.split(", "));
+        List<String> interestList = (interests == null || interests.trim().isEmpty())
+                ? Collections.emptyList()
+                : Arrays.asList(interests.substring(1, interests.length() - 1).split(", "));
 
         UserResponseDTO response = UserResponseDTO.builder()
                 .userId(user.getUserId())

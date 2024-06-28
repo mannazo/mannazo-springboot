@@ -1,7 +1,10 @@
 package com.mannazo.mannazo.domain.travel.controller;
 
 import com.mannazo.mannazo.api.TravelAPI;
+import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
+import com.mannazo.mannazo.domain.account.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -18,19 +21,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
 public class TravelPlanController implements TravelAPI {
 
     private final TravelPlanService travelPlanService;
-    //게시물 조회
+    private final UserService userService;
+
+
     @GetMapping("/travel/{id}")
-    public ResponseEntity<TravelPlanResponseDTO> gettravelInfo(@PathVariable UUID id) {
-        TravelPlanResponseDTO response = travelPlanService.getTravelPlan(id);
+    public ResponseEntity<Map<String, Object>> getTravelInfo(@PathVariable UUID id) {
+        TravelPlanResponseDTO travelPlanResponse = travelPlanService.getTravelPlan(id);
+        UserResponseDTO userResponse = userService.retrieveUser(travelPlanResponse.getUserId());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("travelPlan", travelPlanResponse);
+        response.put("user", userResponse);
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootTest
@@ -36,7 +37,7 @@ public class UserServiceTest {
                 .city("Seoul")
                 .gender("남자")
                 .mbti("ISTJ")
-                .interests("Reading, Coding")
+                .interests(Arrays.asList("Reading, Coding"))
                 .build();
 
         userService.registerUser(user);

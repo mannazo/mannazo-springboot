@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,14 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public TravelPlanResponseDTO registerTravelPlan(TravelPlanRequestDTO travelPlanRequestDTO) {
-        TravelPlanEntity travelPlan = travelPlanRepository.save(travelPlanRequestDTO.toEntity());
+
+        // TravelPlanRequestDTO에서 TravelPlanEntity로 변환
+        TravelPlanEntity travelPlan = travelPlanRequestDTO.toEntity();
+
+        // 엔티티를 데이터베이스에 저장
+        travelPlan = travelPlanRepository.save(travelPlan);
+
+        // 저장된 엔티티를 DTO로 변환하여 반환
         return TravelPlanResponseDTO.fromEntity(travelPlan);
     }
 

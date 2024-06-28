@@ -29,6 +29,7 @@ public class TravelPlanResponseDTO {
         return TravelPlanResponseDTO.builder()
                 .tripId(travelInfo.getTripId())
                 .userId(travelInfo.getUserId())
+                .destination(travelInfo.getDestination())
                 .startDate(travelInfo.getStartDate())
                 .endDate(travelInfo.getEndDate())
                 .createAt(travelInfo.getCreateAt())

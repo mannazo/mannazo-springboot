@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.Period;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -105,6 +106,7 @@ public class TravelPlanServiceTest {
         // Given
         List<UserRequestDTO> userList = new ArrayList<>();
         List<UUID> userIds = new ArrayList<>();
+
         Random random = new Random();
 
         String[] names = {"박정현", "김철수", "이영희", "최지훈", "정민수", "박영수", "김민준", "이현우", "최서윤", "정지호",
@@ -132,7 +134,16 @@ public class TravelPlanServiceTest {
             String city = cities[random.nextInt(cities.length)];
             String gender = genders[random.nextInt(genders.length)];
             String mbti = mbtis[random.nextInt(mbtis.length)];
-            String interest = interests[random.nextInt(interests.length)];
+
+            List<String> selectedInterests = new ArrayList<>();
+            selectedInterests.add(interests[random.nextInt(interests.length)]);
+            selectedInterests.add(interests[random.nextInt(interests.length)]);
+
+            // 나이 계산을 위해 현재 날짜와 비교하여 생일 설정
+            LocalDate birthday = LocalDate.of(1980 + random.nextInt(30), random.nextInt(12) + 1, random.nextInt(28) + 1);
+//            LocalDate today = LocalDate.now();
+//            int age = Period.between(birthday, today).getYears();
+
             String profilePhoto = "photoLink" + i;
             String introduction = "Introduction " + i;
 
@@ -147,7 +158,8 @@ public class TravelPlanServiceTest {
                     .city(city)
                     .gender(gender)
                     .mbti(mbti)
-                    .interests(interest)
+                    .interests(selectedInterests)
+                    .birthday(birthday)
                     .build();
 
             UserResponseDTO savedUser = userService.registerUser(user);

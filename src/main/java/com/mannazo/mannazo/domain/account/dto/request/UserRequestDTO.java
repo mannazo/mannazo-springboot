@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,8 @@ public class UserRequestDTO {
     private Timestamp lastLoginTime;
 
     public UserEntity toEntity() {
+        int age = calculateAge(this.birthday);
+
         return UserEntity.builder()
                 .userId(userId)
                 .email(email)
@@ -49,6 +52,12 @@ public class UserRequestDTO {
                 .birthday(birthday)
                 .lastLoginTime(new Timestamp(System.currentTimeMillis()))
                 .build();
+    }
+
+    //나이계산
+    private int calculateAge(LocalDate birthday) {
+        LocalDate now = LocalDate.now();
+        return Period.between(birthday, now).getYears();
     }
 
     @Getter
