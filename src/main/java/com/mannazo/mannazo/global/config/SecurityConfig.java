@@ -3,6 +3,9 @@ package com.mannazo.mannazo.global.config;
 import com.mannazo.mannazo.domain.account.service.UserService;
 import com.mannazo.mannazo.global.filter.JwtAuthFilter;
 import com.mannazo.mannazo.global.util.JwtUtil;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,16 +21,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig  {
 
+    private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
     private UserService userService;
 
     private static final String[] AUTH_WHITELIST = {
-            "/swagger-ui/**", "/swagger-ui.html"
-//            "/api/v1/user/**", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
-//            "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/api/v1/auth/**"
+            "/api/v1/user/**"
     };
+
+    @PostConstruct
+    public void init() {
+        log.info("Spring Security Config Initialized");
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -54,10 +61,9 @@ public class SecurityConfig  {
 
         // 권한 규칙 작성
         http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
-                        //@PreAuthrization을 사용할 것이기 때문에 모든 경로에 대한 인증처리는 Pass
+                        // AUTH_WHITELIST에 있는 경로에 대해서만 인증을 요구하고 나머지 경로에 대해서는 모두 허용
+                        .requestMatchers(AUTH_WHITELIST).authenticated()
                         .anyRequest().permitAll()
-//                        .anyRequest().authenticated()
         );
 
         return http.build();

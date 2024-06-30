@@ -4,6 +4,7 @@ import com.mannazo.mannazo.api.UserAPI;
 import com.mannazo.mannazo.domain.account.dto.request.UserRequestDTO;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.service.UserService;
+import com.mannazo.mannazo.global.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,9 +25,9 @@ import java.util.UUID;
 public class UserController implements UserAPI {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Override
-    @PreAuthorize("#id.toString() == authentication.principal.userid")
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id) {
         UserResponseDTO response = userService.retrieveUser(id);

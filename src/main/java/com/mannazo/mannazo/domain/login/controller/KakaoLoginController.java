@@ -44,7 +44,7 @@ public class KakaoLoginController implements LoginAPI {
         userRegistrationResponse.setUserId(user.getUserId());
         userRegistrationResponse.setJwtToken(jwtToken);
 
-        log.info("{}",jwtUtil.parseClaims(jwtToken));
+        log.info("토큰 발급 : {}",jwtUtil.parseClaims(jwtToken));
 
         return ResponseEntity.status(HttpStatus.OK).body(userRegistrationResponse);
     }
