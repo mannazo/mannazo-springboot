@@ -64,5 +64,10 @@ public class UserServiceImpl implements UserService{
         return user.map(UserEntity::getUserId).orElse(null);
     }
 
+    @Override
+    public boolean checkIfExists(UUID id) {
+        return userRepository.existsById(id);
+    }
+
 
 }

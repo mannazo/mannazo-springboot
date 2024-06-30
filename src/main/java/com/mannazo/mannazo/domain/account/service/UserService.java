@@ -45,4 +45,12 @@ public interface UserService {
      * @return UUID user_id
      */
     UUID getUserIdBySocialLoginId(String socialLoginId);
+
+    /**
+     * 사용자의 user_id를 받아 해당 사용자가 존재하는지 확인하는 서비스
+     *
+     * @param id 사용자의 고유 user_id
+     * @return boolean 해당 사용자가 존재하면 true, 그렇지 않으면 false
+     */
+    public boolean checkIfExists(UUID id);
 }
