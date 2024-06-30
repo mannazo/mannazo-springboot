@@ -1,11 +1,13 @@
 package com.mannazo.mannazo.domain.login.controller;
 
 import com.mannazo.mannazo.api.LoginAPI;
+import com.mannazo.mannazo.domain.account.dto.response.UserRegistrationResponse;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import com.mannazo.mannazo.domain.account.service.UserService;
 import com.mannazo.mannazo.domain.login.dto.KakaoUserInfoResponseDto;
 import com.mannazo.mannazo.domain.login.service.KakaoService;
+import com.mannazo.mannazo.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,10 @@ import java.util.UUID;
 public class KakaoLoginController implements LoginAPI {
 
     private final KakaoService kakaoService;
-    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/callback")
-    public ResponseEntity<UUID> callback(@RequestParam("code") String authCode) {
+    public ResponseEntity<UserRegistrationResponse> callback(@RequestParam("code") String authCode) {
         // 엑세스 토큰 발급
         String accessToken = kakaoService.getAccessToken(authCode);
         
@@ -36,8 +38,15 @@ public class KakaoLoginController implements LoginAPI {
         // 기존 회원 인지 검증하고 데이터 반환
         UserResponseDTO user = kakaoService.findOrRegisterUser(kakaoUserInfo);
 
-        // 사용자 아이디만 반환
-        return ResponseEntity.status(HttpStatus.OK).body(user.getUserId());
+        // 사용자 아이디와 JWT 토큰 생성 후 반환
+        String jwtToken = jwtUtil.createAccessToken(user.getUserId());
+        UserRegistrationResponse userRegistrationResponse = new UserRegistrationResponse();
+        userRegistrationResponse.setUserId(user.getUserId());
+        userRegistrationResponse.setJwtToken(jwtToken);
+
+        log.info("{}",jwtUtil.parseClaims(jwtToken));
+
+        return ResponseEntity.status(HttpStatus.OK).body(userRegistrationResponse);
     }
 
     // Provider 별 로그인 URL 전송

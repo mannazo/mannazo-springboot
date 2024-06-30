@@ -1,10 +1,7 @@
 package com.mannazo.mannazo.domain.account.dto.response;
 
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -66,22 +63,6 @@ public class UserResponseDTO {
         response.setFirstTimeUser(response.getName() == null || response.getName().trim().isEmpty());
 
         return response;
-    }
-
-    // Inner class for registration DTO
-    @Builder
-    @Getter
-    public static class RegisterDTO {
-        private String email;
-        private String password;
-        private String name;
-        private String nickname;
-        private String nationality;
-        private String language;
-        private String city;
-        private String gender;
-        private String mbti;
-        private String interests;
     }
 
     @Builder

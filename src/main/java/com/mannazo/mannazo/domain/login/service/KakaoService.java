@@ -3,22 +3,18 @@ package com.mannazo.mannazo.domain.login.service;
 import com.mannazo.mannazo.domain.account.dto.response.UserResponseDTO;
 import com.mannazo.mannazo.domain.account.entity.UserEntity;
 import com.mannazo.mannazo.domain.account.repository.UserRepository;
-import com.mannazo.mannazo.domain.account.service.UserService;
 import com.mannazo.mannazo.domain.login.dto.KakaoTokenResponseDto;
 import com.mannazo.mannazo.domain.login.dto.KakaoUserInfoResponseDto;
+import com.mannazo.mannazo.global.util.JwtUtil;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -91,7 +87,7 @@ public class KakaoService implements SocialLoginService{
     }
 
     public UserResponseDTO findOrRegisterUser(KakaoUserInfoResponseDto socialUserInfo) {
-        
+
         // 소셜아이디로 회원가입 여부 확인
         Optional<UserEntity> userEntity = userRepository.findBySocialLoginId(String.valueOf(socialUserInfo.getId()));
 
