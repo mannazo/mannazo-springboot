@@ -26,7 +26,7 @@ public class KakaoLoginController implements LoginAPI {
     private final UserService userService;
 
     @GetMapping("/callback")
-    public ResponseEntity<UserResponseDTO> callback(@RequestParam("code") String authCode) {
+    public ResponseEntity<UUID> callback(@RequestParam("code") String authCode) {
         // 엑세스 토큰 발급
         String accessToken = kakaoService.getAccessToken(authCode);
         
@@ -36,7 +36,8 @@ public class KakaoLoginController implements LoginAPI {
         // 기존 회원 인지 검증하고 데이터 반환
         UserResponseDTO user = kakaoService.findOrRegisterUser(kakaoUserInfo);
 
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        // 사용자 아이디만 반환
+        return ResponseEntity.status(HttpStatus.OK).body(user.getUserId());
     }
 
     // Provider 별 로그인 URL 전송
