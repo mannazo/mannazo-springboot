@@ -39,7 +39,7 @@ public class UserServiceTest {
                 .interests(Arrays.asList("Reading, Coding"))
                 .build();
 
-        userService.registerUser(user);
+        userService.modifyUserDetails(user);
     }
 
     @Test

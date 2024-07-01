@@ -22,16 +22,6 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
-        // 파라미터
-        // 중복검사
-        // 권한 유효성
-        // 저장하기
-        UserEntity user = userRepository.save(userRequestDTO.toEntity());
-        return UserResponseDTO.fromEntity(user);
-    }
-
-    @Override
     public UserResponseDTO modifyUserDetails(UserRequestDTO userRequestDTO) {
         UserEntity user = userRepository.save(userRequestDTO.toEntity());
         return UserResponseDTO.fromEntity(user);

@@ -74,7 +74,7 @@ public class TravelPlanServiceTest {
     @Test
     public void 여행계획_수정테스트() {
         //Given
-        UUID tripId = UUID.fromString("ea312454-edaf-4d9d-923e-287ed1199bb7");
+        UUID tripId = UUID.fromString("92692c83-536c-457b-bc7e-4b16749fe65a");
 
         TravelPlanRequestDTO dto = TravelPlanRequestDTO.builder()
                 .tripId(tripId)
@@ -82,6 +82,7 @@ public class TravelPlanServiceTest {
                 .startDate(LocalDate.of(2024, 7, 19))
                 .endDate(LocalDate.of(2024, 7, 27))
                 .travelPurpose("고궁")
+                .preferredGender(EnumUtils.PreferredGender.valueOf("ddd"))
                 .build();
 
 
@@ -159,7 +160,7 @@ public class TravelPlanServiceTest {
                     .birthday(birthday)
                     .build();
 
-            UserResponseDTO savedUser = userService.registerUser(user);
+            UserResponseDTO savedUser = userService.modifyUserDetails(user);
             userIds.add(savedUser.getUserId());
         }
 

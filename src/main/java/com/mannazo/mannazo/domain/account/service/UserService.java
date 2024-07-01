@@ -9,13 +9,6 @@ import java.util.UUID;
 public interface UserService {
 
     /**
-     * 사용자가 입력한 DTO를 받아서 회원가입하는 서비스
-     * @param userRequestDTO 입력값
-     * @return UserResponseDTO 저장된 회원정보
-     */
-    UserResponseDTO registerUser(UserRequestDTO userRequestDTO);
-
-    /**
      * 사용자가 입력한 DTO받아서 회원수정하는 서비스(추가입력사항 등록)
      * @param userRequestDTO 입력값
      * @return UserResponseDTO 저장된 회원정보
