@@ -1,11 +1,20 @@
-package com.mannazo.mannazo.domain.travel.entitiy;
+package com.mannazo.mannazo.domain.account.review.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "review")
 public class ReviewEntity {
 
@@ -29,6 +38,12 @@ public class ReviewEntity {
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content; // 리뷰 내용
 
-    @Column(name = "timestamp", nullable = false)
-    private LocalDateTime timestamp; // 리뷰 타임스탬프
+    @Column(name = "createAt", nullable = false)
+    private Timestamp createAt; // 리뷰 타임스탬프
+
+    @PrePersist
+    protected void onCreate() {
+        this.createAt = Timestamp.valueOf(LocalDateTime.now());
+        System.out.println("onCreate called, createAt: " + this.createAt);
+    }
 }

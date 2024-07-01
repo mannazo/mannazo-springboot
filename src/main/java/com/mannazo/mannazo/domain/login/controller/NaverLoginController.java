@@ -21,7 +21,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/naver")
+@RequestMapping("/login/naver")
 public class NaverLoginController implements LoginAPI {
 
     private final NaverService naverService;
