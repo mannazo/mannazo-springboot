@@ -25,7 +25,6 @@ dependencies {
     // SpringBoot Starter
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-config'
 
     // Spring Cloud
     implementation 'org.springframework.cloud:spring-cloud-config-server'
