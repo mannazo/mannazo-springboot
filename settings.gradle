@@ -1,0 +1,11 @@
+rootProject.name = 'mannazo-springboot'
+
+include 'api-gateway'
+include 'config-server'
+include 'eureka-server'
+
+include 'user-service'
+include 'auth-service'
+include 'chat-service'
+include 'admin-service'
+

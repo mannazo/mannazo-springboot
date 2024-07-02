@@ -1,0 +1,66 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:mannazo/mannazo-springboot-secret.git
+          default-label: main
+          ignoreLocalSshSettings: true
+          private-key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            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
+            -----END RSA PRIVATE KEY-----
