@@ -1,6 +1,7 @@
 spring:
   application:
-    name: user-service
-
+    name: user
+  profiles:
+    active: service
   config:
     import: optional:configserver:http://localhost:8888

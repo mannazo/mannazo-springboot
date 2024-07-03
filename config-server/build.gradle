@@ -22,11 +22,7 @@ ext {
 }
 
 dependencies {
-    // SpringBoot Starter
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    // Spring Cloud
     implementation 'org.springframework.cloud:spring-cloud-config-server'
 }
 

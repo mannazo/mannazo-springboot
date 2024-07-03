@@ -1,6 +1,7 @@
 spring:
   application:
-    name: chat-service
-
+    name: chat
+  profiles:
+    active: service
   config:
     import: optional:configserver:http://localhost:8888

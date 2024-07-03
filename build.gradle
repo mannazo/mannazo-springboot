@@ -20,8 +20,6 @@ allprojects {
 	}
 }
 
-
-
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'org.springframework.boot'
@@ -29,6 +27,7 @@ subprojects {
 
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter'
+		implementation 'org.springframework.boot:spring-boot-web'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	}
