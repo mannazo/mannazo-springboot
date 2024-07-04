@@ -16,27 +16,34 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/**
+            - Path=/user-api/**
           filters:
+            - RewritePath=/user-api/?(?<segment>.*), /$\{segment}
 
         - id: admin-service
           uri: lb://admin-service
           predicates:
             - Path=/admin-service/**
+          filters:
+            - RewritePath=/admin-api/?(?<segment>.*), /$\{segment}
 
         - id: auth-service
           uri: lb://auth-service
           predicates:
             - Path=/auth-service/**
+          filters:
+            - RewritePath=/auth-api/?(?<segment>.*), /$\{segment}
 
         - id: chat-service
           uri: lb://chat-service
           predicates:
             - Path=/chat-service/**
+          filters:
+            - RewritePath=/chat-api/?(?<segment>.*), /$\{segment}
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
