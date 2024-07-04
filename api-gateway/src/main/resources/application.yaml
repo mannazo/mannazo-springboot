@@ -1,7 +1,42 @@
+# 서버 포트 지정
+server:
+  port: 8080
+
+# config 서버에서 설정 파일을 가져와 적용합니다.
 spring:
   application:
-    name: api
-  profiles:
-    active: gateway
+    name: api-gateway
   config:
     import: optional:configserver:http://localhost:8888
+    name: api
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/admin-service/**
+
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth-service/**
+
+        - id: chat-service
+          uri: lb://chat-service
+          predicates:
+            - Path=/chat-service/**
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka

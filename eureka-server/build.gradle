@@ -22,6 +22,13 @@ ext {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
     // Eureka Server
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 

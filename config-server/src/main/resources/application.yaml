@@ -1,9 +1,11 @@
+# 서버 포트 지정
 server:
   port: 8888
 
 spring:
   application:
     name: config-server
+
   cloud:
     config:
       server:
