@@ -8,7 +8,6 @@ spring:
     name: api-gateway
   config:
     import: optional:configserver:http://localhost:8888
-    name: api
 
   cloud:
     gateway:

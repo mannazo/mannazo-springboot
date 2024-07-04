@@ -8,7 +8,6 @@ spring:
     name: chat-service
   config:
     import: optional:configserver:http://localhost:8888
-    name: chat
 
 eureka:
   instance:
