@@ -11,5 +11,7 @@ public class userEntity {
     @GeneratedValue
     private int id;
 
+    private String username;
+
 
 }
