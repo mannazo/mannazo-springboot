@@ -8,3 +8,14 @@ spring:
     active: service
   config:
     import: optional:configserver:http://localhost:8888
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.128.149.248/
+    username: root
+    password: rootpass
+    jpa:
+      generate-ddl: true
+      hibernate:
+        ddl-auto: update
+      open-in-view: false
