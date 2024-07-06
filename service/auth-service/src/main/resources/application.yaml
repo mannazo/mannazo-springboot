@@ -1,8 +1,8 @@
-# 서버 포트 지정
+# 서비스의 포트를 랜덤으로 받습니다.
 server:
   port: 0
 
-# config 서버에서 설정 파일을 가져와 적용합니다.
+# config 서버에서 설정 파일을 가져와 적용합니다
 spring:
   application:
     name: auth-service
@@ -10,6 +10,7 @@ spring:
     import: optional:configserver:http://localhost:8888
     name: auth-service
 
+# 유레카 서버에 해당 서비스를 추가하는 설정입니다.
 eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}

@@ -70,4 +70,12 @@ management:
   endpoints:
     web:
       exposure:
-        include: ['refresh', 'beans', 'evn']
+        include: "*"
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          config:
+            server: DEBUG
