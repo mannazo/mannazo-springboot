@@ -3,6 +3,8 @@ package com.mannazo.user.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -22,6 +24,6 @@ public class UserResponseDTO {
     private String gender;
     private String mbti;
     private String interests;
-    private String birthday;
-    private String lastLoginAt;
+    private LocalDate birthday;
+    private Timestamp lastLoginAt;
 }
