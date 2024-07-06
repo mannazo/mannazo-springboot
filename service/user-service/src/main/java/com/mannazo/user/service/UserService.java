@@ -2,6 +2,7 @@ package com.mannazo.user.service;
 
 import com.mannazo.user.domain.UserRequestDTO;
 import com.mannazo.user.domain.UserResponseDTO;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +12,9 @@ public interface UserService {
 
     List<UserResponseDTO> findAll();
 
-    void addUser(UserRequestDTO user);
+    UserResponseDTO createUser(UserRequestDTO user);
 
     void deleteUser(UUID userId);
 
-    void updateUser(UUID userId, UserRequestDTO user);
+    UserResponseDTO updateUser(UUID userId, UserRequestDTO user);
 }

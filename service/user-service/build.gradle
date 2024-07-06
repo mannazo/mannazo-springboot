@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    // SpringBoost Starter
+    // SpringBoot Starter
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -31,6 +31,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // MapStruct (무조건 Lombok 다음에 설치)
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
     // Config Client
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -47,3 +51,5 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+

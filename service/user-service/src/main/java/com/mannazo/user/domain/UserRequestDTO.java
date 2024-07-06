@@ -2,6 +2,8 @@ package com.mannazo.user.domain;
 
 import lombok.Getter;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 @Getter
 public class UserRequestDTO {
@@ -18,6 +20,6 @@ public class UserRequestDTO {
     private String gender;
     private String mbti;
     private String interests;
-    private String birthday;
-    private String lastLoginAt;
+    private LocalDate birthday;
+    private Timestamp lastLoginAt;
 }
