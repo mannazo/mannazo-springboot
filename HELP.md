@@ -7,6 +7,10 @@
 ```shell
 # 서브 모듈 블러오기
 git submodule update --init --recursive
+
+# 서브모듈 main 브랜치로 최신화
+cd ./mannanzo-springboot-secret
+git checkout main
 ```
 
 ![image](https://obsidian-images-diligentp.s3.ap-northeast-2.amazonaws.com/47453ab6cea5d9599d9861597f8aa9d6.png)
