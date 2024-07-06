@@ -1,9 +1,9 @@
 package com.mannazo.admin.entity;
 
 
-import jakarta.persistence.Entity;
-
-@Entity
+//import jakarta.persistence.Entity;
+//
+//@Entity
 public class AdminEntity {
 
 
