@@ -1,32 +1,12 @@
+@server = 192.168.0.57
+
 ### KAKAO 로그인페이지 요청
-GET http://localhost:8080/auth/kakao/getRedirectUrl
+GET http://{{server}}:8080/auth/kakao/getRedirectUrl
+
+### KAKAO 사용자정보 가져오기 (getRedirectUrl 에서 받은 코드)
+@code = "lutZmaHWq6UkKyXrkvGoOpdoliV2_slqAExF3lIa_Z6Xyrks6UeEuQAAAAQKKcjaAAABkJGljzXHP8VuE1ZNOQ"
+GET http://{{server}}:8080/auth/kakao/login?code={{code}}
 
 
-### KAKAO 사용자정보 가져오기
-@code = "tvRtyEaHMm9b91CMoQ_f2VD_TpDyPC1ZhRRxsa3qKTTss-m9VMd7fwAAAAQKKiURAAABkI6zJBGGtS2__sNdBQ"
-GET http://localhost:8080/auth/kakao/login?code={{code}}
-
-
-### 유저 회원가입 테스트
-POST http://localhost:8080/user
-Content-Type: application/json
-
-{
-  "userId": "{{userId}}",
-  "email": "{{email}}",
-  "name": "{{name}}",
-  "nickname": "{{nickname}}",
-  "nationality": "{{nationality}}",
-  "language": "{{language}}",
-  "profileImage": "{{profileImage}}",
-  "introduction": "{{introduction}}",
-  "city": "{{city}}",
-  "authority": "{{authority}}",
-  "gender": "{{gender}}",
-  "mbti": "{{mbti}}",
-  "interests": "{{interests}}",
-  "birthday": "{{birthday}}",
-  "lastLoginAt": "{{lastLoginAt}}"
-}
 
 

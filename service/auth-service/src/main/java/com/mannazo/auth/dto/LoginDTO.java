@@ -1,15 +1,16 @@
 package com.mannazo.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @NoArgsConstructor
+@Getter
 @Setter
+@ToString
 public class LoginDTO {
-
+    private boolean firstTimeUser;
     private UUID userId;
     private String token;
+    private KakaoUserDTO kakaoUser;
 }

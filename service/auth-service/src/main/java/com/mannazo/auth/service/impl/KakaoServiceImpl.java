@@ -1,10 +1,8 @@
 package com.mannazo.auth.service.impl;
 
 import com.mannazo.auth.client.UserClient;
-import com.mannazo.auth.client.UserResponseDTO;
 import com.mannazo.auth.dto.KakaoToken;
 import com.mannazo.auth.dto.KakaoUserDTO;
-import com.mannazo.auth.entity.SocialEntity;
 import com.mannazo.auth.repository.AuthRepository;
 import com.mannazo.auth.service.KakaoService;
 import io.netty.handler.codec.http.HttpHeaderValues;
@@ -80,47 +78,17 @@ public class KakaoServiceImpl implements KakaoService {
                 .block();
 
         // 로그
-        log.info("[ Kakao Service ] Auth ID ---> {} ", kakaoUserDTO.getId());
-        log.info("[ Kakao Service ] NickName ---> {} ", kakaoUserDTO.getKakaoAccount().getProfile().getNickName());
-        log.info("[ Kakao Service ] Email ---> {} ", kakaoUserDTO.getKakaoAccount().getEmail());
+//        log.info("[ Kakao Service ] Auth ID ---> {} ", kakaoUserDTO.getId());
+//        log.info("[ Kakao Service ] NickName ---> {} ", kakaoUserDTO.getKakaoAccount().getProfile().getNickName());
+//        log.info("[ Kakao Service ] Email ---> {} ", kakaoUserDTO.getKakaoAccount().getEmail());
 
         return kakaoUserDTO;
     }
 
     @Override
-    public UserResponseDTO findOrRegisterUser(KakaoUserDTO kakaoUserInfo) {
-        return null;
+    public Optional<UUID> findBySocialId(String SocialId) {
+        // 소셜아이디로 회원가입 여부 확인
+        return authRepository.findBySosialId(SocialId)
+                .map(socialEntity -> userClient.getUser(socialEntity.getUserid()).getUserId());
     }
-
-//    @Override
-//    public UserResponseDTO findOrRegisterUser(KakaoUserDTO kakaoUserInfo) {
-//        // 소셜아이디로 회원가입 여부 확인
-//        Optional<SocialEntity> socialEntityOpt = authRepository.findBySosialId(String.valueOf(kakaoUserInfo.getId()));
-//
-//        UUID userId;
-//
-//        // 회원이 있을 경우 반환, 또는 회원 가입 후 반환
-//        if(socialEntityOpt.isPresent()) {
-//            SocialEntity existingUserEntity = socialEntityOpt.get();
-//            // UserEntity -> DTO 변환 후 반환
-//            userId = existingUserEntity.getUserid();
-//        } else {
-//            // 여기에서 회원 가입 로직을 실행 후, 생성된 UserEntity -> DTO 변환 후 반환
-//            // ...
-//        }
-//
-//        // 기록이 없으면, 회원가입하고 UserEntity를 DTO로 바꿔서 리턴
-//        KakaoUserInfoResponseDto.KakaoAccount user = socialUserInfo.getKakaoAccount();
-//        UserEntity newUser = UserEntity.builder()
-//                .userId(UUID.randomUUID())
-//                .name(user.getName())
-//                .nickname(user.getProfile().getNickName())
-//                .gender(user.getGender())
-//                .profilePhoto(user.getProfile().getProfileImageUrl())
-//                .socialLoginId(String.valueOf(socialUserInfo.getId()))
-//                .lastLoginTime(new Timestamp(System.currentTimeMillis()))
-//                .build();
-//
-//        return UserResponseDTO.fromEntity(userRepository.save(newUser));
-//    }
 }
