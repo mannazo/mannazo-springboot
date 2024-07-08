@@ -1,4 +1,4 @@
-package com.mannazo.auth.client;
+package com.mannazo.auth.client.user;
 
 import lombok.Getter;
 

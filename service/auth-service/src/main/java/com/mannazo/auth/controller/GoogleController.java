@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GoogleController {
 
-    private GoogleService googleService;
+    private final GoogleService googleService;
 
     @GetMapping("/getRedirectUrl")
-    public ResponseEntity<String> getRedirectUrl(@RequestParam("code") String code) {
-        return ResponseEntity.status(HttpStatus.OK).body("");
+    public ResponseEntity<String> getRedirectUrl() {
+        return ResponseEntity.status(HttpStatus.OK).body(googleService.getRedirectUrl());
     }
 }
