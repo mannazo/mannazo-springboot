@@ -1,4 +1,4 @@
-package com.mannazo.shopservice.domain;
+package com.mannazo.shopservice.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,15 +1,13 @@
 package com.mannazo.shopservice.service.impl;
 
 import com.mannazo.shopservice.repository.ShopRepository;
-import com.mannazo.shopservice.domain.ShopRequestDTO;
-import com.mannazo.shopservice.domain.ShopResponseDTO;
+import com.mannazo.shopservice.dto.ShopRequestDTO;
+import com.mannazo.shopservice.dto.ShopResponseDTO;
 import com.mannazo.shopservice.entity.ShopEntity;
 import com.mannazo.shopservice.mapStruct.ShopRequestMapStruct;
 import com.mannazo.shopservice.mapStruct.ShopResponseMapStruct;
-import com.mannazo.shopservice.repository.ShopRepository;
 import com.mannazo.shopservice.service.ShopService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

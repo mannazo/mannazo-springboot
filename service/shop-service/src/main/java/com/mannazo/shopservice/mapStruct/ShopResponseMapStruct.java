@@ -1,6 +1,6 @@
 package com.mannazo.shopservice.mapStruct;
 
-import com.mannazo.shopservice.domain.ShopResponseDTO;
+import com.mannazo.shopservice.dto.ShopResponseDTO;
 import com.mannazo.shopservice.entity.ShopEntity;
 import com.mannazo.shopservice.mapper.ShopResponseMapper;
 import org.mapstruct.Mapper;

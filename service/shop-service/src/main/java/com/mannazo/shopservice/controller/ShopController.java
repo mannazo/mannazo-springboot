@@ -1,9 +1,8 @@
 package com.mannazo.shopservice.controller;
 
-import com.mannazo.shopservice.domain.ShopRequestDTO;
-import com.mannazo.shopservice.domain.ShopResponseDTO;
+import com.mannazo.shopservice.dto.ShopRequestDTO;
+import com.mannazo.shopservice.dto.ShopResponseDTO;
 import com.mannazo.shopservice.service.ShopService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

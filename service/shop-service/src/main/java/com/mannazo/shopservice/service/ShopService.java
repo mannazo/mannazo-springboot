@@ -1,7 +1,7 @@
 package com.mannazo.shopservice.service;
 
-import com.mannazo.shopservice.domain.ShopRequestDTO;
-import com.mannazo.shopservice.domain.ShopResponseDTO;
+import com.mannazo.shopservice.dto.ShopRequestDTO;
+import com.mannazo.shopservice.dto.ShopResponseDTO;
 
 
 import java.util.List;

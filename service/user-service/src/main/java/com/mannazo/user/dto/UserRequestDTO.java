@@ -1,11 +1,13 @@
 package com.mannazo.user.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
 @Getter
+@Builder
 public class UserRequestDTO {
     private UUID userId;
     private String email;
