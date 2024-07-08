@@ -1,4 +1,4 @@
-package com.mannazo.user.domain;
+package com.mannazo.postservice.client.dto;
 
 import lombok.Getter;
 import lombok.Setter;
