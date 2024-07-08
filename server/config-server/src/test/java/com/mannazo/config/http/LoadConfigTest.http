@@ -1,0 +1,14 @@
+###
+GET localhost:8888/user-service/default
+### auth_service Config 요청
+GET localhost:8888/auth-service/default
+###
+GET localhost:8888/user-service/default
+###
+GET localhost:8888/user-service/default
+###
+GET localhost:8888/user-service/default
+###
+GET localhost:8888/user-service/default
+###
+GET localhost:8888/user-service/default
