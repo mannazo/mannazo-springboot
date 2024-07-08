@@ -1,7 +1,7 @@
 package com.mannazo.postservice.service;
 
-import com.mannazo.postservice.domain.PostRequestDTO;
-import com.mannazo.postservice.domain.PostResponseDTO;
+import com.mannazo.postservice.dto.PostRequestDTO;
+import com.mannazo.postservice.dto.PostResponseDTO;
 
 import java.util.List;
 import java.util.UUID;

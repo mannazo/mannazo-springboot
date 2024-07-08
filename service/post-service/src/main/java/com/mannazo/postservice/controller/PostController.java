@@ -1,7 +1,7 @@
 package com.mannazo.postservice.controller;
 
-import com.mannazo.postservice.domain.PostRequestDTO;
-import com.mannazo.postservice.domain.PostResponseDTO;
+import com.mannazo.postservice.dto.PostRequestDTO;
+import com.mannazo.postservice.dto.PostResponseDTO;
 import com.mannazo.postservice.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

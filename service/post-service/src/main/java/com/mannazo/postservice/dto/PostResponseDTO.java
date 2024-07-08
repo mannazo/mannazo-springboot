@@ -1,9 +1,8 @@
-package com.mannazo.postservice.domain;
+package com.mannazo.postservice.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
 

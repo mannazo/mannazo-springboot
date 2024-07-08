@@ -1,4 +1,4 @@
-package com.mannazo.user.domain;
+package com.mannazo.user.dto;
 
 import lombok.Getter;
 

@@ -1,7 +1,8 @@
 package com.mannazo.postservice.service.impl;
 
-import com.mannazo.postservice.domain.PostRequestDTO;
-import com.mannazo.postservice.domain.PostResponseDTO;
+import com.mannazo.postservice.client.UserServiceClient;
+import com.mannazo.postservice.dto.PostRequestDTO;
+import com.mannazo.postservice.dto.PostResponseDTO;
 import com.mannazo.postservice.entity.PostEntity;
 import com.mannazo.postservice.mapStruct.PostRequestMapStruct;
 import com.mannazo.postservice.mapStruct.PostResponseMapStruct;
@@ -22,6 +23,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostResponseMapStruct postResponseMapStruct;
     private final PostRequestMapStruct postRequsetMapStruct;
+    private final UserServiceClient userServiceClient;
 
     @Override
     public PostResponseDTO createPost(PostRequestDTO post) {

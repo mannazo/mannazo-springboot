@@ -1,6 +1,6 @@
 package com.mannazo.user.mapStruct;
 
-import com.mannazo.user.domain.UserResponseDTO;
+import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.entity.UserEntity;
 import com.mannazo.user.mapper.UserResponseMapper;
 import org.mapstruct.Mapper;

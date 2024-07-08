@@ -1,6 +1,6 @@
 package com.mannazo.postservice.mapStruct;
 
-import com.mannazo.postservice.domain.PostResponseDTO;
+import com.mannazo.postservice.dto.PostResponseDTO;
 import com.mannazo.postservice.entity.PostEntity;
 import com.mannazo.postservice.mapper.PostResponseMapper;
 import org.mapstruct.Mapper;

@@ -1,6 +1,6 @@
 package com.mannazo.user.mapStruct;
 
-import com.mannazo.user.domain.UserRequestDTO;
+import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.entity.UserEntity;
 import com.mannazo.user.mapper.UserRequestMapper;
 import org.mapstruct.*;

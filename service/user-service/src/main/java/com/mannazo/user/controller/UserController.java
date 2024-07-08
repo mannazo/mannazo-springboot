@@ -1,8 +1,7 @@
 package com.mannazo.user.controller;
 
-import com.mannazo.user.domain.UserRequestDTO;
-import com.mannazo.user.domain.UserResponseDTO;
-import com.mannazo.user.entity.UserEntity;
+import com.mannazo.user.dto.UserRequestDTO;
+import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

@@ -1,7 +1,7 @@
 package com.mannazo.user.service.impl;
 
-import com.mannazo.user.domain.UserRequestDTO;
-import com.mannazo.user.domain.UserResponseDTO;
+import com.mannazo.user.dto.UserRequestDTO;
+import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.entity.UserEntity;
 import com.mannazo.user.mapStruct.UserRequestMapStruct;
 import com.mannazo.user.mapStruct.UserResponseMapStruct;

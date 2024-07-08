@@ -1,8 +1,7 @@
 package com.mannazo.user.service;
 
-import com.mannazo.user.domain.UserRequestDTO;
-import com.mannazo.user.domain.UserResponseDTO;
-import org.springframework.http.ResponseEntity;
+import com.mannazo.user.dto.UserRequestDTO;
+import com.mannazo.user.dto.UserResponseDTO;
 
 import java.util.List;
 import java.util.UUID;
