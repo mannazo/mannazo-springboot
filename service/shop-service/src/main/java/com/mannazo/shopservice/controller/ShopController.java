@@ -4,6 +4,7 @@ import com.mannazo.shopservice.domain.ShopRequestDTO;
 import com.mannazo.shopservice.domain.ShopResponseDTO;
 import com.mannazo.shopservice.service.ShopService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ShopController {
 
     private final ShopService shopService;
