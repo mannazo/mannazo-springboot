@@ -31,22 +31,23 @@ public class KakaoController {
 
     @GetMapping("/login")
     public ResponseEntity<LoginDTO> login(@RequestParam("code") String authCode) {
-        // 엑세스 토큰 발급
-        String accessToken = kakaoService.getAccessToken(authCode);
-        log.info("액세스 토큰 : {}",accessToken);
-
-        // 액세스 토큰 -> 유저 조회
-        KakaoUserDTO kakaoUserInfo = kakaoService.getUserInfo(accessToken);
-        log.info("카카오 사용자 불러옴 : {}",kakaoUserInfo);
-
-        // 기존 회원 인지 검증하고 데이터 반환
-        UserResponseDTO user = kakaoService.findOrRegisterUser(kakaoUserInfo);
-
-        LoginDTO loginDTO = new LoginDTO();
-//        loginDTO.setUserId();
-//        loginDTO.setToken();
-
-        // 사용자 아이디만 반환
-        return ResponseEntity.status(HttpStatus.OK).body(loginDTO);
+//        // 엑세스 토큰 발급
+//        String accessToken = kakaoService.getAccessToken(authCode);
+//        log.info("액세스 토큰 : {}",accessToken);
+//
+//        // 액세스 토큰 -> 유저 조회
+//        KakaoUserDTO kakaoUserInfo = kakaoService.getUserInfo(accessToken);
+//        log.info("카카오 사용자 불러옴 : {}",kakaoUserInfo);
+//
+//        // 기존 회원 인지 검증하고 데이터 반환
+//        UserResponseDTO user = kakaoService.findOrRegisterUser(kakaoUserInfo);
+//
+//        LoginDTO loginDTO = new LoginDTO();
+////        loginDTO.setUserId();
+////        loginDTO.setToken();
+//
+//        // 사용자 아이디만 반환
+//        return ResponseEntity.status(HttpStatus.OK).body(loginDTO);
+        return null;
     }
 }
