@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
-@AllArgsConstructor
+@RequireArgsConstructor
 public class PostController {
 
     private final PostService postService;
