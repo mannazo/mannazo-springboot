@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequireArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
