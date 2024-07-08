@@ -1,7 +1,9 @@
 package com.mannazo.auth.service;
 
-import com.mannazo.auth.client.UserResponseDTO;
 import com.mannazo.auth.dto.KakaoUserDTO;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public interface KakaoService {
     String getRedirectUrl();
@@ -10,5 +12,5 @@ public interface KakaoService {
 
     KakaoUserDTO getUserInfo(String AccessToken);
 
-    UserResponseDTO findOrRegisterUser(KakaoUserDTO kakaoUserInfo);
+    Optional<UUID> findBySocialId(String SocialId);
 }
