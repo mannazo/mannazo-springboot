@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -20,4 +21,5 @@ public class PostResponseDTO {
     private String preferredGender;
     private String travelStyle;
     private String travelPurpose;
+    private List<String> imageUrls;
 }
