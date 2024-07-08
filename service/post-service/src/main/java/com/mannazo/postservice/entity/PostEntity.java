@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,16 +26,16 @@ public class PostEntity {
     @Column(name = "travel_nationality", nullable = true)
     private String travelNationality;
 
-    @Column(name = "travel_city", nullable = false)
+    @Column(name = "travel_city")
     private String travelCity;
 
-    @Column(name = "travel_start_date", nullable = false)
+    @Column(name = "travel_start_date")
     private LocalDate travelStartDate;
 
-    @Column(name = "travel_end_date", nullable = false)
+    @Column(name = "travel_end_date")
     private LocalDate travelEndDate;
 
-    @Column(name = "travel_status", nullable = false)
+    @Column(name = "travel_status")
     @Enumerated(EnumType.STRING)
     private TravelStatus travelStatus;
 
@@ -47,5 +48,8 @@ public class PostEntity {
 
     @Column(name = "travel_purpose", columnDefinition = "TEXT", nullable = true)
     private String travelPurpose;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageEntity> images;
 
 }
