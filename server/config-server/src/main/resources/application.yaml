@@ -65,17 +65,3 @@ spring:
             nNwH4FjSPCaBVjwdI70VdVAHHQwcZYwYSobWNIbIDHfea52cSA/pxcg5Xvye3mwG
             mBqMTtY1ALekchuo+JVp/j2jn3JT02eSYs9WOm3drwTB8bHMpg8dVowf7atd
             -----END RSA PRIVATE KEY-----
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          config:
-            server: DEBUG

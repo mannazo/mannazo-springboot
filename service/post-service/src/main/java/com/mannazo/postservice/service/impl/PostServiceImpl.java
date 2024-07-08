@@ -10,6 +10,7 @@ import com.mannazo.postservice.repository.PostRepository;
 import com.mannazo.postservice.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequireArgsConstructor
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;

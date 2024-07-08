@@ -3,7 +3,7 @@ package com.mannazo.postservice.controller;
 import com.mannazo.postservice.dto.PostRequestDTO;
 import com.mannazo.postservice.dto.PostResponseDTO;
 import com.mannazo.postservice.service.PostService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequireArgsConstructor
+@RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
