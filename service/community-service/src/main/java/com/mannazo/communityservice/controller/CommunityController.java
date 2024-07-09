@@ -17,7 +17,7 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
-    @CommunityMapping("")
+    @PostMapping("")
     public ResponseEntity<CommunityResponseDTO> createCommunity(@RequestBody CommunityRequestDTO community) {
         CommunityResponseDTO createdCommunity = communityService.createCommunity(community);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommunity);
@@ -47,4 +47,5 @@ public class CommunityController {
         String text = communityId+"가 성공적으로 삭제되었습니다.";
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
     }
+
 }
