@@ -1,5 +1,7 @@
 package com.mannazo.user.controller;
 
+import com.mannazo.user.client.auth.LoginRequestDTO;
+import com.mannazo.user.client.auth.LoginResponseDTO;
 import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.service.UserService;
@@ -18,9 +20,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO user) {
-        UserResponseDTO createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    public ResponseEntity<LoginResponseDTO> createUser(@RequestBody LoginRequestDTO loginRequestDTO, @RequestBody UserRequestDTO user) {
+        LoginResponseDTO loginResponseDTO = userService.createUser(loginRequestDTO,user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loginResponseDTO);
     }
 
     @GetMapping("/{userId}")

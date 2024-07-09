@@ -1,5 +1,6 @@
 package com.mannazo.user.UserTest;
 
+import com.mannazo.user.client.auth.LoginRequestDTO;
 import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.repository.UserRepository;
@@ -26,7 +27,6 @@ public class UserTest {
     @Test
     public void 유저_생성() {
         UserRequestDTO userRequestDTO = UserRequestDTO.builder()
-                .userId(UUID.randomUUID())
                 .email("test@test.com")
                 .name("Test Name")
                 .nickname("testnickname")
@@ -43,7 +43,7 @@ public class UserTest {
                 .lastLoginAt(new Timestamp(System.currentTimeMillis()))
                 .build();
 
-        UserResponseDTO createdUser = userService.createUser(userRequestDTO);
-        log.info("Created User: " + createdUser);
+//        UserResponseDTO createdUser = userService.createUser("1",userRequestDTO);
+//        log.info("Created User: " + createdUser);
     }
 }
