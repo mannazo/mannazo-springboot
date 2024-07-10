@@ -85,4 +85,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
         return userResponseMapStruct.toUserResponseDTO(userEntity);
     }
+
+    @Override
+    public int getNumberOfUsers(String nationality) {
+        List<UserEntity> list = userRepository.findByNationality(nationality);
+        return list.size();
+    }
+
+    @Override
+    public int getNumberOfAllUsers() {
+        List<UserEntity> list = userRepository.findAll();
+        return list.size();
+    }
 }
