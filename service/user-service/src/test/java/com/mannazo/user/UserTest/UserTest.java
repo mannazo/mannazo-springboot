@@ -35,12 +35,9 @@ public class UserTest {
                 .profileImage("profile_image_url")
                 .introduction("Hello, I am a test user.")
                 .city("Seoul")
-                .authority("User")
-                .gender("남자")
                 .mbti("ENTJ")
                 .interests("Reading, Coding")
                 .birthday(LocalDate.of(1990, 1, 1))
-                .lastLoginAt(new Timestamp(System.currentTimeMillis()))
                 .build();
 
 //        UserResponseDTO createdUser = userService.createUser("1",userRequestDTO);

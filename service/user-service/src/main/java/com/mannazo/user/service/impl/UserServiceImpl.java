@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         log.info("인증 서비스에 소셜 정보 등록을 요청합니다.");
         SocialDTO socialDTO = new SocialDTO();
         socialDTO.setUserid(savedEntity.getUserId());
-        socialDTO.setSosialId(loginRequestDTO.getSocialId());
+        socialDTO.setSocialId(loginRequestDTO.getSocialId());
 
         authClient.save(socialDTO);
         log.info("소셜 정보 등록 완료");

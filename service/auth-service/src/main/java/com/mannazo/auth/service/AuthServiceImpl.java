@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService{
     // 회원가입 여부 확인 매서드
     private Optional<SocialEntity> findBySocialId(String socialId) {
         // 소셜아이디로 회원가입 여부 확인
-        Optional<SocialEntity> socialEntity = authRepository.findBySosialId(socialId);
+        Optional<SocialEntity> socialEntity = authRepository.findBySocialId(socialId);
         
         // 로깅 나중에 따로 빼야함
         if (socialEntity.isEmpty()) {
@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService{
     public SocialDTO saveSocialUser(SocialDTO socialDTO) {
         SocialEntity socialEntity = new SocialEntity();
         socialEntity.setUserid(socialDTO.getUserid());
-        socialEntity.setSosialId(socialDTO.getSosialId());
+        socialEntity.setSocialId(socialDTO.getSocialId());
 
         authRepository.save(socialEntity);
         

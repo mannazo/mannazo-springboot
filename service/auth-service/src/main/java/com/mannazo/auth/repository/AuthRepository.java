@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AuthRepository extends JpaRepository<SocialEntity, UUID> {
-    Optional<SocialEntity> findBySosialId(String sosialId);
+    Optional<SocialEntity> findBySocialId(String socialId);
 }

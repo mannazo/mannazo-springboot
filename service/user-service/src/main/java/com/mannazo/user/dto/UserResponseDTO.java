@@ -28,4 +28,5 @@ public class UserResponseDTO {
     private String interests;
     private LocalDate birthday;
     private Timestamp lastLoginAt;
+    private Timestamp createdAt;
 }
