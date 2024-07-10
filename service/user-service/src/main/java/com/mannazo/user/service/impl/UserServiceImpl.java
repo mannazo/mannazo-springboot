@@ -3,6 +3,8 @@ package com.mannazo.user.service.impl;
 import com.mannazo.user.client.auth.AuthClient;
 import com.mannazo.user.client.auth.LoginRequestDTO;
 import com.mannazo.user.client.auth.LoginResponseDTO;
+import com.mannazo.user.client.auth.SocialDTO;
+import com.mannazo.user.dto.UserCreationRequestDTO;
 import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.entity.UserEntity;
@@ -30,18 +32,28 @@ public class UserServiceImpl implements UserService {
     private final UserRequestMapStruct userRequsetMapStruct;
 
     @Override
-    public LoginResponseDTO createUser(LoginRequestDTO loginRequestDTO, UserRequestDTO user) {
+    public LoginResponseDTO createUser(UserCreationRequestDTO newUser) {
+        LoginRequestDTO loginRequestDTO = newUser.getLoginRequestDTO();
+        UserRequestDTO userRequestDTO = newUser.getUserRequestDTO();
+
         // 유저 생성
-        UserEntity userEntity = userRequsetMapStruct.toEntity(user);
+        log.info("유저 생성을 진행합니다");
+        UserEntity userEntity = userRequsetMapStruct.toEntity(userRequestDTO);
         UserEntity savedEntity = userRepository.save(userEntity);
+        log.info("유저 생성 완료");
 
         // Auth-Service 소셜 정보 등록 요청
         log.info("인증 서비스에 소셜 정보 등록을 요청합니다.");
-        authClient.save(loginRequestDTO.getSocialId(), savedEntity.getUserId());
+        SocialDTO socialDTO = new SocialDTO();
+        socialDTO.setUserid(savedEntity.getUserId());
+        socialDTO.setSosialId(loginRequestDTO.getSocialId());
+
+        authClient.save(socialDTO);
+        log.info("소셜 정보 등록 완료");
 
         // Auth-Service 로그인 요청
         log.info("인증 서버의 로그인 요청 으로 리다이렉션");
-        return authClient.login(loginRequestDTO).getBody();
+        return authClient.login(loginRequestDTO);
     }
 
     @Override

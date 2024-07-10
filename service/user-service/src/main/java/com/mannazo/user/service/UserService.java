@@ -2,6 +2,7 @@ package com.mannazo.user.service;
 
 import com.mannazo.user.client.auth.LoginRequestDTO;
 import com.mannazo.user.client.auth.LoginResponseDTO;
+import com.mannazo.user.dto.UserCreationRequestDTO;
 import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 
@@ -13,7 +14,7 @@ public interface UserService {
 
     List<UserResponseDTO> findAll();
 
-    LoginResponseDTO createUser(LoginRequestDTO loginRequestDTO, UserRequestDTO user);
+    LoginResponseDTO createUser(UserCreationRequestDTO newUser);
 
     void deleteUser(UUID userId);
 

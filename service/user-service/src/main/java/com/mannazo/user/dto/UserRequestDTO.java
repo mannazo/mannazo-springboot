@@ -22,5 +22,4 @@ public class UserRequestDTO { // 회원 가입 회원 수정
     private String mbti;
     private String interests;
     private LocalDate birthday;
-    private Timestamp lastLoginAt;
 }

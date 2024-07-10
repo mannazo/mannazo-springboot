@@ -2,10 +2,14 @@ package com.mannazo.user.controller;
 
 import com.mannazo.user.client.auth.LoginRequestDTO;
 import com.mannazo.user.client.auth.LoginResponseDTO;
+import com.mannazo.user.dto.UserCreationRequestDTO;
 import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +18,21 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("")
-    public ResponseEntity<LoginResponseDTO> createUser(@RequestBody LoginRequestDTO loginRequestDTO, @RequestBody UserRequestDTO user) {
-        LoginResponseDTO loginResponseDTO = userService.createUser(loginRequestDTO,user);
+    @GetMapping("/")
+    public String User() {
+        return "Hello User-Service";
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<LoginResponseDTO> createUser(@RequestBody UserCreationRequestDTO newUser) {
+        LoginResponseDTO loginResponseDTO = userService.createUser(newUser);
+        log.info("사용자 로그인 : \n {}",loginResponseDTO.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(loginResponseDTO);
     }
 
@@ -31,7 +42,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @GetMapping("")
+    @GetMapping("/findAll")
     public ResponseEntity<List<UserResponseDTO>> findAll() {
         List<UserResponseDTO> users = userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);

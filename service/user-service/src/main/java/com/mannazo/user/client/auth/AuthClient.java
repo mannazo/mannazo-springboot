@@ -1,6 +1,7 @@
 package com.mannazo.user.client.auth;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +12,8 @@ import java.util.UUID;
 public interface AuthClient {
 
     @PostMapping("/save")
-    ResponseEntity<SocialDTO> save(String socialId, UUID userId);
+    SocialDTO save(@RequestBody SocialDTO socialDTO);
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO);
+    LoginResponseDTO login(@RequestBody LoginRequestDTO loginRequestDTO);
 }
