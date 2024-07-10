@@ -19,4 +19,7 @@ public interface UserService {
     void deleteUser(UUID userId);
 
     UserResponseDTO updateUser(UUID userId, UserRequestDTO user);
+
+    int getNumberOfUsers(String nationality);
+    int getNumberOfAllUsers();
 }

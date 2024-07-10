@@ -61,4 +61,13 @@ public class UserController {
         String text = userId+"가 성공적으로 삭제되었습니다.";
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
     }
+
+    @GetMapping("/count/{nationality}")
+    public int getNumberOfUsers(@PathVariable String nationality) {
+        return userService.getNumberOfUsers(nationality);
+    }
+    @GetMapping("/count")
+    public int getNumberOfAllUsers() {
+        return userService.getNumberOfAllUsers();
+    }
 }

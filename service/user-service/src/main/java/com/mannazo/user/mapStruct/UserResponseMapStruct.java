@@ -4,6 +4,7 @@ import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.entity.UserEntity;
 import com.mannazo.user.mapper.UserResponseMapper;
 import org.mapstruct.Mapper;
+
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -15,5 +16,4 @@ public interface UserResponseMapStruct extends UserResponseMapper<UserEntity, Us
 
     @Override
     List<UserResponseDTO> toUserResponseListDTO(List<UserEntity> userEntities);
-
 }
