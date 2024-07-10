@@ -1,0 +1,108 @@
+services:
+  ############# Mannazo Server ################
+  api-gateway:
+    build:
+      context: ./server/api-gateway/
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
+
+  config-server:
+    build:
+      context: ./server/config-server/
+      dockerfile: Dockerfile
+    ports:
+      - '8888:8888'
+    networks:
+      - app-network
+
+  eureka-server:
+    build:
+      context: ./server/eureka-server/
+      dockerfile: Dockerfile
+    ports:
+      - '8761:8761'
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+
+  ############# Mannazo Services ################
+    user-service:
+      build:
+        context: ./service/user-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+    auth-service:
+      build:
+        context: ./service/auth-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+    chat-service:
+      build:
+        context: ./service/chat-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+    admin-service:
+      build:
+        context: ./service/admin-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+    post-service:
+      build:
+        context: ./service/post-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+    shop-service:
+      build:
+        context: ./service/shop-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+    community-service:
+      build:
+        context: ./service/community-service/
+        dockerfile: Dockerfile
+      networks:
+        - app-network
+      depends_on:
+        - config-server
+        - eureka-server
+
+networks:
+  app-network:
+    driver: bridge

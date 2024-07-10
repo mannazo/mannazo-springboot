@@ -31,6 +31,7 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<LoginResponseDTO> createUser(@RequestBody UserCreationRequestDTO newUser) {
+        log.info("유저 생성 \n {}", newUser);
         LoginResponseDTO loginResponseDTO = userService.createUser(newUser);
         log.info("사용자 로그인 : \n {}",loginResponseDTO.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(loginResponseDTO);
