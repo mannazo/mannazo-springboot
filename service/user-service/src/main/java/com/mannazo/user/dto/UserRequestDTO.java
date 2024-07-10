@@ -8,8 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 @Getter
 @Builder
-public class UserRequestDTO {
-    private UUID userId;
+public class UserRequestDTO { // 회원 가입 회원 수정
     private String email;
     private String name;
     private String nickname;
@@ -23,5 +22,4 @@ public class UserRequestDTO {
     private String mbti;
     private String interests;
     private LocalDate birthday;
-    private Timestamp lastLoginAt;
 }

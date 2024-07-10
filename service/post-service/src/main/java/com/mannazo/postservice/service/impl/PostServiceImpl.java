@@ -5,8 +5,8 @@ import com.mannazo.postservice.dto.PostRequestDTO;
 import com.mannazo.postservice.dto.PostResponseDTO;
 import com.mannazo.postservice.entity.ImageEntity;
 import com.mannazo.postservice.entity.PostEntity;
-import com.mannazo.postservice.mapStruct.PostRequestMapStruct;
-import com.mannazo.postservice.mapStruct.PostResponseMapStruct;
+import com.mannazo.postservice.mapStruct.post.PostRequestMapStruct;
+import com.mannazo.postservice.mapStruct.post.PostResponseMapStruct;
 import com.mannazo.postservice.repository.PostRepository;
 import com.mannazo.postservice.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
@@ -45,13 +45,13 @@ public class PostServiceImpl implements PostService {
         }
 
         PostEntity savedEntity = postRepository.save(postEntity);
-        return postResponseMapStruct.toPostResponseDTO(savedEntity);
+        return postResponseMapStruct.toResponseDTO(savedEntity);
     }
 
     @Override
     public PostResponseDTO getPost(UUID postId) {
         Optional<PostEntity> postEntity = postRepository.findById(postId);
-        PostResponseDTO postInfo = postResponseMapStruct.toPostResponseDTO(postEntity.orElse(null));
+        PostResponseDTO postInfo = postResponseMapStruct.toResponseDTO(postEntity.orElse(null));
         return postInfo;
     }
 
@@ -59,7 +59,7 @@ public class PostServiceImpl implements PostService {
     public List<PostResponseDTO> findAll() {
 
         List<PostEntity> list = postRepository.findAll();
-        List<PostResponseDTO> postResponseDTOS = postResponseMapStruct.toPostResponseListDTO(list);
+        List<PostResponseDTO> postResponseDTOS = postResponseMapStruct.toResponseListDTO(list);
 
         return postResponseDTOS;
     }
@@ -100,9 +100,7 @@ public class PostServiceImpl implements PostService {
 
         postRequsetMapStruct.updatePostFromDto(post, postEntity);
 
-
-
         postRepository.save(postEntity);
-        return postResponseMapStruct.toPostResponseDTO(postEntity);
+        return postResponseMapStruct.toResponseDTO(postEntity);
     }
 }
