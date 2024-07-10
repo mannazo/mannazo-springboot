@@ -4,17 +4,17 @@
 export JAVA_HOME="C:\\Users\\dilig\\.jdks\\corretto-17.0.11"
 
 # 모듈 리스트
-modules=("server:api-gateway" "server:config-server" "server:eureka-server"
-"service:user-service" "service:auth-service" "service:chat-service"
-"service:admin-service" "service:post-service" "service:shop-service"
-"service:community-service")
+all_modules=("server:api-gateway" "server:config-server" "server:eureka-server"
+                 "service:user-service" "service:auth-service" "service:chat-service"
+                 "service:admin-service" "service:post-service" "service:shop-service"
+                 "service:community-service")
 
 # Gradle clean
 echo "Cleaning..."
 ./gradlew clean
 
 # Gradle BootJar
-for module in "${modules[@]}"
+for module in "${all_modules[@]}"
 do
   echo "Building BootJar for $module"
   ./gradlew :$module:bootJar

@@ -1,26 +1,8 @@
 # Git
 
-## Git Command
-
-프로젝트에서 자주 사용하는 깃 명령어입니다.
-
-```shell
-# 서브 모듈 블러오기
-git submodule update --init --recursive
-
-# 서브모듈 main 브랜치로 최신화
-cd ./mannanzo-springboot-secret
-git checkout main
-```
-
-![image](https://obsidian-images-diligentp.s3.ap-northeast-2.amazonaws.com/47453ab6cea5d9599d9861597f8aa9d6.png)
-
-
 ## Conventional Commits
 
-`Git Convention` 은 커밋 메시지에 사용자와 기계 모두가 이해할 수 있는 의미를 부여하기 위해 사용합니다.
-
-우리는 다음과 같은 `Convention` 을 사용하고 있습니다.
+만나조팀은 다음과 같은 `Git Convention` 을 사용하고 있습니다.
 
 ```text
  - Feat : 새로운 기능과 관련된 것을 의미한다.
