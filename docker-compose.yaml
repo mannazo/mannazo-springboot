@@ -33,75 +33,75 @@ services:
       - config-server
 
   ############# Mannazo Services ################
-    user-service:
-      build:
-        context: ./service/user-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  user-service:
+    build:
+      context: ./service/user-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
-    auth-service:
-      build:
-        context: ./service/auth-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  auth-service:
+    build:
+      context: ./service/auth-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
-    chat-service:
-      build:
-        context: ./service/chat-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  chat-service:
+    build:
+      context: ./service/chat-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
-    admin-service:
-      build:
-        context: ./service/admin-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  admin-service:
+    build:
+      context: ./service/admin-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
-    post-service:
-      build:
-        context: ./service/post-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  post-service:
+    build:
+      context: ./service/post-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
-    shop-service:
-      build:
-        context: ./service/shop-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  shop-service:
+    build:
+      context: ./service/shop-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
-    community-service:
-      build:
-        context: ./service/community-service/
-        dockerfile: Dockerfile
-      networks:
-        - app-network
-      depends_on:
-        - config-server
-        - eureka-server
+  community-service:
+    build:
+      context: ./service/community-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
 
 networks:
   app-network:
