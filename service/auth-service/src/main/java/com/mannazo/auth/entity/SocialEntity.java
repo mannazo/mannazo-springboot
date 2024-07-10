@@ -13,6 +13,6 @@ public class SocialEntity {
     @Id
     @Column(name = "user_id", nullable = false, unique = true)
     private UUID userid;
-    @Column(name = "sosial_id", nullable = false, unique = true)
-    private String sosialId;
+    @Column(name = "social_id", nullable = false, unique = true)
+    private String socialId;
 }

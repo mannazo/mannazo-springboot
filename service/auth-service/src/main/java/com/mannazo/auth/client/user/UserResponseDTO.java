@@ -1,5 +1,6 @@
 package com.mannazo.auth.client.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 public class UserResponseDTO {
     private UUID userId;
     private String email;
@@ -26,4 +28,5 @@ public class UserResponseDTO {
     private String interests;
     private LocalDate birthday;
     private Timestamp lastLoginAt;
+    private Timestamp createdAt;
 }

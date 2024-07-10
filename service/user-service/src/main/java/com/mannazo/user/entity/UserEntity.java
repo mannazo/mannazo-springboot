@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -63,4 +64,21 @@ public class UserEntity {
     @Column(name = "last_login_at")
     private Timestamp lastLoginAt;
 
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+
+    //기본값 설정
+    @PrePersist
+    protected void onCreate() {
+        if (this.authority == null) {
+            this.authority = Authority.User; // Authority 기본값 설정
+        }
+        if (this.lastLoginAt == null) {
+            this.lastLoginAt = Timestamp.valueOf(LocalDateTime.now()); // 현재 시간으로 기본값 설정
+        }
+        if (this.createdAt == null) {
+            this.createdAt = Timestamp.valueOf(LocalDateTime.now()); // 현재 시간으로 기본값 설정
+        }
+    }
 }

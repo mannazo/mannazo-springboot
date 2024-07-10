@@ -9,5 +9,5 @@ import java.util.UUID;
 @Setter
 public class SocialDTO {
     private UUID userid;
-    private String sosialId;
+    private String socialId;
 }
