@@ -79,17 +79,18 @@ public class PostServiceImpl implements PostService {
 
         // 이미지 URL을 ImageEntity로 변환하여 설정
         if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
-            List<ImageEntity> images = post.getImageUrls().stream()
+            List<ImageEntity> updatedImages = post.getImageUrls().stream()
                     .map(url -> {
                         ImageEntity imageEntity = new ImageEntity();
-                        imageEntity.setFilePath(url); // 이미지 URL을 filePath로 설정
+                        imageEntity.setFilePath(url);
                         imageEntity.setPost(postEntity); // 이미지와 게시물 간의 양방향 매핑 설정
                         return imageEntity;
                     })
                     .collect(Collectors.toList());
-            postEntity.setImages(images); // 새로운 이미지 엔티티 리스트 설정
-        } else {
-            postEntity.setImages(currentImages); // 이미지 변경 없으면 기존 이미지 유지
+
+            // 기존 이미지 컬렉션과 새로운 이미지 컬렉션을 병합
+            currentImages.clear(); // 기존 이미지 삭제
+            currentImages.addAll(updatedImages); // 새로운 이미지 추가
         }
 
         // 게시물 엔티티 업데이트
@@ -98,11 +99,9 @@ public class PostServiceImpl implements PostService {
         // 게시물 엔티티 저장
         PostEntity updatedEntity = postRepository.save(postEntity);
 
-        postRequsetMapStruct.updatePostFromDto(post, postEntity);
-
-        postRepository.save(postEntity);
-        return postResponseMapStruct.toResponseDTO(postEntity);
+        return postResponseMapStruct.toResponseDTO(updatedEntity);
     }
+
 
     @Override
     public int getNumberOfPosts() {
