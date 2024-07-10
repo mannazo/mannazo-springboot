@@ -1,6 +1,7 @@
 package com.mannazo.user.UserTest;
 
 import com.mannazo.user.client.auth.LoginRequestDTO;
+import com.mannazo.user.dto.UserCreationRequestDTO;
 import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 import com.mannazo.user.repository.UserRepository;
@@ -23,24 +24,4 @@ public class UserTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
-
-    @Test
-    public void 유저_생성() {
-        UserRequestDTO userRequestDTO = UserRequestDTO.builder()
-                .email("test@test.com")
-                .name("Test Name")
-                .nickname("testnickname")
-                .nationality("Korean")
-                .language("Korean")
-                .profileImage("profile_image_url")
-                .introduction("Hello, I am a test user.")
-                .city("Seoul")
-                .mbti("ENTJ")
-                .interests("Reading, Coding")
-                .birthday(LocalDate.of(1990, 1, 1))
-                .build();
-
-//        UserResponseDTO createdUser = userService.createUser("1",userRequestDTO);
-//        log.info("Created User: " + createdUser);
-    }
 }

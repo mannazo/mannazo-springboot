@@ -103,4 +103,10 @@ public class PostServiceImpl implements PostService {
         postRepository.save(postEntity);
         return postResponseMapStruct.toResponseDTO(postEntity);
     }
+
+    @Override
+    public int getNumberOfPosts() {
+        List<PostEntity> list = postRepository.findAll();
+        return list.size();
+    }
 }

@@ -47,4 +47,9 @@ public class PostController {
         String text = postId+"가 성공적으로 삭제되었습니다.";
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
     }
+
+    @GetMapping("/count")
+    public int getNumberOfPosts() {
+        return postService.getNumberOfPosts();
+    }
 }

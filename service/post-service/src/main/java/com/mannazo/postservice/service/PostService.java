@@ -16,4 +16,5 @@ public interface PostService {
     void deletePost(UUID postId);
 
     PostResponseDTO updatePost(UUID postId, PostRequestDTO post);
+    int getNumberOfPosts();
 }
