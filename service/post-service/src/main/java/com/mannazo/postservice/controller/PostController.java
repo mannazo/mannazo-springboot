@@ -17,6 +17,11 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/")
+    public String Post() {
+        return "Hello Post-Service";
+    }
+
     @PostMapping("")
     public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequestDTO post) {
         PostResponseDTO createdPost = postService.createPost(post);
@@ -29,7 +34,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(post);
     }
 
-    @GetMapping("")
+    @GetMapping("/findAll")
     public ResponseEntity<List<PostResponseDTO>> findAll() {
         List<PostResponseDTO> posts = postService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(posts);
