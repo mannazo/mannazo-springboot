@@ -4,6 +4,7 @@ import com.mannazo.auth.client.user.UserClient;
 import com.mannazo.auth.client.user.UserResponseDTO;
 import com.mannazo.auth.dto.LoginRequestDTO;
 import com.mannazo.auth.dto.LoginResponseDTO;
+import com.mannazo.auth.dto.SocialDTO;
 import com.mannazo.auth.entity.SocialEntity;
 import com.mannazo.auth.repository.AuthRepository;
 import com.mannazo.auth.util.JwtUtil;
@@ -88,15 +89,20 @@ public class AuthServiceImpl implements AuthService{
         return new LoginResponseDTO(firstTimeUser, null, null);
     }
 
-    public void saveSocialUser(UUID userid, String socialId) {
+    @Override
+    public SocialDTO saveSocialUser(SocialDTO socialDTO) {
         SocialEntity socialEntity = new SocialEntity();
-        socialEntity.setUserid(userid);
-        socialEntity.setSosialId(socialId);
+        socialEntity.setUserid(socialDTO.getUserid());
+        socialEntity.setSosialId(socialDTO.getSosialId());
 
         authRepository.save(socialEntity);
+        
+        log.info("소셜 테이블 등록 완료");
+        return socialDTO;
     }
 
     // 사용자 로그인
+    @Override
     public LoginResponseDTO getSocialLogin(LoginRequestDTO loginRequestDTO) {
 
         String socialId = loginRequestDTO.getSocialId();

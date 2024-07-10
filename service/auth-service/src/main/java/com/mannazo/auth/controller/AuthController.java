@@ -2,6 +2,7 @@ package com.mannazo.auth.controller;
 
 import com.mannazo.auth.dto.LoginRequestDTO;
 import com.mannazo.auth.dto.LoginResponseDTO;
+import com.mannazo.auth.dto.SocialDTO;
 import com.mannazo.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> Login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        log.info("소셜 로그인 인증 요청 \n{}",loginRequestDTO.toString());
+        log.info("소셜 로그인 인증 요청 \n {}",loginRequestDTO.toString());
         return ResponseEntity.status(HttpStatus.OK).body(authService.getSocialLogin(loginRequestDTO));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<SocialDTO> Save(@RequestBody SocialDTO socialDTO) {
+        log.info("소셜 테이블 등록 요청 \n {}",socialDTO.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(authService.saveSocialUser(socialDTO));
     }
 }
