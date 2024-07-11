@@ -16,6 +16,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Chat Service
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'com.google.guava:guava:32.0.0-android' // ImmutableMap 사용
 
     // Mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
