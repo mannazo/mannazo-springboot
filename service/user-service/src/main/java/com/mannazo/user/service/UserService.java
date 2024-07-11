@@ -7,6 +7,7 @@ import com.mannazo.user.dto.UserRequestDTO;
 import com.mannazo.user.dto.UserResponseDTO;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface UserService {
@@ -22,4 +23,8 @@ public interface UserService {
 
     int getNumberOfUsers(String nationality);
     int getNumberOfAllUsers();
+
+    Map<UUID, UserResponseDTO> getUsers(List<UUID> userIds);
+
+    List<UUID> getAllUserIds();
 }

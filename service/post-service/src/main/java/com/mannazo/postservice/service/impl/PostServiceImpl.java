@@ -1,7 +1,10 @@
 package com.mannazo.postservice.service.impl;
 
+import com.mannazo.postservice.client.UserServiceClient;
+import com.mannazo.postservice.client.dto.UserResponseDTO;
 import com.mannazo.postservice.dto.PostRequestDTO;
 import com.mannazo.postservice.dto.PostResponseDTO;
+import com.mannazo.postservice.dto.PostWithUserResponseDTO;
 import com.mannazo.postservice.entity.ImageEntity;
 import com.mannazo.postservice.entity.PostEntity;
 import com.mannazo.postservice.entity.PreferredGender;
@@ -18,7 +21,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,6 +35,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostResponseMapStruct postResponseMapStruct;
     private final PostRequestMapStruct postRequsetMapStruct;
+    private final UserServiceClient userServiceClient;
 
     @Override
     public PostResponseDTO createPost(PostRequestDTO post) {
@@ -60,21 +66,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponseDTO> findAll(Pageable pageable) {
+    public Page<PostWithUserResponseDTO> findAll(Pageable pageable) {
         Page<PostEntity> posts = postRepository.findAll(pageable);
-        return posts.map(postResponseMapStruct::toResponseDTO);
+
+        // Fetch users for all posts in one go
+        List<UUID> userIds = posts.stream()
+                .map(PostEntity::getUserId)
+                .distinct()
+                .collect(Collectors.toList());
+        Map<UUID, UserResponseDTO> usersMap = userServiceClient.getUsers(userIds);
+
+        return posts.map(post -> {
+            PostResponseDTO postDTO = postResponseMapStruct.toResponseDTO(post);
+            UserResponseDTO userDTO = usersMap.get(post.getUserId());
+
+            PostWithUserResponseDTO compositeDTO = new PostWithUserResponseDTO();
+            compositeDTO.setPost(postDTO);
+            compositeDTO.setUser(userDTO);
+
+            return compositeDTO;
+        });
     }
-
-//    @Override
-//    public List<PostResponseDTO> findAll() {
-//
-//        List<PostEntity> list = postRepository.findAll();
-//        List<PostResponseDTO> postResponseDTOS = postResponseMapStruct.toResponseListDTO(list);
-//
-//        return postResponseDTOS;
-//    }
-
-
     @Override
     public void deletePost(UUID postId) {
         postRepository.deleteById(postId);
@@ -121,7 +133,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String travelStyle, Pageable pageable) {
+    public Page<PostResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String[] travelStyles, String travelStatus, LocalDate startDate, LocalDate endDate, String[] travelNationalities, Pageable pageable) {
+
         Specification<PostEntity> spec = Specification.where(null);
 
         if (travelCity != null && !travelCity.isEmpty()) {
@@ -132,8 +145,20 @@ public class PostServiceImpl implements PostService {
             spec = spec.and(PostSpecification.hasPreferredGender(preferredGender));
         }
 
-        if (travelStyle != null && !travelStyle.isEmpty()) {
-            spec = spec.and(PostSpecification.hasTravelStyle(travelStyle));
+        if (travelStyles != null && travelStyles.length > 0) {
+            spec = spec.and(PostSpecification.hasTravelStyles(travelStyles));
+        }
+
+        if (travelStatus != null && !travelStatus.isEmpty()) {
+            spec = spec.and(PostSpecification.hasTravelStatus(travelStatus));
+        }
+
+        if (startDate != null || endDate != null) {
+            spec = spec.and(PostSpecification.betweenDates(startDate, endDate));
+        }
+
+        if (travelNationalities != null && travelNationalities.length > 0) {
+            spec = spec.and(PostSpecification.hasTravelNationalities(travelNationalities));
         }
 
         Page<PostEntity> posts = postRepository.findAll(spec, pageable);

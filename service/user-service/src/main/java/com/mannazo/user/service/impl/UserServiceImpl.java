@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -96,5 +97,18 @@ public class UserServiceImpl implements UserService {
     public int getNumberOfAllUsers() {
         List<UserEntity> list = userRepository.findAll();
         return list.size();
+    }
+
+    @Override
+    public Map<UUID, UserResponseDTO> getUsers(List<UUID> userIds) {
+        List<UserEntity> list = userRepository.findAllById(userIds);
+        List<UserResponseDTO> userResponseDTOS = userResponseMapStruct.toUserResponseListDTO(list);
+        return userResponseMapStruct.toUserResponseMap(userResponseDTOS);
+    }
+
+    @Override
+    public List<UUID> getAllUserIds() {
+        List<UserEntity> list = userRepository.findAll();
+        return list.stream().map(UserEntity::getUserId).toList();
     }
 }

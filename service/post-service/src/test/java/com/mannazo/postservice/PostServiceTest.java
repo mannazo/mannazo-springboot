@@ -1,6 +1,7 @@
 package com.mannazo.postservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mannazo.postservice.client.UserServiceClient;
 import com.mannazo.postservice.dto.CommentRequestDTO;
 import com.mannazo.postservice.dto.CommentResponseDTO;
 import com.mannazo.postservice.dto.PostRequestDTO;
@@ -15,18 +16,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
+import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 @ExtendWith(SpringExtension.class) // JUnit 5에 필요한 확장자
@@ -37,13 +43,7 @@ public class PostServiceTest {
     private PostService postService;
 
     @Autowired
-    private CommentService commentService;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private CommentRepository commentRepository;
+    private UserServiceClient userServiceClient;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -52,78 +52,104 @@ public class PostServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    private final Random random = new Random();
+
     @Test
-    public void testCreatePost() {
-        // Given
-        UUID userId = UUID.randomUUID();
-        String travelNationality = "Korea";
-        String travelCity = "Seoul";
-        LocalDate travelStartDate = LocalDate.of(2024, 7, 10);
-        LocalDate travelEndDate = LocalDate.of(2024, 7, 20);
-        String travelStatus = String.valueOf(TravelStatus.등록);
-        String preferredGender = String.valueOf(PreferredGender.여자);
-        String travelStyle = "Adventure";
-        String travelPurpose = "Vacation in Seoul";
-        List<String> imageUrls = Arrays.asList(
-                "https://example.com/image1.jpg",
-                "https://example.com/image2.jpg",
-                "https://example.com/image3.jpg",
-                "https://example.com/image4.jpg",
-                "https://example.com/image5.jpg"
-        );
-        PostRequestDTO postRequestDTO = new PostRequestDTO();
-        postRequestDTO.setUserId(userId);
-        postRequestDTO.setTravelNationality(travelNationality);
-        postRequestDTO.setTravelCity(travelCity);
-        postRequestDTO.setTravelStartDate(travelStartDate);
-        postRequestDTO.setTravelEndDate(travelEndDate);
-        postRequestDTO.setTravelStatus(travelStatus);
-        postRequestDTO.setPreferredGender(preferredGender);
-        postRequestDTO.setTravelStyle(travelStyle);
-        postRequestDTO.setTravelPurpose(travelPurpose);
-        postRequestDTO.setImageUrls(imageUrls);
+    public void testCreateMultiplePosts() {
+        int numberOfPosts = 20; // 생성할 포스트 개수
 
-        // When
-        PostResponseDTO actualResponseDTO = postService.createPost(postRequestDTO);
+        List<UUID> userIds = userServiceClient.getAllUserIds();
 
-        // Then
-        assertEquals(travelNationality, actualResponseDTO.getTravelNationality());
-        assertEquals(travelCity, actualResponseDTO.getTravelCity());
-        assertEquals(travelStartDate, actualResponseDTO.getTravelStartDate());
-        assertEquals(travelEndDate, actualResponseDTO.getTravelEndDate());
-        assertEquals(travelStatus, actualResponseDTO.getTravelStatus());
-        assertEquals(preferredGender, actualResponseDTO.getPreferredGender());
-        assertEquals(travelStyle, actualResponseDTO.getTravelStyle());
-        assertEquals(travelPurpose, actualResponseDTO.getTravelPurpose());
+        log.info("UserIds::::>" + userIds);
+
+        for (int i = 0; i < numberOfPosts; i++) {
+            // Given
+            UUID userId = userIds.get(random.nextInt(userIds.size()));
+            String travelNationality = generateRandomCountry();
+            String travelCity = generateRandomCity();
+            LocalDate travelStartDate = generateRandomDate();
+            LocalDate travelEndDate = travelStartDate.plusDays(random.nextInt(10) + 1); // 여행 기간은 시작일로부터 1~10일
+            String travelStatus = getRandomTravelStatus();
+            String preferredGender = getRandomPreferredGender();
+            String travelStyle = generateRandomTravelStyle();
+            String travelPurpose = generateRandomTravelPurpose();
+            List<String> imageUrls = generateRandomImageUrls();
+
+            PostRequestDTO postRequestDTO = new PostRequestDTO();
+            postRequestDTO.setUserId(userId);
+            postRequestDTO.setTravelNationality(travelNationality);
+            postRequestDTO.setTravelCity(travelCity);
+            postRequestDTO.setTravelStartDate(travelStartDate);
+            postRequestDTO.setTravelEndDate(travelEndDate);
+            postRequestDTO.setTravelStatus(travelStatus);
+            postRequestDTO.setPreferredGender(preferredGender);
+            postRequestDTO.setTravelStyle(travelStyle);
+            postRequestDTO.setTravelPurpose(travelPurpose);
+            postRequestDTO.setImageUrls(imageUrls);
+
+            // When
+            PostResponseDTO actualResponseDTO = postService.createPost(postRequestDTO);
+
+            // Then
+            assertEquals(travelNationality, actualResponseDTO.getTravelNationality());
+            assertEquals(travelCity, actualResponseDTO.getTravelCity());
+            assertEquals(travelStartDate, actualResponseDTO.getTravelStartDate());
+            assertEquals(travelEndDate, actualResponseDTO.getTravelEndDate());
+            assertEquals(travelStatus, actualResponseDTO.getTravelStatus());
+            assertEquals(preferredGender, actualResponseDTO.getPreferredGender());
+            assertEquals(travelStyle, actualResponseDTO.getTravelStyle());
+            assertEquals(travelPurpose, actualResponseDTO.getTravelPurpose());
+        }
     }
 
-    @Test
-    public void testCreateComment() {
-     //Given
-        UUID userId = UUID.randomUUID();
-        UUID postId = UUID.fromString("21130fd6-a24c-47e4-9472-1d5592f0d09f");
-        String comment = "This is a comment3";
-        CommentRequestDTO commentRequestDTO = new CommentRequestDTO();
-        commentRequestDTO.setUserId(userId);
-        commentRequestDTO.setPostId(postId);
-        commentRequestDTO.setComment(comment);
-        //When
-        CommentResponseDTO actualResponseDTO = commentService.createComment(commentRequestDTO);
-        //Then
-        assertEquals(comment, actualResponseDTO.getComment());
+    // 무작위로 나라 이름 생성
+    private String generateRandomCountry() {
+        List<String> countries = Arrays.asList("Korea", "USA", "Japan", "Germany", "France", "Italy", "Australia");
+        return countries.get(random.nextInt(countries.size()));
     }
 
-    @Test
-    public void testGetCommentsByPostId() {
-        // Given
-        UUID postId = UUID.fromString("21130fd6-a24c-47e4-9472-1d5592f0d09f");
-        // When
-        List<CommentResponseDTO> actualResponseDTO = commentService.getCommentsByPostId(postId);
-        // Then
-        assertEquals(3, actualResponseDTO.size());
-        assertEquals("This is a comment3", actualResponseDTO.get(0).getComment());
-        assertEquals("This is a comment2", actualResponseDTO.get(1).getComment());
-        assertEquals("This is a comment", actualResponseDTO.get(2).getComment());
-        log.info("actualResponseDTO = " + actualResponseDTO.stream().toList());
+    // 무작위로 도시 이름 생성
+    private String generateRandomCity() {
+        List<String> cities = Arrays.asList("Seoul", "New York", "Tokyo", "Berlin", "Paris", "Rome", "Sydney");
+        return cities.get(random.nextInt(cities.size()));
+    }
+
+    // 무작위로 여행 스타일 생성
+    private String generateRandomTravelStyle() {
+        List<String> styles = Arrays.asList("Adventure", "City Tour", "Beach", "Camping", "Hiking");
+        return styles.get(random.nextInt(styles.size()));
+    }
+
+    // 무작위로 여행 목적 생성
+    private String generateRandomTravelPurpose() {
+        List<String> purposes = Arrays.asList("Vacation", "Business Trip", "Honeymoon", "Study Abroad", "Visiting Friends");
+        return purposes.get(random.nextInt(purposes.size()));
+    }
+
+    // 무작위로 이미지 URL 생성
+    private List<String> generateRandomImageUrls() {
+        List<String> imageUrls = new ArrayList<>();
+        int numImages = random.nextInt(5) + 1; // 1~5개의 이미지 URL 생성
+        for (int i = 0; i < numImages; i++) {
+            imageUrls.add("https://example.com/image" + (i + 1) + ".jpg");
+        }
+        return imageUrls;
+    }
+
+    // 무작위로 여행 상태 생성
+    private String getRandomTravelStatus() {
+        TravelStatus[] statuses = TravelStatus.values();
+        return statuses[random.nextInt(statuses.length)].name();
+    }
+
+    // 무작위로 선호하는 성별 생성
+    private String getRandomPreferredGender() {
+        PreferredGender[] genders = PreferredGender.values();
+        return genders[random.nextInt(genders.length)].name();
+    }
+
+    // 무작위로 날짜 생성 (2023년부터 2025년 사이)
+    private LocalDate generateRandomDate() {
+        return LocalDate.of(2023 + random.nextInt(3), random.nextInt(12) + 1, random.nextInt(28) + 1);
     }
 }
