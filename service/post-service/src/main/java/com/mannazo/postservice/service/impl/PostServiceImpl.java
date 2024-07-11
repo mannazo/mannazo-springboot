@@ -1,17 +1,22 @@
 package com.mannazo.postservice.service.impl;
 
-import com.mannazo.postservice.client.UserServiceClient;
 import com.mannazo.postservice.dto.PostRequestDTO;
 import com.mannazo.postservice.dto.PostResponseDTO;
 import com.mannazo.postservice.entity.ImageEntity;
 import com.mannazo.postservice.entity.PostEntity;
+import com.mannazo.postservice.entity.PreferredGender;
 import com.mannazo.postservice.mapStruct.post.PostRequestMapStruct;
 import com.mannazo.postservice.mapStruct.post.PostResponseMapStruct;
 import com.mannazo.postservice.repository.PostRepository;
+import com.mannazo.postservice.repository.specification.PostSpecification;
 import com.mannazo.postservice.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +30,6 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostResponseMapStruct postResponseMapStruct;
     private final PostRequestMapStruct postRequsetMapStruct;
-    private final UserServiceClient userServiceClient;
 
     @Override
     public PostResponseDTO createPost(PostRequestDTO post) {
@@ -56,13 +60,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseDTO> findAll() {
-
-        List<PostEntity> list = postRepository.findAll();
-        List<PostResponseDTO> postResponseDTOS = postResponseMapStruct.toResponseListDTO(list);
-
-        return postResponseDTOS;
+    public Page<PostResponseDTO> findAll(Pageable pageable) {
+        Page<PostEntity> posts = postRepository.findAll(pageable);
+        return posts.map(postResponseMapStruct::toResponseDTO);
     }
+
+//    @Override
+//    public List<PostResponseDTO> findAll() {
+//
+//        List<PostEntity> list = postRepository.findAll();
+//        List<PostResponseDTO> postResponseDTOS = postResponseMapStruct.toResponseListDTO(list);
+//
+//        return postResponseDTOS;
+//    }
+
 
     @Override
     public void deletePost(UUID postId) {
@@ -108,4 +119,25 @@ public class PostServiceImpl implements PostService {
         List<PostEntity> list = postRepository.findAll();
         return list.size();
     }
+
+    @Override
+    public Page<PostResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String travelStyle, Pageable pageable) {
+        Specification<PostEntity> spec = Specification.where(null);
+
+        if (travelCity != null && !travelCity.isEmpty()) {
+            spec = spec.and(PostSpecification.hasTravelCity(travelCity));
+        }
+
+        if (preferredGender != null) {
+            spec = spec.and(PostSpecification.hasPreferredGender(preferredGender));
+        }
+
+        if (travelStyle != null && !travelStyle.isEmpty()) {
+            spec = spec.and(PostSpecification.hasTravelStyle(travelStyle));
+        }
+
+        Page<PostEntity> posts = postRepository.findAll(spec, pageable);
+        return posts.map(postResponseMapStruct::toResponseDTO);
+    }
 }
+
