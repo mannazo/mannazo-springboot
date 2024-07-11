@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
-@FeignClient(name="auth-service", url = "http://localhost:8080/auth")
+@FeignClient(name="auth-service")
 public interface AuthClient {
 
     @PostMapping("/save")
