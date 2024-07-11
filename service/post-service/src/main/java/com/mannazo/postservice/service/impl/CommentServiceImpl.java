@@ -88,4 +88,5 @@ public class CommentServiceImpl implements CommentService {
         commentRequsetMapStruct.updateCommentFromDto(comment, commentEntity);
         return commentResponseMapStruct.toResponseDTO(updatedEntity);
     }
+
 }
