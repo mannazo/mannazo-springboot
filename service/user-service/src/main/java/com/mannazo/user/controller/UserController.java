@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -66,8 +67,21 @@ public class UserController {
     public int getNumberOfUsers(@PathVariable String nationality) {
         return userService.getNumberOfUsers(nationality);
     }
+
     @GetMapping("/count")
     public int getNumberOfAllUsers() {
         return userService.getNumberOfAllUsers();
+    }
+
+    @PostMapping("/multiple")
+    public Map<UUID, UserResponseDTO> getUsers(@RequestBody List<UUID> userIds) {
+        Map<UUID, UserResponseDTO> userMap = userService.getUsers(userIds);
+        return userMap;
+    }
+
+    @GetMapping("/getAllUserIds")
+    public List<UUID> getAllUserIds() {
+        List<UUID> userIds = userService.getAllUserIds();
+        return userIds;
     }
 }
