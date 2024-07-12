@@ -43,15 +43,6 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(post);
     }
 
-    //페이지네이션 추가
-    @GetMapping("/findAll")
-    public ResponseEntity<Page<PostWithUserResponseDTO>> findAll(@RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<PostWithUserResponseDTO> posts = postService.findAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(posts);
-    }
-
     @PutMapping("/{postId}")
     public ResponseEntity<PostResponseDTO> updatePost(@PathVariable UUID postId, @RequestBody PostRequestDTO post) {
         PostResponseDTO updatePost = postService.updatePost(postId, post);
@@ -70,8 +61,17 @@ public class PostController {
         return postService.getNumberOfPosts();
     }
 
+    //페이지네이션 추가
+    @GetMapping("/findAll")
+    public ResponseEntity<Page<PostWithUserResponseDTO>> findAll(@RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<PostWithUserResponseDTO> posts = postService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
+    }
+
     @GetMapping("/search")
-    public ResponseEntity<Page<PostResponseDTO>> searchPosts(
+    public ResponseEntity<Page<PostWithUserResponseDTO>> searchPosts(
             @RequestParam(required = false) String travelCity,
             @RequestParam(required = false) PreferredGender preferredGender,
             @RequestParam(required = false) String[] travelStyle,
@@ -83,7 +83,7 @@ public class PostController {
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<PostResponseDTO> posts = postService.searchPosts(
+        Page<PostWithUserResponseDTO> posts = postService.searchPosts(
                 travelCity, preferredGender, travelStyle, travelStatus, startDate, endDate, travelNationalities, pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(posts);

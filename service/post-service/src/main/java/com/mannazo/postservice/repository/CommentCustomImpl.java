@@ -19,6 +19,7 @@ public class CommentCustomImpl implements CommentCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
     private final CommentResponseMapStruct commentResponseMapStruct;
+
     @Override
     public List<CommentResponseDTO> getCommentsByPostId(UUID postId) {
         QCommentEntity qComment = QCommentEntity.commentEntity;

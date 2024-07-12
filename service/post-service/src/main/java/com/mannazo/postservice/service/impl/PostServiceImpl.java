@@ -66,33 +66,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostWithUserResponseDTO> findAll(Pageable pageable) {
-        Page<PostEntity> posts = postRepository.findAll(pageable);
-
-        // Fetch users for all posts in one go
-        List<UUID> userIds = posts.stream()
-                .map(PostEntity::getUserId)
-                .distinct()
-                .collect(Collectors.toList());
-        Map<UUID, UserResponseDTO> usersMap = userServiceClient.getUsers(userIds);
-
-        return posts.map(post -> {
-            PostResponseDTO postDTO = postResponseMapStruct.toResponseDTO(post);
-            UserResponseDTO userDTO = usersMap.get(post.getUserId());
-
-            PostWithUserResponseDTO compositeDTO = new PostWithUserResponseDTO();
-            compositeDTO.setPost(postDTO);
-            compositeDTO.setUser(userDTO);
-
-            return compositeDTO;
-        });
-    }
-    @Override
-    public void deletePost(UUID postId) {
-        postRepository.deleteById(postId);
-    }
-
-    @Override
     public PostResponseDTO updatePost(UUID postId, PostRequestDTO post) {
         PostEntity postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + postId));
@@ -125,6 +98,11 @@ public class PostServiceImpl implements PostService {
         return postResponseMapStruct.toResponseDTO(updatedEntity);
     }
 
+    @Override
+    public void deletePost(UUID postId) {
+        postRepository.deleteById(postId);
+    }
+
 
     @Override
     public int getNumberOfPosts() {
@@ -133,7 +111,30 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String[] travelStyles, String travelStatus, LocalDate startDate, LocalDate endDate, String[] travelNationalities, Pageable pageable) {
+    public Page<PostWithUserResponseDTO> findAll(Pageable pageable) {
+        Page<PostEntity> posts = postRepository.findAll(pageable);
+
+        // Fetch users for all posts in one go
+        List<UUID> userIds = posts.stream()
+                .map(PostEntity::getUserId)
+                .distinct()
+                .collect(Collectors.toList());
+        Map<UUID, UserResponseDTO> usersMap = userServiceClient.getUsers(userIds);
+
+        return posts.map(post -> {
+            PostResponseDTO postDTO = postResponseMapStruct.toResponseDTO(post);
+            UserResponseDTO userDTO = usersMap.get(post.getUserId());
+
+            PostWithUserResponseDTO compositeDTO = new PostWithUserResponseDTO();
+            compositeDTO.setPost(postDTO);
+            compositeDTO.setUser(userDTO);
+
+            return compositeDTO;
+        });
+    }
+
+    @Override
+    public Page<PostWithUserResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String[] travelStyles, String travelStatus, LocalDate startDate, LocalDate endDate, String[] travelNationalities, Pageable pageable) {
 
         Specification<PostEntity> spec = Specification.where(null);
 
@@ -162,7 +163,25 @@ public class PostServiceImpl implements PostService {
         }
 
         Page<PostEntity> posts = postRepository.findAll(spec, pageable);
-        return posts.map(postResponseMapStruct::toResponseDTO);
+
+        // Fetch users for all posts in one go
+        List<UUID> userIds = posts.stream()
+                .map(PostEntity::getUserId)
+                .distinct()
+                .collect(Collectors.toList());
+        Map<UUID, UserResponseDTO> usersMap = userServiceClient.getUsers(userIds);
+
+
+        return posts.map(post -> {
+            PostResponseDTO postDTO = postResponseMapStruct.toResponseDTO(post);
+            UserResponseDTO userDTO = usersMap.get(post.getUserId());
+
+            PostWithUserResponseDTO compositeDTO = new PostWithUserResponseDTO();
+            compositeDTO.setPost(postDTO);
+            compositeDTO.setUser(userDTO);
+
+            return compositeDTO;
+        });
     }
 }
 
