@@ -1,0 +1,137 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY_URL = "${params.harbor_url}"
+        HARBOR_CREDENTAIL = "${params.harbor_credential}"
+        GIT_USER_EMAIL = "${params.git_user_email}"
+        GIT_CREDENTIAL = "${params.github_credential}"
+        DISCORD_WEBHOOK = credentials("MANNAZU-DISCORD_WEBHOOK")
+    }
+
+    tools {
+        // Jenkins에서 사용할 Gradle 버전 
+        gradle 'Gradle_8.8'
+    } 
+
+    stages {
+        stage('Check for Changes') {
+            steps {
+                script {
+                    
+                    // 현재 커밋 해시 가져오기
+                    def currentCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                    
+                    // 이전 빌드의 커밋 해시 가져오기 (없으면 빈 문자열)
+                    def previousCommit = sh(script: 'git rev-parse HEAD~1 || echo ""', returnStdout: true).trim()
+                    
+                    def changes = sh(script: "git diff --name-only ${previousCommit} ${currentCommit} -- service/admin-service", returnStdout: true).trim()
+                    if (changes) {
+                        echo '변동사항이 있습니다.'
+                        echo "변경된 파일들: ${changes}"
+                    } else {
+                        echo '변동사항이 없습니다.'
+                        currentBuild.result = 'ABORTED'                        
+                        error '변동 사항이 없으므로 파이프라인을 중단합니다.'
+                    }
+                }
+            }
+        }
+
+        stage('admin-service 모듈 빌드') {
+            steps {
+                script {
+                    // Discord 빌드 시작 메시지 보내기
+                    discordSend title: "Mannazu-admin-service", 
+                                description: "빌드 시작!!",
+                                link: env.BUILD_URL, result: currentBuild.currentResult, 
+                                webhookURL: env.DISCORD_WEBHOOK
+                }
+
+                // service/admin-service 디렉토리로 이동
+                dir('service/admin-service') {
+
+                    // Gradle 래퍼에 실행 권한 부여
+                    sh 'chmod +x ../../gradlew'
+
+                    // Gradle 빌드 실행
+                    sh '../../gradlew bootJar --no-daemon'
+
+                    // 빌드된 artifact (JAR 파일)을 CICD 폴더로 복사
+                    sh 'cp build/libs/*.jar CICD/' 
+
+                    sh 'ls -l CICD/'
+                }
+            }
+        }
+
+        stage('Docker 이미지 빌드 및 푸시') {
+            steps {
+                script {
+                    docker.withRegistry("http://${DOCKER_REGISTRY_URL}", "${HARBOR_CREDENTAIL}") {
+                        // Docker 이미지 빌드
+                        dir('service/admin-service/CICD') {
+                            def customImage = docker.build("mannazo/admin-service:${env.BUILD_NUMBER}")
+                            customImage.push()
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy를 위한 Manifests 업데이트') {
+            steps {
+                script {
+                    // Manifests를 위한 Git 리포지토리 정보
+                    def manifestsRepoUrl = 'https://github.com/mannazo/mannazo-deploy.git'
+                    def manifestsRepoBranch = 'main'
+                    
+                    // Manifests 리포지토리 체크아웃
+                    git credentialsId: "${HARBOR_CREDENTIAL}", url: manifestsRepoUrl, branch: manifestsRepoBranch
+                    sh """
+                        git pull origin main
+                        sed -i 's|harbor.dorong9.com/mannazo/admin-service:.*|harbor.dorong9.com/mannazo/admin-service:${env.BUILD_NUMBER}|' was/admin-service/admin-service.yaml
+                        git add was/admin-service/admin-service.yaml
+                        git config user.name 'DOLONG9'
+                        git config user.email "${GIT_USER_EMAIL}"
+                        git commit -m 'fix : was/admin-service/admin-service.yaml ${currentBuild.number} 이미지 버전 업데이트'
+                    """
+                    withCredentials([gitUsernamePassword(credentialsId: "${GIT_CREDENTIAL}")]) {
+                       sh "git remote set-url origin https://github.com/mannazo/mannazo-deploy.git" 
+                       sh "git push origin main"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            discordSend title: "Mannazu-admin-servic", 
+                        description: "빌드 성공!!",            
+                        footer: "젠킨스에서 확인하세요",
+                        link: env.BUILD_URL, result: currentBuild.currentResult, 
+                        webhookURL: env.DISCORD_WEBHOOK
+            script {
+                // Docker image 삭제 
+                sh "docker rmi mannazo/admin-service:${env.BUILD_NUMBER}"
+                sh "docker rmi ${DOCKER_REGISTRY_URL}/mannazo/admin-service:${env.BUILD_NUMBER}"
+            }                                             
+        }
+        failure {
+            script {
+                if (currentBuild.result != 'ABORTED') {
+                    discordSend title: "Mannazu-admin-service", 
+                                description: "빌드 실패!!",
+                                footer: "젠킨스에서 확인하세요", 
+                                link: env.BUILD_URL, result: currentBuild.currentResult, 
+                                webhookURL: env.DISCORD_WEBHOOK
+                }
+            }
+        }
+        always {
+            echo 'Workspace 정리..'
+            deleteDir()
+        }
+    }
+}
