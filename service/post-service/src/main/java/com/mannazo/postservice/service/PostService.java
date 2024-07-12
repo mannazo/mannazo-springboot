@@ -26,5 +26,5 @@ public interface PostService {
     int getNumberOfPosts();
 
     //검색 기능
-    Page<PostResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String[] travelStyles, String travelStatus, LocalDate startDate, LocalDate endDate, String[] travelNationalities, Pageable pageable);
+    Page<PostWithUserResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String[] travelStyles, String travelStatus, LocalDate startDate, LocalDate endDate, String[] travelNationalities, Pageable pageable);
 }
