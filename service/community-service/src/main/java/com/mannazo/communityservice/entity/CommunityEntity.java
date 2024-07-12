@@ -1,11 +1,10 @@
 package com.mannazo.communityservice.entity;
 
-import com.mannazo.communityservice.client.dto.UserResponseDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,9 +22,6 @@ public class CommunityEntity {
     @Column(name = "user_id")
     private UUID userId;
 
-    @Transient
-    private UserResponseDTO user;
-
     @Column(name = "title")
     private String title;
 
@@ -33,13 +29,10 @@ public class CommunityEntity {
     private String description;
 
     @Column(name = "create_at")
-    private Timestamp createAt;
-
-    @Column(name = "status")
-    private String status;
+    private LocalDateTime createAt;
 
     @Column(name = "last_updated")
-    private Timestamp lastUpdated;
+    private LocalDateTime lastUpdated;
 
     @Column(name = "view_count")
     private Long viewCount;
@@ -49,4 +42,20 @@ public class CommunityEntity {
 
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentEntity> comments;
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikeEntity> likes;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createAt == null) {
+            this.createAt = LocalDateTime.now(); // 현재 시간으로 기본값 설정
+        }
+        if (this.viewCount == null) {
+            this.viewCount = 0L;
+        }
+        if (this.lastUpdated == null) {
+            this.lastUpdated = LocalDateTime.now(); // 현재 시간으로 기본값 설정
+        }
+    }
 }

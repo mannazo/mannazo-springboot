@@ -1,19 +1,27 @@
 package com.mannazo.communityservice.service;
 
-import com.mannazo.communityservice.dto.CommunityRequestDTO;
-import com.mannazo.communityservice.dto.CommunityResponseDTO;
+import com.mannazo.communityservice.dto.request.CommunityRequestDTO;
+import com.mannazo.communityservice.dto.response.CommunityResponseDTO;
+import com.mannazo.communityservice.dto.response.CommunityWithUserDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface CommunityService {
-    CommunityResponseDTO getCommunity(UUID communityId);
-
-    List<CommunityResponseDTO> findAll();
+    CommunityWithUserDTO getCommunity(UUID communityId);
 
     CommunityResponseDTO createCommunity(CommunityRequestDTO community);
+
+    Page<CommunityWithUserDTO> findAll(Pageable pageable);
 
     void deleteCommunity(UUID communityId);
 
     CommunityResponseDTO updateCommunity(UUID communityId, CommunityRequestDTO community);
+
+    void likeCommunity(UUID communityId, UUID userId);
+
+    void unlikeCommunity(UUID communityId, UUID userId);
+
+    int getLikesCount(UUID communityId);
 }

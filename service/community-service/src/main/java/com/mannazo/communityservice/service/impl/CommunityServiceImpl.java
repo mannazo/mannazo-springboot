@@ -1,19 +1,30 @@
 package com.mannazo.communityservice.service.impl;
 
 import com.mannazo.communityservice.client.UserServiceClient;
-import com.mannazo.communityservice.dto.CommunityRequestDTO;
-import com.mannazo.communityservice.dto.CommunityResponseDTO;
+import com.mannazo.communityservice.client.dto.UserResponseDTO;
+import com.mannazo.communityservice.dto.request.CommunityRequestDTO;
+import com.mannazo.communityservice.dto.response.CommunityResponseDTO;
+import com.mannazo.communityservice.dto.response.CommunityWithUserDTO;
+import com.mannazo.communityservice.eception.CommunityNotFoundException;
 import com.mannazo.communityservice.entity.ImageEntity;
 import com.mannazo.communityservice.entity.CommunityEntity;
+import com.mannazo.communityservice.entity.LikeEntity;
 import com.mannazo.communityservice.mapStruct.CommunityRequestMapStruct;
 import com.mannazo.communityservice.mapStruct.CommunityResponseMapStruct;
 import com.mannazo.communityservice.repository.CommunityRepository;
+import com.mannazo.communityservice.repository.LikeRepository;
 import com.mannazo.communityservice.service.CommunityService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +36,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityRepository communityRepository;
     private final CommunityResponseMapStruct communityResponseMapStruct;
     private final CommunityRequestMapStruct communityRequsetMapStruct;
+    private final LikeRepository likeRepository;
     private final UserServiceClient userServiceClient;
 
     @Override
@@ -45,23 +57,47 @@ public class CommunityServiceImpl implements CommunityService {
         }
 
         CommunityEntity savedEntity = communityRepository.save(communityEntity);
-        return communityResponseMapStruct.toCommunityResponseDTO(savedEntity);
+        return communityResponseMapStruct.toResponseDTO(savedEntity);
     }
 
     @Override
-    public CommunityResponseDTO getCommunity(UUID communityId) {
-        Optional<CommunityEntity> communityEntity = communityRepository.findById(communityId);
-        CommunityResponseDTO communityInfo = communityResponseMapStruct.toCommunityResponseDTO(communityEntity.orElse(null));
-        return communityInfo;
+    public CommunityWithUserDTO getCommunity(UUID communityId) {
+        CommunityWithUserDTO communityWithUserDTO = new CommunityWithUserDTO();
+
+        // 1. 커뮤니티 정보 조회
+        CommunityEntity communityEntity = communityRepository.findById(communityId)
+                .orElseThrow(() -> new CommunityNotFoundException("Community not found with id: " + communityId));
+
+        // 2. 커뮤니티 정보 매핑
+        CommunityResponseDTO communityResponseDTO = communityResponseMapStruct.toResponseDTO(communityEntity);
+        communityWithUserDTO.setCommunity(communityResponseDTO);
+
+        // 3. 사용자 정보 조회
+        UUID userId = communityEntity.getUserId();
+        UserResponseDTO userResponseDTO = userServiceClient.getUserById(userId).getBody();
+        communityWithUserDTO.setUser(userResponseDTO);
+
+        return communityWithUserDTO;
     }
 
     @Override
-    public List<CommunityResponseDTO> findAll() {
+    public Page<CommunityWithUserDTO> findAll(Pageable pageable) {
+        Page<CommunityEntity> communities = communityRepository.findAll(pageable);
+        List<UUID> userIds = communities.stream()
+                .map(CommunityEntity::getUserId)
+                .distinct()
+                .collect(Collectors.toList());
+        Map<UUID, UserResponseDTO> userMap = userServiceClient.getUsers(userIds);
 
-        List<CommunityEntity> list = communityRepository.findAll();
-        List<CommunityResponseDTO> communityResponseDTOS = communityResponseMapStruct.toCommunityResponseListDTO(list);
+        return communities.map(community -> {
+            CommunityResponseDTO communityDTO = communityResponseMapStruct.toResponseDTO(community);
+            UserResponseDTO user = userMap.get(community.getUserId());
 
-        return communityResponseDTOS;
+            CommunityWithUserDTO compositeDTO = new CommunityWithUserDTO();
+            compositeDTO.setCommunity(communityDTO);
+            compositeDTO.setUser(user);
+            return compositeDTO;
+        });
     }
 
     @Override
@@ -95,12 +131,37 @@ public class CommunityServiceImpl implements CommunityService {
         // 게시물 엔티티 업데이트
         communityRequsetMapStruct.updateCommunityFromDto(community, communityEntity);
 
+        // lastUpdated 업데이트
+        communityEntity.setLastUpdated(LocalDateTime.now());
+
         // 게시물 엔티티 저장
         CommunityEntity updatedEntity = communityRepository.save(communityEntity);
 
-        communityRequsetMapStruct.updateCommunityFromDto(community, communityEntity);
+        return communityResponseMapStruct.toResponseDTO(updatedEntity);
+    }
 
-        communityRepository.save(communityEntity);
-        return communityResponseMapStruct.toCommunityResponseDTO(communityEntity);
+    @Transactional
+    public void likeCommunity(UUID communityId, UUID userId) {
+        CommunityEntity community = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Community not found with id: " + communityId));
+        if (likeRepository.existsByCommunityCommunityIdAndUserId(communityId, userId)) {
+            throw new IllegalStateException("User already liked this community");
+        }
+        LikeEntity like = new LikeEntity();
+        like.setCommunity(community);
+        like.setUserId(userId);
+        likeRepository.save(like);
+    }
+
+    @Transactional
+    public void unlikeCommunity(UUID communityId, UUID userId) {
+        if (!likeRepository.existsByCommunityCommunityIdAndUserId(communityId, userId)) {
+            throw new EntityNotFoundException("Like not found");
+        }
+        likeRepository.deleteByCommunityCommunityIdAndUserId(communityId, userId);
+    }
+
+    public int getLikesCount(UUID communityId) {
+        return likeRepository.countByCommunityCommunityId(communityId);
     }
 }
