@@ -1,9 +1,14 @@
 package com.mannazo.communityservice.controller;
 
-import com.mannazo.communityservice.dto.CommunityRequestDTO;
-import com.mannazo.communityservice.dto.CommunityResponseDTO;
+import com.mannazo.communityservice.dto.request.CommunityRequestDTO;
+import com.mannazo.communityservice.dto.response.CommunityResponseDTO;
+import com.mannazo.communityservice.dto.response.CommunityWithUserDTO;
 import com.mannazo.communityservice.service.CommunityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +22,11 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
+    @GetMapping("/")
+    public String community() {
+        return "Hello Community-Service";
+    }
+
     @PostMapping("")
     public ResponseEntity<CommunityResponseDTO> createCommunity(@RequestBody CommunityRequestDTO community) {
         CommunityResponseDTO createdCommunity = communityService.createCommunity(community);
@@ -24,14 +34,16 @@ public class CommunityController {
     }
 
     @GetMapping("/{communityId}")
-    public ResponseEntity<CommunityResponseDTO> getCommunity(@PathVariable UUID communityId) {
-        CommunityResponseDTO community = communityService.getCommunity(communityId);
+    public ResponseEntity<CommunityWithUserDTO> getCommunity(@PathVariable UUID communityId) {
+        CommunityWithUserDTO community = communityService.getCommunity(communityId);
         return ResponseEntity.status(HttpStatus.OK).body(community);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<CommunityResponseDTO>> findAll() {
-        List<CommunityResponseDTO> communitys = communityService.findAll();
+    @GetMapping("/findAll")
+    public ResponseEntity<Page<CommunityWithUserDTO>> findAll(@RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createAt").descending());
+        Page<CommunityWithUserDTO> communitys = communityService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(communitys);
     }
 
@@ -48,4 +60,21 @@ public class CommunityController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
     }
 
+    @PostMapping("/{communityId}/like")
+    public ResponseEntity<Void> likeCommunity(@PathVariable UUID communityId, @RequestParam UUID userId) {
+        communityService.likeCommunity(communityId, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/{communityId}/like")
+    public ResponseEntity<String> unlikeCommunity(@PathVariable UUID communityId, @RequestParam UUID userId) {
+        communityService.unlikeCommunity(communityId, userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("좋아요 취소");
+    }
+
+    @GetMapping("/{communityId}/likes")
+    public ResponseEntity<Integer> getLikesCount(@PathVariable UUID communityId) {
+        int likesCount = communityService.getLikesCount(communityId);
+        return ResponseEntity.status(HttpStatus.OK).body(likesCount);
+    }
 }

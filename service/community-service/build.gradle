@@ -17,12 +17,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // MySQL
+    // Mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // MapStruct (무조건 Lombok 다음에 설치)
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
@@ -39,7 +41,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // Spring Cloud Feign
+    //Spring Cloud Feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     // QueryDSL (jakarta.persistence 지원 버전)

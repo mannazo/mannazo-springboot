@@ -1,14 +1,14 @@
 package com.mannazo.communityservice.mapStruct;
 
-import com.mannazo.communityservice.dto.CommunityRequestDTO;
+import com.mannazo.communityservice.dto.request.CommunityRequestDTO;
 import com.mannazo.communityservice.entity.CommunityEntity;
-import com.mannazo.communityservice.mapper.CommunityRequestMapper;
+import com.mannazo.communityservice.mapper.RequestMapper;
 import org.mapstruct.*;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface CommunityRequestMapStruct extends CommunityRequestMapper<CommunityEntity, CommunityRequestDTO> {
+public interface CommunityRequestMapStruct extends RequestMapper<CommunityEntity, CommunityRequestDTO> {
 
     CommunityEntity toEntity(CommunityRequestDTO dto);
 
