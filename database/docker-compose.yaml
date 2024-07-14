@@ -11,5 +11,17 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
+  mongodb:
+    container_name: mongodb
+    image: mongo:4.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
 volumes:
   mysql-data:
+  mongodb-data:
