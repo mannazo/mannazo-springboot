@@ -4,9 +4,11 @@ import com.mannazo.chat.entity.ChatRoomEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoomEntity, String> {
     @Query("SELECT cr FROM ChatRoomEntity cr WHERE cr.user1Id = :userId OR cr.user2Id = :userId")
     List<ChatRoomEntity> findAllByUserId(@Param("userId") String userId);
