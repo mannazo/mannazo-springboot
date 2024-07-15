@@ -32,17 +32,15 @@ public class ChatServiceImpl implements ChatService {
 
     private final UserFeignClient userFeignClient;
 
-    public Flux<Message> getMsg(String sender, String receiver){
-        return reactiveMessageRepository.mFindBySender(sender, receiver);
-    }
-
     @Override
     public Flux<Message> findByRoomId(String roomId) {
+        // 사용자 아이디를 받아 채팅방을 찾음
         return reactiveMessageRepository.mfindByRoomId(roomId);
     }
 
     @Override
-    public Mono<Message> saveMsg(Message message) {
+    public Mono<Message> sendMsg(Message message) {
+        // 사용자가 보낸 메시지를 DB에 저장
         return reactiveMessageRepository.save(message);
     }
 
@@ -74,11 +72,23 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public ChatRoomEntity saveChatRoom(ChatRoomRequestDTO chatRoomDTO) {
-        ChatRoomEntity chatRoom = new ChatRoomEntity();
-        chatRoom.setUser1Id(chatRoomDTO.getUser1Id());
-        chatRoom.setUser2Id(chatRoomDTO.getUser2Id());
-        chatRoom.setCreatedAt(LocalDateTime.now());
-        return chatRoomRepository.save(chatRoom);
+    public ChatRoomResponseDTO saveChatRoom(ChatRoomRequestDTO chatRoomDTO) {
+
+        // 사용자1Id와 사용자2Id로 채팅방을 찾습니다.
+        Optional<ChatRoomEntity> existingChatRoom = chatRoomRepository.findByUserIds(chatRoomDTO.getUser1Id(), chatRoomDTO.getUser2Id());
+
+        // 채팅방이 이미 존재하는 경우 해당 채팅방을 반환합니다.
+        if (existingChatRoom.isPresent()) {
+            return chatRoomMapper.toDto(existingChatRoom.get());
+        } else {
+            // 채팅방이 존재하지 않는 경우 새로운 채팅방을 생성하고 저장합니다.
+            ChatRoomEntity newChatRoom = new ChatRoomEntity();
+            newChatRoom.setUser1Id(chatRoomDTO.getUser1Id());
+            newChatRoom.setUser2Id(chatRoomDTO.getUser2Id());
+            newChatRoom.setCreatedAt(LocalDateTime.now());
+
+            // 채팅방 저장 후 반환
+            return chatRoomMapper.toDto(chatRoomRepository.save(newChatRoom));
+        }
     }
 }
