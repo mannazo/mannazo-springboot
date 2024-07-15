@@ -1,5 +1,5 @@
-# Eclipse Adoptium Temurin JDK 17을 사용하여 최종 이미지 생성
-FROM eclipse-temurin:17
+# bellsoft 의 openjre17을 사용하여 가벼운 이미지 생성
+FROM bellsoft/liberica-openjre-alpine:17
 
 # 빌드 이미지에서 생성된 JAR 파일 복사
 COPY *.jar /app.jar
