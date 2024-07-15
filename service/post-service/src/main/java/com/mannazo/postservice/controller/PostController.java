@@ -88,4 +88,11 @@ public class PostController {
 
         return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Page<PostResponseDTO>> getPostsByUserId(@PathVariable UUID userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<PostResponseDTO> posts = postService.getPostsByUserId(userId, pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
+    }
 }

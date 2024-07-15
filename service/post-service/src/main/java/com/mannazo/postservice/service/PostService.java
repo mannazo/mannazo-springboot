@@ -27,4 +27,6 @@ public interface PostService {
 
     //검색 기능
     Page<PostWithUserResponseDTO> searchPosts(String travelCity, PreferredGender preferredGender, String[] travelStyles, String travelStatus, LocalDate startDate, LocalDate endDate, String[] travelNationalities, Pageable pageable);
+
+    Page<PostResponseDTO> getPostsByUserId(UUID userId, Pageable pageable);
 }

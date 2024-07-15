@@ -15,4 +15,6 @@ public interface PostRepository extends JpaRepository<PostEntity, UUID>, JpaSpec
     Page<PostEntity> findAll(Pageable pageable);
 
     Page<PostEntity> findAll(Specification<PostEntity> spec, Pageable pageable);
+
+    Page<PostEntity> findByUserId(UUID userId, Pageable pageable);
 }
