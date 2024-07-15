@@ -37,6 +37,10 @@ public class CommunityEntity {
     @Column(name = "view_count")
     private Long viewCount;
 
+    @Column(name = "like_count", nullable = false)
+    private int likeCount = 0;
+
+
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageEntity> images;
 

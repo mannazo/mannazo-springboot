@@ -15,7 +15,4 @@ public class CommunityCumstomRepositoryImpl implements CommunityCustomRepository
     public List<CommunityEntity> findAllByUserId(UUID userId) {
         return List.of();
     }
-
-
-
 }

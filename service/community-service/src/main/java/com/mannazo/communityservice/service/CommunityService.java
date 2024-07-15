@@ -6,6 +6,7 @@ import com.mannazo.communityservice.dto.response.CommunityWithUserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface CommunityService {
@@ -19,9 +20,5 @@ public interface CommunityService {
 
     CommunityResponseDTO updateCommunity(UUID communityId, CommunityRequestDTO community);
 
-    void likeCommunity(UUID communityId, UUID userId);
-
-    void unlikeCommunity(UUID communityId, UUID userId);
-
-    int getLikesCount(UUID communityId);
+    List<UUID> findAllCommunityIds();
 }

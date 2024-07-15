@@ -14,6 +14,7 @@ import com.mannazo.communityservice.mapStruct.CommunityResponseMapStruct;
 import com.mannazo.communityservice.repository.CommunityRepository;
 import com.mannazo.communityservice.repository.LikeRepository;
 import com.mannazo.communityservice.service.CommunityService;
+import com.mannazo.communityservice.service.LikeService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityRequestMapStruct communityRequsetMapStruct;
     private final LikeRepository likeRepository;
     private final UserServiceClient userServiceClient;
+    private final LikeService likeService;
 
     @Override
     public CommunityResponseDTO createCommunity(CommunityRequestDTO community) {
@@ -140,28 +142,8 @@ public class CommunityServiceImpl implements CommunityService {
         return communityResponseMapStruct.toResponseDTO(updatedEntity);
     }
 
-    @Transactional
-    public void likeCommunity(UUID communityId, UUID userId) {
-        CommunityEntity community = communityRepository.findById(communityId)
-                .orElseThrow(() -> new EntityNotFoundException("Community not found with id: " + communityId));
-        if (likeRepository.existsByCommunityCommunityIdAndUserId(communityId, userId)) {
-            throw new IllegalStateException("User already liked this community");
-        }
-        LikeEntity like = new LikeEntity();
-        like.setCommunity(community);
-        like.setUserId(userId);
-        likeRepository.save(like);
-    }
-
-    @Transactional
-    public void unlikeCommunity(UUID communityId, UUID userId) {
-        if (!likeRepository.existsByCommunityCommunityIdAndUserId(communityId, userId)) {
-            throw new EntityNotFoundException("Like not found");
-        }
-        likeRepository.deleteByCommunityCommunityIdAndUserId(communityId, userId);
-    }
-
-    public int getLikesCount(UUID communityId) {
-        return likeRepository.countByCommunityCommunityId(communityId);
+    @Override
+    public List<UUID> findAllCommunityIds() {
+        return communityRepository.findAllCommunityIds();
     }
 }
