@@ -1,5 +1,5 @@
-# Eclipse Adoptium Temurin JDK 17을 사용하여 최종 이미지 생성
-FROM eclipse-temurin:17
+# 베이스 이미지 선택: Alpine Linux 기반의 AdoptOpenJDK 17 JRE 이미지
+FROM adoptopenjdk/openjdk17:alpine-jre
 
 # 빌드 이미지에서 생성된 JAR 파일 복사
 COPY *.jar /app.jar
