@@ -1,5 +1,5 @@
 # 베이스 이미지 선택: Alpine Linux 기반의 AdoptOpenJDK 17 JRE 이미지
-FROM adoptopenjdk/openjdk17:alpine-jre
+FROM openjdk:17-jre-alpine
 
 # 빌드 이미지에서 생성된 JAR 파일 복사
 COPY *.jar /app.jar
