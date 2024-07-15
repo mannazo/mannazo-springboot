@@ -183,5 +183,11 @@ public class PostServiceImpl implements PostService {
             return compositeDTO;
         });
     }
+
+    @Override
+    public Page<PostResponseDTO> getPostsByUserId(UUID userId, Pageable pageable) {
+        Page<PostEntity> posts = postRepository.findByUserId(userId, pageable);
+        return posts.map(post -> postResponseMapStruct.toResponseDTO(post));
+    }
 }
 
