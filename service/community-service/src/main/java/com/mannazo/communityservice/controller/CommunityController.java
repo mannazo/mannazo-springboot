@@ -4,6 +4,7 @@ import com.mannazo.communityservice.dto.request.CommunityRequestDTO;
 import com.mannazo.communityservice.dto.response.CommunityResponseDTO;
 import com.mannazo.communityservice.dto.response.CommunityWithUserDTO;
 import com.mannazo.communityservice.service.CommunityService;
+import com.mannazo.communityservice.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class CommunityController {
 
     private final CommunityService communityService;
+    private final LikeService likeService;
 
     @GetMapping("/")
     public String community() {
@@ -62,19 +64,19 @@ public class CommunityController {
 
     @PostMapping("/{communityId}/like")
     public ResponseEntity<Void> likeCommunity(@PathVariable UUID communityId, @RequestParam UUID userId) {
-        communityService.likeCommunity(communityId, userId);
+        likeService.likeCommunity(communityId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{communityId}/like")
     public ResponseEntity<String> unlikeCommunity(@PathVariable UUID communityId, @RequestParam UUID userId) {
-        communityService.unlikeCommunity(communityId, userId);
+        likeService.unlikeCommunity(communityId, userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("좋아요 취소");
     }
 
     @GetMapping("/{communityId}/likes")
     public ResponseEntity<Integer> getLikesCount(@PathVariable UUID communityId) {
-        int likesCount = communityService.getLikesCount(communityId);
-        return ResponseEntity.status(HttpStatus.OK).body(likesCount);
+        Long likesCount = likeService.getLikesCount(communityId);
+        return ResponseEntity.status(HttpStatus.OK).body(likesCount.intValue());
     }
 }
