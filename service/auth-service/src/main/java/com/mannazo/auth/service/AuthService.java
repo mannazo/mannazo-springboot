@@ -12,4 +12,6 @@ public interface AuthService {
     SocialDTO saveSocialUser(SocialDTO socialDTO);
 
     LoginResponseDTO getSocialLogin(LoginRequestDTO loginRequestDTO);
+
+    String delSocialLogin(UUID userid);
 }
