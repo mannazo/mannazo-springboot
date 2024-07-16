@@ -7,7 +7,7 @@ export JAVA_HOME="C:\\Users\\dilig\\.jdks\\corretto-17.0.11"
 all_modules=("server:api-gateway" "server:config-server" "server:eureka-server"
                  "service:user-service" "service:auth-service" "service:chat-service"
                  "service:admin-service" "service:post-service" "service:shop-service"
-                 "service:community-service")
+                 "service:community-service" "service:review-service")
 
 # Gradle clean
 echo "Cleaning..."

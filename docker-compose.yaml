@@ -103,6 +103,16 @@ services:
       - config-server
       - eureka-server
 
+  review-service:
+    build:
+      context: ./service/review-service/
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - config-server
+      - eureka-server
+
 networks:
   app-network:
     driver: bridge
