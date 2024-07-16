@@ -35,4 +35,10 @@ public class AuthController {
         log.info("소셜 테이블 등록 요청 \n {}",socialDTO.toString());
         return ResponseEntity.status(HttpStatus.OK).body(authService.saveSocialUser(socialDTO));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> Delete(@RequestParam UUID userId) {
+        authService.delSocialLogin(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(authService.delSocialLogin(userId));
+    }
 }

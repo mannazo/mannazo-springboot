@@ -130,4 +130,13 @@ public class AuthServiceImpl implements AuthService{
                 .map(socialEntity -> createResponseForExistingUser(userResponseDTOOptional))
                 .orElseGet(() -> createResponseForNewUser(false));
     }
+
+
+    // 소셜 로그인 기록 제거
+    @Override
+    public String delSocialLogin(UUID userid) {
+        authRepository.deleteById(userid);
+
+        return "UserId : {} 삭제 완료";
+    }
 }
