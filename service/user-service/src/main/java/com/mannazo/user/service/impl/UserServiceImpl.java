@@ -76,7 +76,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(UUID userId) {
+        log.info("데이터베이스에서 유저를 삭제합니다 \n");
         userRepository.deleteById(userId);
+        // Auth-Service 소셜 정보 삭제 요청
+        log.info("소셜 로그인 정보를 삭제합니다. \n");
         authClient.delete(userId);
     }
 

@@ -59,11 +59,11 @@ public class UserController {
 
     // 유저 삭제
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
+    public ResponseEntity<UUID> deleteUser(@PathVariable UUID userId) {
+        log.info("유저 삭제 요청이 들어왔습니다. \n {}", userId);
         userService.deleteUser(userId);
-
-        String text = userId+"가 성공적으로 삭제되었습니다.";
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
+        log.info("유저 삭제 완료 \n {}", userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(userId);
     }
 
     @GetMapping("/count/{nationality}")
