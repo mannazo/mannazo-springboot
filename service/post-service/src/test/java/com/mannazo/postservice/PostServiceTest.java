@@ -131,7 +131,7 @@ public class PostServiceTest {
         List<String> imageUrls = new ArrayList<>();
         int numImages = random.nextInt(5) + 1; // 1~5개의 이미지 URL 생성
         for (int i = 0; i < numImages; i++) {
-            imageUrls.add("https://example.com/image" + (i + 1) + ".jpg");
+            imageUrls.add("https://picsum.photos/200/300?random" + (i + 1));
         }
         return imageUrls;
     }

@@ -1,20 +1,20 @@
 package com.mannazo.shopservice.service;
 
-import com.mannazo.shopservice.dto.ShopRequestDTO;
-import com.mannazo.shopservice.dto.ShopResponseDTO;
+import com.mannazo.shopservice.dto.ProductRequestDTO;
+import com.mannazo.shopservice.dto.ProductResponseDTO;
 
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ShopService {
-    ShopResponseDTO getShop(UUID shopId);
+    ProductResponseDTO getProduct(UUID productId);
 
-    List<ShopResponseDTO> findAll();
+    List<ProductResponseDTO> findAll();
 
-    ShopResponseDTO createShop(ShopRequestDTO shop);
+    ProductResponseDTO createProduct(ProductRequestDTO product);
 
-    void deleteShop(UUID shopId);
+    void deleteProduct(UUID productId);
 
-    ShopResponseDTO updateShop(UUID shopId, ShopRequestDTO shop);
+    ProductResponseDTO updateProduct(UUID productId, ProductRequestDTO product);
 }
