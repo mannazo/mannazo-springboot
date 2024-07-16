@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> Delete(UUID userId) {
+    public ResponseEntity<String> Delete(@RequestParam UUID userId) {
         authService.delSocialLogin(userId);
         return ResponseEntity.status(HttpStatus.OK).body(authService.delSocialLogin(userId));
     }
