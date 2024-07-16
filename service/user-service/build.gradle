@@ -46,3 +46,37 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 }
 
+// 배포에 필요한 최소한의 의존성만 포함합니다.
+def prodProfile = {
+    dependencies {
+            // SpringBoot Starter
+            implementation 'org.springframework.boot:spring-boot-starter'
+            implementation 'org.springframework.boot:spring-boot-starter-web'
+            implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+            // Mysql
+            runtimeOnly 'com.mysql:mysql-connector-j'
+
+            // Lombok
+            compileOnly 'org.projectlombok:lombok'
+            annotationProcessor 'org.projectlombok:lombok'
+            testCompileOnly 'org.projectlombok:lombok'
+            testAnnotationProcessor 'org.projectlombok:lombok'
+
+            // MapStruct (무조건 Lombok 다음에 설치)
+            implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+            annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+            // Config Client
+            implementation 'org.springframework.boot:spring-boot-starter-actuator'
+            implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+            // Swagger
+            implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    }
+}
+
+// 배포용 프로파일을 적용할 때
+if (project.hasProperty('prod')) {
+    apply prodProfile
+}

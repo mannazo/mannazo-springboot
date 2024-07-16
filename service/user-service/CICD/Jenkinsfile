@@ -55,7 +55,7 @@ pipeline {
                     sh 'chmod +x ../../gradlew'
 
                     // Gradle 빌드 실행
-                    sh '../../gradlew bootJar --no-daemon'
+                    sh '../../gradlew bootJar -Pprod --no-daemon'
 
                     // 빌드된 artifact (JAR 파일)을 CICD 폴더로 복사
                     sh 'cp build/libs/*.jar CICD/' 
