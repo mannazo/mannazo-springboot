@@ -9,7 +9,9 @@ import com.mannazo.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -35,7 +37,7 @@ public class ChatController {
     @PostMapping("/")
     public Mono<Message> sendMsg(@RequestBody Message message) {
         message.setCreatedAt(LocalDateTime.now());
-        return chatService.saveMsg(message);
+        return chatService.sendMsg(message);
     }
 
     // 채팅방 입장
@@ -51,10 +53,10 @@ public class ChatController {
         return chatService.findAllChatRoomByUserId(userId);
     }
 
-    // 채팅방 생성
+    // 채팅 시작하기 (생성 또는 이미 있는 채팅방)
     @PostMapping("/room")
-    public ChatRoomEntity createRoom(@RequestBody ChatRoomRequestDTO chatRoomDTO) {
-        return chatService.saveChatRoom(chatRoomDTO);
+    public ResponseEntity<ChatRoomResponseDTO> createRoom(@RequestBody ChatRoomRequestDTO chatRoomDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatService.saveChatRoom(chatRoomDTO));
     }
 
 }

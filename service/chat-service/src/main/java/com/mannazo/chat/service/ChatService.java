@@ -10,10 +10,9 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface ChatService {
-    Flux<Message> getMsg(String sender, String receiver);
     Flux<Message> findByRoomId(String roomId);
-    Mono<Message> saveMsg(Message message);
+    Mono<Message> sendMsg(Message message);
 
     List<ChatRoomResponseDTO> findAllChatRoomByUserId(String userId);
-    ChatRoomEntity saveChatRoom(ChatRoomRequestDTO chatRoomDTO);
+    ChatRoomResponseDTO saveChatRoom(ChatRoomRequestDTO chatRoomDTO);
 }

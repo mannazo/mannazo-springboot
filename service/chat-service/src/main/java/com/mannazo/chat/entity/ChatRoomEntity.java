@@ -16,6 +16,7 @@ public class ChatRoomEntity {
     private String roomId;
     private String user1Id;
     private String user2Id;
+//    private String lastMessageId;
 
     private LocalDateTime createdAt;
 
