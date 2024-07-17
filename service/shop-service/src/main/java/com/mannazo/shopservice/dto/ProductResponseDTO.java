@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,6 @@ public class ProductResponseDTO {
     private String category;
     private int stock;
     private String price;
-    private Timestamp createAt;
+    private LocalDateTime createAt;
     private List<OrderItemResponseDTO> orderItems;
 }

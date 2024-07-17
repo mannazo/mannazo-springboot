@@ -59,5 +59,16 @@ public class OrderController {
         List<OrderResponseDTO> orders = orderService.getOrdersByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCount() {
+        Integer count = orderService.getCount();
+        return ResponseEntity.status(HttpStatus.OK).body(count);
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<OrderResponseDTO>> getRecentOrders() {
+        List<OrderResponseDTO> orders = orderService.getRecentOrders();
+        return ResponseEntity.status(HttpStatus.OK).body(orders);
+    }
 
 }

@@ -17,4 +17,8 @@ public interface OrderService {
     List<OrderItemResponseDTO> getOrderItems(UUID orderId);
 
     List<OrderResponseDTO> getOrdersByUser(UUID userId);
+
+    Integer getCount();
+
+    List<OrderResponseDTO> getRecentOrders();
 }
