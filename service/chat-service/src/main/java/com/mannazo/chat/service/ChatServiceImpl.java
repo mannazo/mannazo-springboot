@@ -55,14 +55,14 @@ public class ChatServiceImpl implements ChatService {
                     // ChatRoomEntity를 ChatRoomResponseDTO로 변환
                     ChatRoomResponseDTO chatRoomResponseDTO = chatRoomMapper.toDto(chatRoom);
 
-                    // 채팅방의 마지막 메시지 조회
-                    Optional<Message> lastMessageOpt = messageRepository.findTopByRoomIdOrderByCreatedAtDesc(chatRoom.getRoomId());
-
-                    // 마지막 메시지를 ChatRoomResponseDTO에 설정
-                    lastMessageOpt.ifPresent(lastMessage -> {
-                        chatRoomResponseDTO.setLastMessage(lastMessage.getMsg());
-                        chatRoomResponseDTO.setLastMessageTime(lastMessage.getCreatedAt());
-                    });
+//                    // 채팅방의 마지막 메시지 조회
+//                    Optional<Message> lastMessageOpt = messageRepository.findTopByRoomIdOrderByCreatedAtDesc(chatRoom.getRoomId());
+//
+//                    // 마지막 메시지를 ChatRoomResponseDTO에 설정
+//                    lastMessageOpt.ifPresent(lastMessage -> {
+//                        chatRoomResponseDTO.setLastMessage(lastMessage.getMsg());
+//                        chatRoomResponseDTO.setLastMessageTime(lastMessage.getCreatedAt());
+//                    });
 
                     return chatRoomResponseDTO;
                 })

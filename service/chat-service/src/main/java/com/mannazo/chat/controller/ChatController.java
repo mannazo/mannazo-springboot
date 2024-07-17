@@ -50,6 +50,7 @@ public class ChatController {
     // 채팅방 목록 확인
     @GetMapping("/room/userId/{userId}")
     public List<ChatRoomResponseDTO> findAllByUserId(@PathVariable("userId") String userId) {
+        log.info("채팅목록 확인 요청이 들어왔습니다. {} ",userId);
         return chatService.findAllChatRoomByUserId(userId);
     }
 
