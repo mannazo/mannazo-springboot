@@ -5,10 +5,9 @@ import com.mannazo.communityservice.client.dto.UserResponseDTO;
 import com.mannazo.communityservice.dto.request.CommunityRequestDTO;
 import com.mannazo.communityservice.dto.response.CommunityResponseDTO;
 import com.mannazo.communityservice.dto.response.CommunityWithUserDTO;
-import com.mannazo.communityservice.eception.CommunityNotFoundException;
+import com.mannazo.communityservice.exception.CommunityNotFoundException;
 import com.mannazo.communityservice.entity.ImageEntity;
 import com.mannazo.communityservice.entity.CommunityEntity;
-import com.mannazo.communityservice.entity.LikeEntity;
 import com.mannazo.communityservice.mapStruct.CommunityRequestMapStruct;
 import com.mannazo.communityservice.mapStruct.CommunityResponseMapStruct;
 import com.mannazo.communityservice.repository.CommunityRepository;
@@ -19,14 +18,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -63,12 +60,13 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    @Transactional
     public CommunityWithUserDTO getCommunity(UUID communityId) {
         CommunityWithUserDTO communityWithUserDTO = new CommunityWithUserDTO();
 
         // 1. 커뮤니티 정보 조회
         CommunityEntity communityEntity = communityRepository.findById(communityId)
-                .orElseThrow(() -> new CommunityNotFoundException("Community not found with id: " + communityId));
+                .orElseThrow(CommunityNotFoundException::new);
 
         // 2. 커뮤니티 정보 매핑
         CommunityResponseDTO communityResponseDTO = communityResponseMapStruct.toResponseDTO(communityEntity);
@@ -110,7 +108,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunityResponseDTO updateCommunity(UUID communityId, CommunityRequestDTO community) {
         CommunityEntity communityEntity = communityRepository.findById(communityId)
-                .orElseThrow(() -> new EntityNotFoundException("Community not found with id: " + communityId));
+                .orElseThrow(() -> new CommunityNotFoundException("Community not found with id: " + communityId));
 
         // 기존 이미지 유지
         List<ImageEntity> currentImages = communityEntity.getImages();

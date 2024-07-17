@@ -17,6 +17,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @GetMapping("")
+    public ResponseEntity<String> hello() {
+        String text = "Hello Review-Service";
+        return ResponseEntity.status(HttpStatus.OK).body(text);
+    }
+
     @PostMapping("")
     public ResponseEntity<ReviewResponseDTO> createReview(@RequestBody ReviewRequestDTO review) {
         ReviewResponseDTO createdReview = reviewService.createReview(review);
@@ -29,7 +35,7 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(review);
     }
 
-    @GetMapping("")
+    @GetMapping("/findAll")
     public ResponseEntity<List<ReviewResponseDTO>> findAll() {
         List<ReviewResponseDTO> reviews = reviewService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
@@ -48,9 +54,15 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/reviewer/{userId}")
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable UUID userId) {
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(reviews);
+    }
+
+    @GetMapping("/reviewee/{userId}")
+    public ResponseEntity<List<ReviewResponseDTO>> getRecievedReviewsByUser(@PathVariable UUID userId) {
+        List<ReviewResponseDTO> reviews = reviewService.getRecievedReviewsByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }
 

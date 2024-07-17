@@ -12,6 +12,8 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, UUID>, Rev
 
     List<ReviewEntity> findByReviewerId(UUID userId);
 
+    List<ReviewEntity> findByRevieweeId(UUID userId);
+
     @Override
     double getAverageRating(UUID userId);
 }
