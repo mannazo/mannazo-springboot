@@ -43,4 +43,7 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> orderItems;
 
+    public String getPrice() {
+        return price != null ? price : "0";
+    }
 }

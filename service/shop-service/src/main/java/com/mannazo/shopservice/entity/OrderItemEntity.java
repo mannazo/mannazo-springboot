@@ -17,19 +17,16 @@ public class OrderItemEntity {
     private UUID orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private OrderEntity order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private String price;
-
-    @Column(name = "total_price", nullable = false)
-    private String totalPrice;
 }

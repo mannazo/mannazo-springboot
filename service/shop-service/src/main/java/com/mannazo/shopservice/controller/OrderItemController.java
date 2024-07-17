@@ -17,12 +17,6 @@ import java.util.UUID;
 public class OrderItemController {
     private final OrderItemService orderItemService;
 
-    @PostMapping
-    public ResponseEntity<OrderItemResponseDTO> createOrderItem(@RequestBody OrderItemRequestDTO orderItemRequestDTO) {
-        OrderItemResponseDTO createdOrderItem = orderItemService.createOrderItem(orderItemRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItem);
-    }
-
     @GetMapping("/{orderItemId}")
     public ResponseEntity<OrderItemResponseDTO> getOrderItem(@PathVariable UUID orderItemId) {
         OrderItemResponseDTO orderItem = orderItemService.getOrderItem(orderItemId);

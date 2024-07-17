@@ -12,5 +12,4 @@ public class OrderItemResponseDTO {
     private UUID productId;
     private int quantity;
     private String price;
-    private String totalPrice;
 }

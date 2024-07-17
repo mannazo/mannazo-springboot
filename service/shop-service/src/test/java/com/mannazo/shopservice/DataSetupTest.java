@@ -69,22 +69,22 @@ public class DataSetupTest {
         List<OrderEntity> orders = List.of(order1, order2, order3);
         orderRepository.saveAll(orders);
 
-        // Create order items
-        createOrderItem(order1, product1, 2, "10000");
-        createOrderItem(order1, product2, 1, "15000");
-        createOrderItem(order2, product3, 3, "12000");
-        createOrderItem(order2, product4, 1, "8000");
-        createOrderItem(order3, product5, 2, "20000");
-        createOrderItem(order3, product6, 2, "9000");
+//        // Create order items
+//        createOrderItem(order1, product1, 2, "10000");
+//        createOrderItem(order1, product2, 1, "15000");
+//        createOrderItem(order2, product3, 3, "12000");
+//        createOrderItem(order2, product4, 1, "8000");
+//        createOrderItem(order3, product5, 2, "20000");
+//        createOrderItem(order3, product6, 2, "9000");
 
-        // Save order items to repository
-        List<OrderItemEntity> orderItems = orderItemRepository.findAll();
-        orderItems.forEach(orderItem -> {
-            System.out.println("Order Item ID: " + orderItem.getOrderItemId() +
-                    ", Product: " + orderItem.getProduct().getProductName() +
-                    ", Quantity: " + orderItem.getQuantity() +
-                    ", Price: " + orderItem.getPrice());
-        });
+//        // Save order items to repository
+//        List<OrderItemEntity> orderItems = orderItemRepository.findAll();
+//        orderItems.forEach(orderItem -> {
+//            System.out.println("Order Item ID: " + orderItem.getOrderItemId() +
+//                    ", Product: " + orderItem.getProduct().getProductName() +
+//                    ", Quantity: " + orderItem.getQuantity() +
+//                    ", Price: " + orderItem.getPrice());
+//        });
     }
 
     private ProductEntity createProduct(String name, String description, String category, int stock, String price) {
@@ -123,13 +123,12 @@ public class DataSetupTest {
         return order;
     }
 
-    private void createOrderItem(OrderEntity order, ProductEntity product, int quantity, String price) {
-        OrderItemEntity orderItem = new OrderItemEntity();
-        orderItem.setOrder(order);
-        orderItem.setProduct(product);
-        orderItem.setQuantity(quantity);
-        orderItem.setPrice(price);
-        orderItem.setTotalPrice(String.valueOf(quantity * Integer.parseInt(price)));
-        orderItemRepository.save(orderItem);
-    }
+//    private void createOrderItem(OrderEntity order, ProductEntity product, int quantity, String price) {
+//        OrderItemEntity orderItem = new OrderItemEntity();
+//        orderItem.setOrder(order);
+//        orderItem.setProduct(product);
+//        orderItem.setQuantity(quantity);
+//        orderItem.setPrice(price);
+//        orderItemRepository.save(orderItem);
+//    }
 }

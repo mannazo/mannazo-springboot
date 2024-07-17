@@ -16,6 +16,7 @@ public class OrderRequestDTO {
     private String addr;
     private String postcode;
     private String merchantUid;
+    private String totalPrice;
     private List<OrderItemRequestDTO> orderItems;
     private String orderStatus;
 }

@@ -74,4 +74,13 @@ public class ShopServiceImpl implements ShopService {
         productRepository.save(productEntity);
         return productResponseMapStruct.toDTO(productEntity);
     }
+
+    @Override
+    public ProductEntity getProductById(UUID productId) {
+        Optional<ProductEntity> productEntity = productRepository.findById(productId);
+        if (productEntity.isPresent()) {
+            return productEntity.get();
+        }
+        return productEntity.get();
+    }
 }
