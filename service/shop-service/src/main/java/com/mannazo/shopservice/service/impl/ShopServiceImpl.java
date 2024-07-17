@@ -1,11 +1,12 @@
 package com.mannazo.shopservice.service.impl;
 
-import com.mannazo.shopservice.repository.ShopRepository;
-import com.mannazo.shopservice.dto.ShopRequestDTO;
-import com.mannazo.shopservice.dto.ShopResponseDTO;
-import com.mannazo.shopservice.entity.ShopEntity;
-import com.mannazo.shopservice.mapStruct.ShopRequestMapStruct;
-import com.mannazo.shopservice.mapStruct.ShopResponseMapStruct;
+import com.mannazo.shopservice.entity.ImageEntity;
+import com.mannazo.shopservice.entity.ProductEntity;
+import com.mannazo.shopservice.mapStruct.ProductRequestMapStruct;
+import com.mannazo.shopservice.repository.ProductRepository;
+import com.mannazo.shopservice.dto.ProductRequestDTO;
+import com.mannazo.shopservice.dto.ProductResponseDTO;
+import com.mannazo.shopservice.mapStruct.ProductResponseMapStruct;
 import com.mannazo.shopservice.service.ShopService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,49 +15,63 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
 
-    private final ShopRepository shopRepository;
-    private final ShopResponseMapStruct shopResponseMapStruct;
-    private final ShopRequestMapStruct shopRequsetMapStruct;
+    private final ProductRepository productRepository;
+    private final ProductResponseMapStruct productResponseMapStruct;
+    private final ProductRequestMapStruct productRequestMapStruct;
 
     @Override
-    public ShopResponseDTO createShop(ShopRequestDTO shop) {
-        ShopEntity shopEntity = shopRequsetMapStruct.toEntity(shop);
-        ShopEntity savedEntity = shopRepository.save(shopEntity);
-        return shopResponseMapStruct.toShopResponseDTO(savedEntity);
+    public ProductResponseDTO createProduct(ProductRequestDTO product) {
+        ProductEntity productEntity = productRequestMapStruct.toEntity(product);
+
+        // 이미지 URL을 ImageEntity로 변환하여 설정
+        if (product.getImageUrls() != null && !product.getImageUrls().isEmpty()) {
+            List<ImageEntity> images = product.getImageUrls().stream()
+                    .map(url -> {
+                        ImageEntity imageEntity = new ImageEntity();
+                        imageEntity.setFilePath(url);
+                        imageEntity.setProduct(productEntity); // 이미지와 게시물 간의 양방향 매핑 설정
+                        return imageEntity;
+                    })
+                    .collect(Collectors.toList());
+            productEntity.setImages(images); // 게시물 엔티티에 이미지 엔티티 리스트 설정
+        }
+        ProductEntity savedEntity = productRepository.save(productEntity);
+        return productResponseMapStruct.toDTO(savedEntity);
     }
 
     @Override
-    public ShopResponseDTO getShop(UUID shopId) {
-        Optional<ShopEntity> shopEntity = shopRepository.findById(shopId);
-        ShopResponseDTO shopInfo = shopResponseMapStruct.toShopResponseDTO(shopEntity.orElse(null));
-        return shopInfo;
+    public ProductResponseDTO getProduct(UUID productId) {
+        Optional<ProductEntity> productEntity = productRepository.findById(productId);
+        ProductResponseDTO productInfo = productResponseMapStruct.toDTO(productEntity.orElse(null));
+        return productInfo;
     }
 
     @Override
-    public List<ShopResponseDTO> findAll() {
+    public List<ProductResponseDTO> findAll() {
 
-        List<ShopEntity> list = shopRepository.findAll();
-        List<ShopResponseDTO> shopResponseDTOS = shopResponseMapStruct.toShopResponseListDTO(list);
+        List<ProductEntity> list = productRepository.findAll();
+        List<ProductResponseDTO> productResponseDTOS = productResponseMapStruct.toDTOList(list);
 
-        return shopResponseDTOS;
+        return productResponseDTOS;
     }
 
     @Override
-    public void deleteShop(UUID shopId) {
-        shopRepository.deleteById(shopId);
+    public void deleteProduct(UUID productId) {
+        productRepository.deleteById(productId);
     }
 
     @Override
-    public ShopResponseDTO updateShop(UUID shopId, ShopRequestDTO shop) {
-        ShopEntity shopEntity = shopRepository.findById(shopId)
-                .orElseThrow(() -> new EntityNotFoundException("Shop not found with id: " + shopId));
-        shopRequsetMapStruct.updateShopFromDto(shop, shopEntity);
-        shopRepository.save(shopEntity);
-        return shopResponseMapStruct.toShopResponseDTO(shopEntity);
+    public ProductResponseDTO updateProduct(UUID productId, ProductRequestDTO product) {
+        ProductEntity productEntity = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Shop not found with id: " + productId));
+        productRequestMapStruct.updateEntityFromDto(product, productEntity);
+        productRepository.save(productEntity);
+        return productResponseMapStruct.toDTO(productEntity);
     }
 }
