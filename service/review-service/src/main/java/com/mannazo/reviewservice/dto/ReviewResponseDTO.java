@@ -12,7 +12,6 @@ import java.util.UUID;
 @Setter
 public class ReviewResponseDTO {
     private UUID reviewId;
-    private UUID sessionId;
     private UUID reviewerId;
     private UUID revieweeId;
     private int rating;

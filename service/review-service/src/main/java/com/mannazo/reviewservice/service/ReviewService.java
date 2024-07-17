@@ -19,5 +19,7 @@ public interface ReviewService {
 
     List<ReviewResponseDTO> getReviewsByUser(UUID userId);
 
+    List<ReviewResponseDTO> getRecievedReviewsByUser(UUID userId);
+
     double getAverageRating(UUID userId);
 }

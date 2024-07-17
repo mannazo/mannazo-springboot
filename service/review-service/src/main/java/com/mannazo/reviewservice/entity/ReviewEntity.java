@@ -19,9 +19,6 @@ public class ReviewEntity {
     @Column(name = "review_id", nullable = false, unique = true)
     private UUID reviewId;
 
-    @Column(name = "session_id", nullable = false)
-    private UUID sessionId;
-
     @Column(name = "reviewer_id", nullable = false)
     private UUID reviewerId;
 

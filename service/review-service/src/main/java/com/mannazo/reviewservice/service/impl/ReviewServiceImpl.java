@@ -67,6 +67,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<ReviewResponseDTO> getRecievedReviewsByUser(UUID userId) {
+        List<ReviewEntity> recievedReviews = reviewRepository.findByRevieweeId(userId);
+        return responseMapStruct.toReviewResponseListDTO(recievedReviews);
+    }
+
+    @Override
     public double getAverageRating(UUID userId) {
         return reviewRepository.getAverageRating(userId);
     }
