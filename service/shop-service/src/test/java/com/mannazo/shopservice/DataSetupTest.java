@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -94,7 +95,7 @@ public class DataSetupTest {
         product.setCategory(category);
         product.setStock(stock);
         product.setPrice(price);
-        product.setCreateAt(new Timestamp(System.currentTimeMillis()));
+        product.setCreateAt(LocalDateTime.now());
         return product;
     }
 

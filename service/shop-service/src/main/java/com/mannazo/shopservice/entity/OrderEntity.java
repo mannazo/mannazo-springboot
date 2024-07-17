@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,6 +45,9 @@ public class OrderEntity {
     @Column(name = "total_price")
     private String totalPrice;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> orderItems;
 
@@ -51,19 +55,10 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    // totalPrice를 계산하는 메서드
-    public void calculateTotalPrice() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (OrderItemEntity item : orderItems) {
-            String price = item.getPrice();
-            if (price != null && !price.isEmpty()) {
-                total = total.add(new BigDecimal(price).multiply(BigDecimal.valueOf(item.getQuantity())));
-            } else {
-                log.error("주문 항목의 가격이 설정되지 않았습니다: {}", item.getOrderItemId());
-                throw new IllegalStateException("주문 항목의 가격이 설정되지 않았습니다: " + item.getOrderItemId());
-            }
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now(); // 현재 시간으로 기본값 설정
         }
-        this.totalPrice = total.toString();
-        log.debug("Total price calculated: {}", this.totalPrice);
     }
 }

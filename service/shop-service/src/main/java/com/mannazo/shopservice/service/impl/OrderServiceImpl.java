@@ -45,7 +45,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO orderRequestDTO) {
         OrderEntity orderEntity = orderRequestMapStruct.toEntity(orderRequestDTO);
-        orderEntity.setTotalPrice("0"); // 초기값 설정
 
         // OrderItems 리스트 초기화
         List<OrderItemEntity> orderItems = new ArrayList<>();
@@ -58,12 +57,6 @@ public class OrderServiceImpl implements OrderService {
 
         // OrderEntity에 orderItems 설정
         orderEntity.setOrderItems(orderItems);
-
-        // 총 가격 계산
-        orderEntity.calculateTotalPrice();
-        log.debug("Calculated total price: {}", orderEntity.getTotalPrice());
-
-        orderEntity.setOrderStatus(OrderStatus.Pending);
 
         try {
             // 트랜잭션이 올바르게 시작되었는지 확인
@@ -139,6 +132,29 @@ public class OrderServiceImpl implements OrderService {
             // 예외 발생 시 로깅하고 빈스트 반환 또는 예외 던지기
             log.error("Failed to get orders for userId: {}", userId, e);
             throw new RuntimeException("Failed to get orders for userId: " + userId, e);
+        }
+    }
+
+    @Override
+    public Integer getCount() {
+        try {
+            return (int) orderRepository.count();
+        } catch (Exception e) {
+            log.error("Failed to get order count", e);
+            throw new RuntimeException("Failed to get order count", e);
+        }
+    }
+
+    @Override
+    public List<OrderResponseDTO> getRecentOrders() {
+        try {
+            List<OrderEntity> orders = orderRepository.findTop10ByOrderByCreatedAtDesc();
+            return orders.stream()
+                    .map(orderResponseMapStruct::toDTO)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Failed to get recent orders", e);
+            throw new RuntimeException("Failed to get recent orders", e);
         }
     }
 }

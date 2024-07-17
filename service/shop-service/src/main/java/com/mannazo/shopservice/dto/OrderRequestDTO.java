@@ -3,6 +3,7 @@ package com.mannazo.shopservice.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public class OrderRequestDTO {
     private String postcode;
     private String merchantUid;
     private String totalPrice;
+    private LocalDateTime createdAt;
     private List<OrderItemRequestDTO> orderItems;
     private String orderStatus;
 }
