@@ -4,7 +4,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .gradle
-mannazo-springboot-secret\
+mannazo-springboot-secret/
+generated/
 
 ### STS ###
 .apt_generated

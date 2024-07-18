@@ -50,6 +50,6 @@ public class ShopController {
     public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
         shopService.deleteProduct(productId);
         String text = productId+"가 성공적으로 삭제되었습니다.";
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);
+        return ResponseEntity.status(HttpStatus.OK).body(text);
     }
 }

@@ -3,7 +3,6 @@ package com.mannazo.shopservice.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -20,5 +19,4 @@ public class ProductResponseDTO {
     private int stock;
     private String price;
     private LocalDateTime createAt;
-    private List<OrderItemResponseDTO> orderItems;
 }
