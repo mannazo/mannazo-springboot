@@ -46,14 +46,15 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<ChatRoomResponseDTO> findAllChatRoomByUserId(String userId) {
-        // 받은 채팅방 리스트를 조회
+        log.info("채팅방 리스트를 조회합니다.");
         List<ChatRoomEntity> chatRooms = chatRoomRepository.findAllByUserId(userId);
 
-        // 각 채팅방에 대한 ChatRoomResponseDTO를 매핑하여 리스트로 반환
+        log.info("채팅방에 대한 ChatRoomResponseDTO를 매핑하여 리스트로 반환합니다.");
         List<ChatRoomResponseDTO> chatRoomResponseDTOList = chatRooms.stream()
                 .map(chatRoom -> {
                     // ChatRoomEntity를 ChatRoomResponseDTO로 변환
                     ChatRoomResponseDTO chatRoomResponseDTO = chatRoomMapper.toDto(chatRoom);
+                    log.info("채팅방 : {}", chatRoomResponseDTO);
 
 //                    // 채팅방의 마지막 메시지 조회
 //                    Optional<Message> lastMessageOpt = messageRepository.findTopByRoomIdOrderByCreatedAtDesc(chatRoom.getRoomId());
@@ -67,7 +68,7 @@ public class ChatServiceImpl implements ChatService {
                     return chatRoomResponseDTO;
                 })
                 .collect(Collectors.toList());
-
+        log.info("다음 채팅방 리스트를 반환합니다 : {}", chatRoomResponseDTOList);
         return chatRoomResponseDTOList;
     }
 

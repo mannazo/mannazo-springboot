@@ -36,6 +36,7 @@ public class ChatController {
     // 메시지 보내기
     @PostMapping("/")
     public Mono<Message> sendMsg(@RequestBody Message message) {
+        log.info("메시지 전송 요청");
         message.setCreatedAt(LocalDateTime.now());
         return chatService.sendMsg(message);
     }
@@ -43,6 +44,7 @@ public class ChatController {
     // 채팅방 입장
     @GetMapping(value = "/roomId/{roomId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Message> findByRoomId(@PathVariable("roomId") String roomId) {
+        log.info("채팅입장 요청이 들어왔습니다. {} ",roomId);
         return chatService.findByRoomId(roomId)
                 .subscribeOn(Schedulers.boundedElastic());
     }
