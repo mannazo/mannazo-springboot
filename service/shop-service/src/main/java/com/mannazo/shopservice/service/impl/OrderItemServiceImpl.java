@@ -12,13 +12,16 @@ import com.mannazo.shopservice.repository.OrderItemRepository;
 import com.mannazo.shopservice.service.OrderItemService;
 import com.mannazo.shopservice.service.ShopService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
@@ -32,10 +35,9 @@ public class OrderItemServiceImpl implements OrderItemService {
         OrderItemEntity orderItemEntity = new OrderItemEntity();
         orderItemEntity.setOrder(orderEntity);
 
-        ProductEntity productEntity = shopService.getProductById(item.getProductId());
-        if (productEntity == null) {
-            throw new ProductNotFoundException("상품을 찾을 수 없습니다: " + item.getProductId());
-        }
+        Optional<ProductEntity> productEntityOptional = shopService.getProductById(item.getProductId());
+        ProductEntity productEntity = productEntityOptional
+                .orElseThrow(() -> new ProductNotFoundException("상품을 찾을 수 없습니다: " + item.getProductId()));
 
         orderItemEntity.setProduct(productEntity);
         orderItemEntity.setQuantity(item.getQuantity());
@@ -46,8 +48,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
         orderItemEntity.setPrice(price);
 
+        log.info("주문이를 저장할 수 있습니다. \n {}", orderItemEntity.toString());
         return orderItemEntity;
     }
+
 
     @Override
     public OrderItemResponseDTO getOrderItem(UUID orderItemId) {

@@ -50,7 +50,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<String> deletePost(@PathVariable UUID postId) {
+    public ResponseEntity<String> deletePost(@PathVariable("postId") UUID postId) {
         postService.deletePost(postId);
         String text = postId+"가 성공적으로 삭제되었습니다.";
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(text);

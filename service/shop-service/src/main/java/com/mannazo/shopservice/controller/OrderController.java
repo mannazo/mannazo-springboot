@@ -5,6 +5,7 @@ import com.mannazo.shopservice.dto.OrderRequestDTO;
 import com.mannazo.shopservice.dto.OrderResponseDTO;
 import com.mannazo.shopservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,25 +13,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping
+    @PostMapping("/od")
     public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        log.info("Received order request: {}", orderRequestDTO.getOrderItems().toString()); // ok
         OrderResponseDTO createdOrder = orderService.createOrder(orderRequestDTO);
+        log.info("Created order: {}", createdOrder.getOrderItems().toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable UUID orderId) {
+    public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable("orderId") UUID orderId) {
         OrderResponseDTO order = orderService.getOrder(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<List<OrderResponseDTO>> getAllOrders() {
         List<OrderResponseDTO> orders = orderService.getAllOrders();
         return ResponseEntity.status(HttpStatus.OK).body(orders);

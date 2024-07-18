@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderRequestMapStruct extends RequestMapper<OrderEntity, OrderRequestDTO> {
     @Override
+    @Mapping(target = "orderItems", ignore = true)
     OrderEntity toEntity(OrderRequestDTO dto);
     @Override
     List<OrderEntity> toEntityList(List<OrderRequestDTO> dtos);

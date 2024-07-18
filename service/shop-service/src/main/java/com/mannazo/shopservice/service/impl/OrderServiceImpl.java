@@ -52,22 +52,23 @@ public class OrderServiceImpl implements OrderService {
         for (OrderItemRequestDTO item : orderRequestDTO.getOrderItems()) {
             OrderItemEntity orderItemEntity = orderItemService.createOrderItem(orderEntity, item);
             orderItems.add(orderItemEntity);
-            log.debug("Created order item: {}", orderItemEntity);
+            log.info("Created order item: {}", orderItemEntity);
         }
 
         // OrderEntity에 orderItems 설정
         orderEntity.setOrderItems(orderItems);
 
-        try {
-            // 트랜잭션이 올바르게 시작되었는지 확인
-            orderRepository.save(orderEntity); // 이 시점에 모든 연관된 엔티티가 저장됩니다.
-            log.debug("Saved order: {}", orderEntity);
-        } catch (Exception e) {
-            log.error("Error saving order", e);
-            throw new OrderCreationException("주문 생성 중 오류가 발생했습니다.", e);
-        }
+//        OrderEntity savedOrder = new OrderEntity();
+//        try {
+//            // 트랜잭션이 올바르게 시작되었는지 확인 //ok
+//            savedOrder =  // 이 시점에 모든 연관된 엔티티가 저장됩니다.
+//            log.info("Saved order: {}", orderEntity);
+//        } catch (Exception e) {
+//            log.error("Error saving order", e);
+//            throw new OrderCreationException("주문 생성 중 오류가 발생했습니다.", e);
+//        }
 
-        return orderResponseMapStruct.toDTO(orderEntity);
+        return orderResponseMapStruct.toDTO(orderRepository.save(orderEntity));
     }
 
     @Override

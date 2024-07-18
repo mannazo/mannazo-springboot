@@ -2,6 +2,8 @@ package com.mannazo.shopservice.controller;
 
 import com.mannazo.shopservice.dto.ProductRequestDTO;
 import com.mannazo.shopservice.dto.ProductResponseDTO;
+import com.mannazo.shopservice.entity.ProductEntity;
+import com.mannazo.shopservice.mapStruct.ProductResponseMapStruct;
 import com.mannazo.shopservice.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class ShopController {
 
     private final ShopService shopService;
+    private final ProductResponseMapStruct productResponseMapStruct;
 
     @GetMapping("/")
     public String User() {
@@ -30,8 +34,15 @@ public class ShopController {
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable UUID productId) {
-        ProductResponseDTO product = shopService.getProduct(productId);
-        return ResponseEntity.status(HttpStatus.OK).body(product);
+        Optional<ProductEntity> productOptional = shopService.getProduct(productId);
+
+        if (productOptional.isPresent()) {
+            ProductResponseDTO productResponseDTO = productResponseMapStruct.toDTO(productOptional.get());
+            return ResponseEntity.ok(productResponseDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // Optional: Return an error response body or a custom error DTO
+        }
     }
 
     @GetMapping("/findAll")

@@ -6,10 +6,11 @@ import com.mannazo.shopservice.entity.ProductEntity;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ShopService {
-    ProductResponseDTO getProduct(UUID productId);
+    Optional<ProductEntity> getProduct(UUID productId);
 
     List<ProductResponseDTO> findAll();
 
@@ -19,5 +20,5 @@ public interface ShopService {
 
     ProductResponseDTO updateProduct(UUID productId, ProductRequestDTO product);
 
-    ProductEntity getProductById(UUID productId);
+    Optional<ProductEntity> getProductById(UUID productId);
 }

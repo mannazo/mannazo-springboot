@@ -45,11 +45,16 @@ public class ShopServiceImpl implements ShopService {
         return productResponseMapStruct.toDTO(savedEntity);
     }
 
+//    @Override
+//    public ProductResponseDTO getProduct(UUID productId) {
+//        Optional<ProductEntity> productEntity = productRepository.findById(productId);
+//        ProductResponseDTO productInfo = productResponseMapStruct.toDTO(productEntity.orElse(null));
+//        return productInfo;
+//    }
+
     @Override
-    public ProductResponseDTO getProduct(UUID productId) {
-        Optional<ProductEntity> productEntity = productRepository.findById(productId);
-        ProductResponseDTO productInfo = productResponseMapStruct.toDTO(productEntity.orElse(null));
-        return productInfo;
+    public Optional<ProductEntity> getProduct(UUID productId) {
+        return productRepository.findById(productId);
     }
 
     @Override
@@ -76,11 +81,11 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ProductEntity getProductById(UUID productId) {
+    public Optional<ProductEntity> getProductById(UUID productId) {
         Optional<ProductEntity> productEntity = productRepository.findById(productId);
         if (productEntity.isPresent()) {
-            return productEntity.get();
+            return productEntity;
         }
-        return productEntity.get();
+        return productEntity;
     }
 }

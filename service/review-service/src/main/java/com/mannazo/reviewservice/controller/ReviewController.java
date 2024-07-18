@@ -55,13 +55,13 @@ public class ReviewController {
     }
 
     @GetMapping("/reviewer/{userId}")
-    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable UUID userId) {
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable("userId") UUID userId) {
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }
 
     @GetMapping("/reviewee/{userId}")
-    public ResponseEntity<List<ReviewResponseDTO>> getRecievedReviewsByUser(@PathVariable UUID userId) {
+    public ResponseEntity<List<ReviewResponseDTO>> getRecievedReviewsByUser(@PathVariable("userId") UUID userId) {
         List<ReviewResponseDTO> reviews = reviewService.getRecievedReviewsByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }
